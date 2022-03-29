@@ -38,7 +38,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.API/Project.csproj',
-                    renameTo: generator => `${generator.mainProjectDir}/${generator.pascalizedBaseName}.csproj`,
+                    renameTo: generator => `${generator.mainProjectDir}/${generator.pascalizedBaseName}.Api.csproj`,
                 },
             ],
         },

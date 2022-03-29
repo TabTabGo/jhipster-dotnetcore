@@ -28,7 +28,7 @@ function askForModuleName() {
             type: 'input',
             name: 'baseName',
             validate: input => {
-                if (!/^([a-zA-Z0-9_]*)$/.test(input)) {
+                if (!/^([a-zA-Z0-9_.]*)$/.test(input)) {
                     return 'Your base name cannot contain special characters or a blank space';
                 }
                 return true;
