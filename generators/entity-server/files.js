@@ -166,9 +166,9 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.ViewModel/ViewModel.cs',
+                    file: 'Project.Domain/ViewModels/ViewModel.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/${generator.asViewModel(
+                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/${generator.asViewModel(
                             generator.entityClass
                         )}.cs`,
                 },
@@ -179,9 +179,9 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.ViewModel/AuditedEntityBaseViewModel.cs',
+                    file: 'Project.Domain/ViewModels/AuditedEntityBaseViewModel.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/AuditedEntityBaseViewModel.cs`,
+                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/AuditedEntityBaseViewModel.cs`,
                 },
             ],
         },

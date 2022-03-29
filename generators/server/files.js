@@ -81,16 +81,6 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.ViewModel/Project.csproj',
-                    renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_VIEW_MODEL_SUFFIX}/${generator.pascalizedBaseName}${PROJECT_VIEW_MODEL_SUFFIX}.csproj`,
-                },
-            ],
-        },
-        {
-            path: SERVER_SRC_DIR,
-            templates: [
-                {
                     file: 'Project.Crosscutting/Project.csproj',
                     renameTo: generator =>
                         `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}.csproj`,
@@ -255,8 +245,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.ViewModel/ManagedUserViewModel.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/ManagedUserViewModel.cs`,
+                    file: 'Project.Domain/ViewModels/ManagedUserViewModel.cs',
+                    renameTo: generator => `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/ManagedUserViewModel.cs`,
                 },
             ],
         },
@@ -265,9 +255,9 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.ViewModel/PasswordChangeViewModel.cs',
+                    file: 'Project.Domain/ViewModels/PasswordChangeViewModel.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/Authentication/PasswordChangeViewModel.cs`,
+                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/Authentication/PasswordChangeViewModel.cs`,
                 },
             ],
         },
@@ -276,8 +266,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.ViewModel/UserViewModel.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/UserViewModel.cs`,
+                    file: 'Project.Domain/ViewModels/UserViewModel.cs',
+                    renameTo: generator => `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/ViewModels/UserViewModel.cs`,
                 },
             ],
         },
@@ -285,20 +275,9 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.ViewModel/ProfileInfoViewModel.cs',
+                    file: 'Project.Domain/ViewModels/ProfileInfoViewModel.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/ProfileInfo/ProfileInfoViewModel.cs`,
-                },
-            ],
-        },
-        {
-            condition: generator => generator.authenticationType === 'jwt' && generator.applicationType !== 'microservice',
-            path: SERVER_SRC_DIR,
-            templates: [
-                {
-                    file: 'Project.ViewModel/KeyAndPasswordViewModel.cs',
-                    renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/Authentication/KeyAndPasswordViewModel.cs`,
+                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/ViewModels/ProfileInfo/ProfileInfoViewModel.cs`,
                 },
             ],
         },
@@ -307,9 +286,20 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.ViewModel/LoginViewModel.cs',
+                    file: 'Project.Domain/ViewModels/KeyAndPasswordViewModel.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/Authentication/LoginViewModel.cs`,
+                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/ViewModels/Authentication/KeyAndPasswordViewModel.cs`,
+                },
+            ],
+        },
+        {
+            condition: generator => generator.authenticationType === 'jwt' && generator.applicationType !== 'microservice',
+            path: SERVER_SRC_DIR,
+            templates: [
+                {
+                    file: 'Project.Domain/ViewModels/LoginViewModel.cs',
+                    renameTo: generator =>
+                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/ViewModels/Authentication/LoginViewModel.cs`,
                 },
             ],
         },
@@ -317,9 +307,9 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.ViewModel/SwaggerResourceViewModel.cs',
+                    file: 'Project.Domain/ViewModels/SwaggerResourceViewModel.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/SwaggerResourceViewModel.cs`,
+                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/ViewModels/SwaggerResourceViewModel.cs`,
                 },
             ],
         },
