@@ -37,7 +37,7 @@ module.exports = {
     askForRelationships,
     askForRelationsToRemove,
     askForTableName,
-    askForDTO,
+    askForVIEW_MODEL,
     askForService,
     // askForFiltering,
     askForPagination,
@@ -336,19 +336,19 @@ function askForTableName() {
     });
 } */
 
-function askForDTO() {
+function askForVIEW_MODEL() {
     const context = this.context;
     // don't prompt if data is imported from a file or server is skipped or if no service layer
     if (context.useConfigurationFile || context.skipServer || this.entityConfig.service === 'no') {
-        context.dto = context.dto || 'no';
+        context.viewModel = context.viewModel || 'no';
         return;
     }
     const done = this.async();
     const prompts = [
         {
             type: 'list',
-            name: 'dto',
-            message: 'Do you want to use a Data Transfer Object (DTO)?',
+            name: 'viewModel',
+            message: 'Do you want to use a Data Transfer Object (VIEW_MODEL)?',
             choices: [
                 {
                     value: 'no',
@@ -356,14 +356,14 @@ function askForDTO() {
                 },
                 {
                     value: 'mapstruct',
-                    name: 'Yes, generate a DTO with AutoMapper',
+                    name: 'Yes, generate a VIEW_MODEL with AutoMapper',
                 },
             ],
             default: 0,
         },
     ];
     this.prompt(prompts).then(props => {
-        this.entityConfig.dto = props.dto;
+        this.entityConfig.viewModel = props.viewModel;
         done();
     });
 }
@@ -1123,8 +1123,8 @@ function logFieldsAndRelationships() {
             }
             this.log(
                 chalk.red(field.fieldName) +
-                    chalk.white(` (${field.fieldType}${field.fieldTypeBlobContent ? ` ${field.fieldTypeBlobContent}` : ''}) `) +
-                    chalk.cyan(validationDetails.join(' '))
+                chalk.white(` (${field.fieldType}${field.fieldTypeBlobContent ? ` ${field.fieldTypeBlobContent}` : ''}) `) +
+                chalk.cyan(validationDetails.join(' '))
             );
         });
         this.log();

@@ -38,7 +38,7 @@ module.exports = class extends needleBase {
         const entityEntry =
             // prettier-ignore
             this.generator.stripMargin(
-                            `|<BarDropdownItem Class="dropdown-item" To="${lowerCasedEntityName}">
+                `|<BarDropdownItem Class="dropdown-item" To="${lowerCasedEntityName}">
                              |                                    <Icon Name='"fa-asterisk"' />
                              |                                    ${entityName}
                              |                                </BarDropdownItem>`);
@@ -58,7 +58,7 @@ module.exports = class extends needleBase {
         this.addBlockContentToFile(rewriteFileModel, errorMessage);
     }
 
-    addUsingForService(namespace,entityName) {
+    addUsingForService(namespace, entityName) {
         const errorMessage = `${chalk.yellow('Reference to ') + entityName} ${chalk.yellow('not added to Program.\n')}`;
         const programPath = `src/${this.mainClientDir}/Program.cs`;
         const usingEntry =
@@ -69,13 +69,13 @@ module.exports = class extends needleBase {
         this.addBlockContentToFile(rewriteFileModel, errorMessage);
     }
 
-    addDtoMapping(entityName) {
+    addViewModelMapping(entityName) {
         const errorMessage = `${chalk.yellow('Reference to ') + entityName} ${chalk.yellow('not added to AutoMapper.\n')}`;
         const autoMapperProfilePath = `src/${this.mainClientDir}/AutoMapper/AutoMapperProfile.cs`;
         const mappingEntry =
             // prettier-ignore
-            this.generator.stripMargin(`|CreateMap<${entityName}Model, ${entityName}Dto>().ReverseMap();`);
-        const rewriteFileModel = this.generateFileModel(autoMapperProfilePath, 'jhipster-needle-add-dto-model-mapping', mappingEntry);
+            this.generator.stripMargin(`|CreateMap<${entityName}Model, ${entityName}ViewModel>().ReverseMap();`);
+        const rewriteFileModel = this.generateFileModel(autoMapperProfilePath, 'jhipster-needle-add-viewModel-model-mapping', mappingEntry);
 
         this.addBlockContentToFile(rewriteFileModel, errorMessage);
     }

@@ -30,16 +30,16 @@ namespace JHipsterNet.Core.Pagination.Extensions
     public static class QueryableExtensions
     {
 
-        public static async Task<IPage<TDto>> UsePageableAsDtoAsync<TEntity, TDto>(this IMongoQueryable<TEntity> query, IPageable pageable, IMapper mapper)
+        public static async Task<IPage<TViewModel>> UsePageableAsViewModelAsync<TEntity, TViewModel>(this IMongoQueryable<TEntity> query, IPageable pageable, IMapper mapper)
             where TEntity : class
-            where TDto : class
+            where TViewModel : class
         {
             var entitiesQuery = query.ApplySort(pageable.Sort).Skip(pageable.Offset).Take(Math.Min(pageable.PageSize, PageableBinderConfig.DefaultMaxPageSize));
             var entitiesList = await entitiesQuery
-                                        .Select(entity => mapper.Map<TDto>(entity))
+                                        .Select(entity => mapper.Map<TViewModel>(entity))
                                         .ToListAsync();
 
-            return new Page<TDto>(entitiesList, pageable, query.Count());
+            return new Page<TViewModel>(entitiesList, pageable, query.Count());
         }
 
         public static async Task<IPage<TEntity>> UsePageableAsync<TEntity>(this IMongoQueryable<TEntity> query, IPageable pageable)

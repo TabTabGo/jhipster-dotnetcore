@@ -49,7 +49,7 @@ describe('testing service interface and implementation', () => {
                 .withPrompts({
                     fieldAdd: false,
                     relationshipAdd: false,
-                    dto: 'mapstruct',
+                    viewModel: 'mapstruct',
                     service: 'serviceImpl',
                     pagination: 'no',
                 })

@@ -1,4 +1,3 @@
-
 # CQRS
 
 ## Introduction
@@ -20,15 +19,16 @@ When generating your application, you can choose to use CQRS. Enabling it will g
 ├── Namespace.Crosscutting
 ├── Namespace.Domain
 ├── Namespace.Domain.Services
-├── Namespace.Dto
+├── Namespace.ViewModel
 ├── Namespace.Infrastructure
 ```
 
 ## Create your own Queries or Commands
 
 In order to create your own commands and/or queries you have to create two classes :
-- A command/query
-- An handler for it
+
+-   A command/query
+-   An handler for it
 
 For instance, let's create a query `MyEntityGetQuery.cs`:
 
@@ -40,8 +40,10 @@ namespace MyCompany.Application.Queries {
     }
 }
 ```
+
 This Query should have an Id and returns a MyEntity object.
 Here's the handler `MyEntityGetQueryHandler.cs` :
+
 ```csharp
 namespace MyCompany.Application.Queries {
     public class MyEntityGetQueryHandler : IRequestHandler<MyEntityGetQuery, MyEntity>
@@ -62,7 +64,9 @@ namespace MyCompany.Application.Queries {
     }
 }
 ```
+
 Please note that we are using a **ReadOnlyRepository** rather than a service in order to do the segregation between Commands and Queries. Lastly, create your routing method within your controller :
+
 ```csharp
 [HttpGet("my-entity/{id}")]
 public async Task<IActionResult> GetMyEntity([FromRoute] long id)

@@ -1,38 +1,31 @@
-<%#
- Copyright 2019-2021 the original author or authors from the JHipster project.
- This file is part of the JHipster project, see https://www.jhipster.tech/
- for more information.
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-      http://www.apache.org/licenses/LICENSE-2.0
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--%>
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+<%# Copyright 2019-2021 the original author or authors from the JHipster project. This file is part of the JHipster
+    project, see https://www.jhipster.tech/ for more information. Licensed under the Apache License, Version 2.0
+    (the "License" ); you may not use this file except in compliance with the License. You may obtain a copy of the
+    License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied. See the License for the specific language governing permissions and limitations
+    under the License. -%>
+    using AutoMapper;
+    using Microsoft.AspNetCore.Mvc;
 
-namespace <%= namespace %>.Web.Rest.Utilities
-{
-    public static class ActionResultUtil
-    {
-        public static ActionResult WrapOrNotFoundAsDto<TDtoType>(object value, IMapper mapper)
+    namespace <%= namespace %>.Web.Rest.Utilities
         {
+        public static class ActionResultUtil
+        {
+        public static ActionResult WrapOrNotFoundAsViewModel<TViewModelType>(object value, IMapper mapper)
+            {
             if (value != null)
             {
-                var resultAsDto = mapper.Map<TDtoType>(value);
-                return (ActionResult)new OkObjectResult(resultAsDto);
-            }
-            return new NotFoundResult();
-        }
+            var resultAsViewModel = mapper.Map<TViewModelType>(value);
+                return (ActionResult)new OkObjectResult(resultAsViewModel);
+                }
+                return new NotFoundResult();
+                }
 
 
-        public static ActionResult WrapOrNotFound(object value)
-        {
-            return value != null ? (ActionResult)new OkObjectResult(value) : new NotFoundResult();
-        }
-    }
-}
+                public static ActionResult WrapOrNotFound(object value)
+                {
+                return value != null ? (ActionResult)new OkObjectResult(value) : new NotFoundResult();
+                }
+                }
+                }

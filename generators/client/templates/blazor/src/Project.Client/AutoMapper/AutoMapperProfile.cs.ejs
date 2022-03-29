@@ -1,45 +1,36 @@
-<%#
- Copyright 2019-2021 the original author or authors from the JHipster project.
-
- This file is part of the JHipster project, see https://www.jhipster.tech/
- for more information.
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--%>
-using AutoMapper;
-using System.Linq;
-using <%= namespace %>.Client.Models;
-using <%= namespace %>.Dto;
+<%# Copyright 2019-2021 the original author or authors from the JHipster project. This file is part of the JHipster
+    project, see https://www.jhipster.tech/ for more information. Licensed under the Apache License, Version 2.0
+    (the "License" ); you may not use this file except in compliance with the License. You may obtain a copy of the
+    License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied. See the License for the specific language governing permissions and limitations
+    under the License. -%>
+    using AutoMapper;
+    using System.Linq;
+    using <%= namespace %>.Client.Models;
+        using <%= namespace %>.ViewModel;
 
 
-namespace <%= namespace %>.Client.AutoMapper
-{
+            namespace <%= namespace %>.Client.AutoMapper
+                {
 
-    public class AutoMapperProfile : Profile
-    {
-        public AutoMapperProfile()
-        {
-            CreateMap<UserDto, UserModel>()
-                .ForMember(userModel => userModel.Authorities,
-                    opt => opt.MapFrom(userDto => userDto.Roles))
-                .ReverseMap()
-                .ForPath(userDto => userDto.Roles,
+                public class AutoMapperProfile : Profile
+                {
+                public AutoMapperProfile()
+                {
+                CreateMap<UserViewModel, UserModel>()
+                    .ForMember(userModel => userModel.Authorities,
+                    opt => opt.MapFrom(userViewModel => userViewModel.Roles))
+                    .ReverseMap()
+                    .ForPath(userViewModel => userViewModel.Roles,
                     opt => opt.MapFrom(userModel => userModel.Authorities));
 
-            CreateMap<ManagedUserDto, UserSaveModel>().ReverseMap();
-            CreateMap<LoginDto, LoginModel>().ReverseMap();
+                    CreateMap<ManagedUserViewModel, UserSaveModel>().ReverseMap();
+                        CreateMap<LoginViewModel, LoginModel>().ReverseMap();
 
-            // jhipster-needle-add-dto-model-mapping - JHipster will add dto to model and model to dto mapping
-        }
-    }
-}
+                            // jhipster-needle-add-viewModel-model-mapping - JHipster will add viewModel to model and
+                            model to viewModel
+                            mapping
+                            }
+                            }
+                            }

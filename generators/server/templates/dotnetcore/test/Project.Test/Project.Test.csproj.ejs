@@ -1,61 +1,58 @@
-﻿<%#
- Copyright 2019-2021 the original author or authors from the JHipster project.
- This file is part of the JHipster project, see https://www.jhipster.tech/
- for more information.
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-      http://www.apache.org/licenses/LICENSE-2.0
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--%>
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<%# Copyright 2019-2021 the original author or authors from the JHipster project. This file is part of the JHipster
+    project, see https://www.jhipster.tech/ for more information. Licensed under the Apache License, Version 2.0
+    (the "License" ); you may not use this file except in compliance with the License. You may obtain a copy of the
+    License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied. See the License for the specific language governing permissions and limitations
+    under the License. -%>
+    <Project Sdk="Microsoft.NET.Sdk.Web">
 
-    <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <IsPackable>false</IsPackable>
-        <RootNamespace><%= namespace %>.Test</RootNamespace>
-    </PropertyGroup>
+        <PropertyGroup>
+            <TargetFramework>net6.0</TargetFramework>
+            <IsPackable>false</IsPackable>
+            <RootNamespace>
+                <%= namespace %>.Test
+            </RootNamespace>
+        </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="coverlet.msbuild" >
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-            <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
-        <PackageReference Include="FakeItEasy"  />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing"  />
-        <PackageReference Include="Microsoft.Data.Sqlite.Core"  />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite"  />
-        <PackageReference Include="Microsoft.NET.Test.Sdk"  />
-        <PackageReference Include="Moq"  />
-        <PackageReference Include="xunit"  />
-        <PackageReference Include="xunit.runner.visualstudio" >
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="xunit.runner.console" >
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="FluentAssertions"  />
-        <PackageReference Include="FluentAssertions.AspNetCore.Mvc"  />
-        <PackageReference Include="FluentAssertions.Json"  />
-    </ItemGroup>
+        <ItemGroup>
+            <PackageReference Include="coverlet.msbuild">
+                <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+                <PrivateAssets>all</PrivateAssets>
+            </PackageReference>
+            <PackageReference Include="FakeItEasy" />
+            <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+            <PackageReference Include="Microsoft.Data.Sqlite.Core" />
+            <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+            <PackageReference Include="Microsoft.NET.Test.Sdk" />
+            <PackageReference Include="Moq" />
+            <PackageReference Include="xunit" />
+            <PackageReference Include="xunit.runner.visualstudio">
+                <PrivateAssets>all</PrivateAssets>
+                <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+            </PackageReference>
+            <PackageReference Include="xunit.runner.console">
+                <PrivateAssets>all</PrivateAssets>
+                <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+            </PackageReference>
+            <PackageReference Include="FluentAssertions" />
+            <PackageReference Include="FluentAssertions.AspNetCore.Mvc" />
+            <PackageReference Include="FluentAssertions.Json" />
+        </ItemGroup>
 
 
-    <ItemGroup>
-        <ProjectReference Include="..\..\src\<%= pascalizedBaseName %>\<%= pascalizedBaseName %>.csproj" />
-        <ProjectReference Include="..\..\src\<%= pascalizedBaseName %>.Domain\<%= pascalizedBaseName %>.Domain.csproj" />
-        <ProjectReference Include="..\..\src\<%= pascalizedBaseName %>.Dto\<%= pascalizedBaseName %>.Dto.csproj" />
-    </ItemGroup>
+        <ItemGroup>
+            <ProjectReference Include="..\..\src\<%= pascalizedBaseName %>\<%= pascalizedBaseName %>.csproj" />
+            <ProjectReference
+                Include="..\..\src\<%= pascalizedBaseName %>.Domain\<%= pascalizedBaseName %>.Domain.csproj" />
+            <ProjectReference
+                Include="..\..\src\<%= pascalizedBaseName %>.ViewModel\<%= pascalizedBaseName %>.ViewModel.csproj" />
+        </ItemGroup>
 
-    <ItemGroup>
-        <Content Update="xunit.runner.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
+        <ItemGroup>
+            <Content Update="xunit.runner.json">
+                <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            </Content>
+        </ItemGroup>
 
-</Project>
+    </Project>

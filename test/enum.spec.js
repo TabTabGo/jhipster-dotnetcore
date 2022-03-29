@@ -49,7 +49,7 @@ describe('Subgenerator entity of dotnetcore JHipster blueprint - testing enum ge
                 .withPrompts({
                     fieldAdd: false,
                     relationshipAdd: false,
-                    dto: 'no',
+                    viewModel: 'no',
                     service: 'no',
                     pagination: 'infinite-scroll',
                 })

@@ -1,36 +1,36 @@
 {
-  "generator-jhipster": {
-    "namespace": "JhipsterSampleApplication",
-    "databaseType": "sqllite",
-    "prodDatabaseType": "mysql",
-    "authenticationType": "jwt",
-    "serverPort": "5000",
-    "jhipsterVersion": "7.7.0",
-    "applicationType": "monolith",
-    "baseName": "JhipsterSampleApplication",
-    "useSass": true,
-    "clientPackageManager": "npm",
-    "clientFramework": "react",
-    "clientTheme": "none",
-    "clientThemeVariant": "",
-    "creationTimestamp": 1587112984699,
-    "testFrameworks": [],
-    "jhiPrefix": "jhi",
-    "entitySuffix": "",
-    "dtoSuffix": "DTO",
-    "testFrameworks": ["cypress"],
-    "otherModules": [
-      {
-        "name": "generator-jhipster-dotnetcore",
-        "version": "3.2.0"
-      }
-    ],
-    "enableTranslation": false,
-    "blueprints": [
-      {
-        "name": "generator-jhipster-dotnetcore",
-        "version": "2.0.0"
-      }
-    ]
-  }
+    "generator-jhipster": {
+        "namespace": "JhipsterSampleApplication",
+        "databaseType": "sqllite",
+        "prodDatabaseType": "mysql",
+        "authenticationType": "jwt",
+        "serverPort": "5000",
+        "jhipsterVersion": "7.7.0",
+        "applicationType": "monolith",
+        "baseName": "JhipsterSampleApplication",
+        "useSass": true,
+        "clientPackageManager": "npm",
+        "clientFramework": "react",
+        "clientTheme": "none",
+        "clientThemeVariant": "",
+        "creationTimestamp": 1587112984699,
+        "testFrameworks": [],
+        "jhiPrefix": "jhi",
+        "entitySuffix": "",
+        "dtoSuffix": "VIEW_MODEL",
+        "testFrameworks": ["cypress"],
+        "otherModules": [
+            {
+                "name": "generator-jhipster-dotnetcore",
+                "version": "3.2.0"
+            }
+        ],
+        "enableTranslation": false,
+        "blueprints": [
+            {
+                "name": "generator-jhipster-dotnetcore",
+                "version": "2.0.0"
+            }
+        ]
+    }
 }

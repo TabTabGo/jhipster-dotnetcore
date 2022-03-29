@@ -3,7 +3,7 @@ const CLIENT_SRC_DIR = 'src/';
 const CLIENT_TEST_DIR = 'test/';
 const SERVER_TEST_DIR = 'test/';
 const PROJECT_TEST_SUFFIX = '.Test';
-const PROJECT_DTO_SUFFIX = '.Dto';
+const PROJECT_VIEW_MODEL_SUFFIX = '.ViewModel';
 const PROJECT_DOMAIN_SUFFIX = '.Domain';
 const PROJECT_APPLICATION_SUFFIX = '.Application';
 const DOCKER_DIR = 'docker/';
@@ -23,7 +23,7 @@ const constants = {
     CLIENT_SRC_DIR,
     CLIENT_TEST_DIR,
     SERVER_TEST_DIR,
-    PROJECT_DTO_SUFFIX,
+    PROJECT_VIEW_MODEL_SUFFIX,
     PROJECT_DOMAIN_SUFFIX,
     PROJECT_APPLICATION_SUFFIX,
     PROJECT_TEST_SUFFIX,

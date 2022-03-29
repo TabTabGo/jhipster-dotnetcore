@@ -1,11 +1,11 @@
-# DTOs
+# VIEW_MODELs
 
-## Using DTOs
+## Using VIEW_MODELs
 
-Notice that this blueprint uses [AutoMapper](https://automapper.org/) to handle dto conversion instead of Java's mapstruct.
+Notice that this blueprint uses [AutoMapper](https://automapper.org/) to handle viewModel conversion instead of Java's mapstruct.
 
 Example using JDL:
 
- ```dto * with mapstruct```
+`viewModel * with mapstruct`
 
- See [JHispter's documentation](https://www.jhipster.tech/using-dtos/) for more details about using DTOs.
+See [JHispter's documentation](https://www.jhipster.tech/using-dtos/) for more details about using VIEW_MODELs.

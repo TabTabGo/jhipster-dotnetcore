@@ -17,26 +17,28 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper"  />
-    <PackageReference Include="Blazored.Modal"  />
-    <PackageReference Include="Blazored.SessionStorage"  />
-    <PackageReference Include="Blazorise.Bootstrap"  />
-    <PackageReference Include="Blazorise.Icons.FontAwesome"  />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization"  />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly"  />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer"  />
-    <PackageReference Include="Microsoft.Web.LibraryManager.Build"  />
-    <PackageReference Include="System.Net.Http.Json"  />
-    <PackageReference Include="Toolbelt.Blazor.HttpClientInterceptor"  />
+    <PackageReference Include="AutoMapper" />
+    <PackageReference Include="Blazored.Modal" />
+    <PackageReference Include="Blazored.SessionStorage" />
+    <PackageReference Include="Blazorise.Bootstrap" />
+    <PackageReference Include="Blazorise.Icons.FontAwesome" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" />
+    <PackageReference Include="Microsoft.Web.LibraryManager.Build" />
+    <PackageReference Include="System.Net.Http.Json" />
+    <PackageReference Include="Toolbelt.Blazor.HttpClientInterceptor" />
   </ItemGroup>
 
   <Target Name="RestoreFrontEndLibraries" BeforeTargets="BeforeBuild">
-    <Exec Command="libman restore" LogStandardErrorAsError="true"/>
+    <Exec Command="libman restore" LogStandardErrorAsError="true" />
   </Target>
 
   <Target Name="CompileStaticAssets" AfterTargets="AfterBuild">
-    <Exec Command="webcompiler -r wwwroot/content/scss -o wwwroot/content/css -z disable" Condition="'$(Configuration)'=='Debug'" StandardOutputImportance="high" />
-    <Exec Command="webcompiler -r wwwroot/content/scss -o wwwroot/content/css -z disable -p disable" Condition="'$(Configuration)'=='Release'" StandardOutputImportance="high" />
+    <Exec Command="webcompiler -r wwwroot/content/scss -o wwwroot/content/css -z disable"
+      Condition="'$(Configuration)'=='Debug'" StandardOutputImportance="high" />
+    <Exec Command="webcompiler -r wwwroot/content/scss -o wwwroot/content/css -z disable -p disable"
+      Condition="'$(Configuration)'=='Release'" StandardOutputImportance="high" />
   </Target>
 
   <ItemGroup>
@@ -46,9 +48,11 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\..\<%= pascalizedBaseName %>.Dto\<%= pascalizedBaseName %>.Dto.csproj" />
-    <ProjectReference Include="..\<%= pascalizedBaseName %>.Client.Shared\<%= pascalizedBaseName %>.Client.Shared.csproj" />
-    <ProjectReference Include="..\..\<%= pascalizedBaseName %>.Crosscutting\<%= pascalizedBaseName %>.Crosscutting.csproj" />
+    <ProjectReference Include="..\..\<%= pascalizedBaseName %>.ViewModel\<%= pascalizedBaseName %>.ViewModel.csproj" />
+    <ProjectReference
+      Include="..\<%= pascalizedBaseName %>.Client.Shared\<%= pascalizedBaseName %>.Client.Shared.csproj" />
+    <ProjectReference
+      Include="..\..\<%= pascalizedBaseName %>.Crosscutting\<%= pascalizedBaseName %>.Crosscutting.csproj" />
   </ItemGroup>
 
 
@@ -57,6 +61,10 @@
   </ItemGroup>
 
 
-  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties />
+    </VisualStudio>
+  </ProjectExtensions>
 
 </Project>

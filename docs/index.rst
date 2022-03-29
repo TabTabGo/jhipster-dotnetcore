@@ -29,7 +29,7 @@ You can also find lot of information in https://www.jhipster.tech
   Features/cypress
   Features/database-migrations
   Features/dependencies-management
-  Features/dto
+  Features/viewModel
   Features/entity-auditing
   Features/fronts
   Features/heroku

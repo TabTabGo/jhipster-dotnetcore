@@ -63,8 +63,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/Repositories/Interfaces/IReadOnlyEntityRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${
-                            constants.PROJECT_DOMAIN_SUFFIX
+                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX
                         }/Repositories/Interfaces/IReadOnly${generator.asEntity(generator.entityClass)}Repository.cs`,
                 },
                 {
@@ -162,23 +161,23 @@ const serverFiles = {
             ],
         },
         {
-            condition: generator => generator.dto === 'mapstruct',
+            condition: generator => generator.viewModel === 'mapstruct',
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.Dto/Dto.cs',
+                    file: 'Project.ViewModel/ViewModel.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_DTO_SUFFIX}/${generator.asDto(generator.entityClass)}.cs`,
+                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/${generator.asViewModel(generator.entityClass)}.cs`,
                 },
             ],
         },
         {
-            condition: generator => generator.dto === 'mapstruct',
+            condition: generator => generator.viewModel === 'mapstruct',
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.Dto/AuditedEntityBaseDto.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${constants.PROJECT_DTO_SUFFIX}/AuditedEntityBaseDto.cs`,
+                    file: 'Project.ViewModel/AuditedEntityBaseViewModel.cs',
+                    renameTo: generator => `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/AuditedEntityBaseViewModel.cs`,
                 },
             ],
         },

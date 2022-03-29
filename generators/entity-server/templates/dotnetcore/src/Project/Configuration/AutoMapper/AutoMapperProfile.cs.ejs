@@ -1,56 +1,41 @@
-<%#
- Copyright 2019-2021 the original author or authors from the JHipster project.
-
- This file is part of the JHipster project, see https://www.jhipster.tech/
- for more information.
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--%>
-<%
-const entityClassName = pascalizedEntityClass;
-%>
-using AutoMapper;
-using System.Linq;
-using <%= namespace %>.Domain;
-using <%= namespace %>.Dto;
+<%# Copyright 2019-2021 the original author or authors from the JHipster project. This file is part of the JHipster
+    project, see https://www.jhipster.tech/ for more information. Licensed under the Apache License, Version 2.0
+    (the "License" ); you may not use this file except in compliance with the License. You may obtain a copy of the
+    License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied. See the License for the specific language governing permissions and limitations
+    under the License. -%>
+    <% const entityClassName=pascalizedEntityClass; %>
+        using AutoMapper;
+        using System.Linq;
+        using <%= namespace %>.Domain;
+            using <%= namespace %>.ViewModel;
 
 
-namespace <%= namespace %>.Configuration.AutoMapper
-{
+                namespace <%= namespace %>.Configuration.AutoMapper
+                    {
 
-    public class AutoMapperProfile : Profile
-    {
-        public AutoMapperProfile()
-        {
-            <%_ if (authenticationType === 'jwt' && applicationType !== 'microservice') { _%>
-            CreateMap<User, UserDto>()
-                .ForMember(userDto => userDto.Roles, opt => opt.MapFrom(user => user.UserRoles.Select(iur => iur.Role.Name).ToHashSet()))
-            .ReverseMap()
-                .ForPath(user => user.UserRoles, opt => opt.MapFrom(userDto => userDto.Roles.Select(role => new UserRole { Role = new Role { Name = role }, UserId = userDto.Id }).ToHashSet()));
-            <%_ } _%>
+                    public class AutoMapperProfile : Profile
+                    {
+                    public AutoMapperProfile()
+                    {
+                    <%_ if (authenticationType==='jwt' && applicationType !=='microservice' ) { _%>
+                        CreateMap<User, UserViewModel>()
+                            .ForMember(userViewModel => userViewModel.Roles, opt => opt.MapFrom(user =>
+                            user.UserRoles.Select(iur => iur.Role.Name).ToHashSet()))
+                            .ReverseMap()
+                            .ForPath(user => user.UserRoles, opt => opt.MapFrom(userViewModel =>
+                            userViewModel.Roles.Select(role => new UserRole { Role = new Role { Name = role }, UserId =
+                            userViewModel.Id }).ToHashSet()));
+                            <%_ } _%>
 
-            <%_ if(entities.length !== 0) {
-                entities.forEach(entity => {
-                    if(entity.definition.dto === 'mapstruct') { _%>
-            CreateMap<<%= entity.name %>, <%= asDto(entity.name) %>>().ReverseMap();
-            <%_
-                    }
-                });
-            }
-            else {
-                if(dto === 'mapstruct') { _%>
-            CreateMap<<%= entityClassName %>, <%= asDto(entityClassName) %>>().ReverseMap();
-            <%_ }} _%>
-        }
-    }
-}
+                                <%_ if(entities.length !==0) { entities.forEach(entity=> {
+                                    if(entity.definition.viewModel === 'mapstruct') { _%>
+                                    CreateMap<<%= entity.name %>, <%= asViewModel(entity.name) %>>().ReverseMap();
+                                            <%_ } }); } else { if(viewModel==='mapstruct' ) { _%>
+                                                CreateMap<<%= entityClassName %>, <%= asViewModel(entityClassName) %>
+                                                        >().ReverseMap();
+                                                        <%_ }} _%>
+                                                            }
+                                                            }
+                                                            }

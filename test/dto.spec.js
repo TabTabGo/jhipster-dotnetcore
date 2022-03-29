@@ -13,7 +13,7 @@ function getPreCondition() {
         .inTmpDir(dir => {
             console.log(`Test temp dir: ${dir}`);
             fse.copySync(path.join(__dirname, '../test/templates/ngx-blueprint'), dir);
-            fse.copySync(path.join(__dirname, '../test/templates/dto'), dir);
+            fse.copySync(path.join(__dirname, '../test/templates/viewModel'), dir);
         })
         .withOptions({
             'from-cli': true,
@@ -37,10 +37,10 @@ function getPreCondition() {
         ]);
 }
 
-describe('testing dto', () => {
-    context('generating dto', () => {
+describe('testing viewModel', () => {
+    context('generating viewModel', () => {
         const personClass = `${SERVER_MAIN_SRC_DIR}JhipsterBlueprint.Domain/Entities/Person.cs`;
-        const personDto = `${SERVER_MAIN_SRC_DIR}JhipsterBlueprint.Dto/PersonDto.cs`;
+        const personViewModel = `${SERVER_MAIN_SRC_DIR}JhipsterBlueprint.ViewModel/PersonViewModel.cs`;
         const dtoMappingFile = `${SERVER_MAIN_SRC_DIR}JhipsterBlueprint/Configuration/AutoMapper/AutoMapperProfile.cs`;
 
         before(done => {
@@ -49,23 +49,23 @@ describe('testing dto', () => {
                 .withPrompts({
                     fieldAdd: false,
                     relationshipAdd: false,
-                    dto: 'mapstruct',
+                    viewModel: 'mapstruct',
                     service: 'serviceImpl',
                     pagination: 'no',
                 })
                 .on('end', done);
         });
 
-        it('check if required files for dto are copied', () => {
+        it('check if required files for viewModel are copied', () => {
             assert.file('.jhipster/Person.json');
             assert.file('.yo-rc.json');
         });
 
-        it('checks dto files', () => {
+        it('checks viewModel files', () => {
             assert.file(personClass);
-            assert.file(personDto);
+            assert.file(personViewModel);
             assert.file(dtoMappingFile);
-            assert.fileContent(personDto, /public class PersonDto/);
+            assert.fileContent(personViewModel, /public class PersonViewModel/);
             assert.fileContent(dtoMappingFile, /public class AutoMapperProfile : Profile/);
         });
     });

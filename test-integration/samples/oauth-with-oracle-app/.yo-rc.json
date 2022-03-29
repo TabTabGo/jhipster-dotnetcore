@@ -1,35 +1,35 @@
 {
-  "generator-jhipster": {
-    "namespace": "JhipsterSampleApplication",
-    "databaseType": "oracle",
-    "prodDatabaseType": "mysql",
-    "authenticationType": "oauth2",
-    "serverPort": "5000",
-    "jhipsterVersion": "7.7.0",
-    "applicationType": "monolith",
-    "baseName": "JhipsterSampleApplication",
-    "useSass": true,
-    "clientPackageManager": "npm",
-    "clientFramework": "angularX",
-    "clientTheme": "none",
-    "clientThemeVariant": "",
-    "creationTimestamp": 1587112984699,
-    "testFrameworks": [],
-    "jhiPrefix": "jhi",
-    "entitySuffix": "",
-    "dtoSuffix": "DTO",
-    "otherModules": [
-      {
-        "name": "generator-jhipster-dotnetcore",
-        "version": "3.2.0"
-      }
-    ],
-    "enableTranslation": false,
-    "blueprints": [
-      {
-        "name": "generator-jhipster-dotnetcore",
-        "version": "2.0.0"
-      }
-    ]
-  }
+    "generator-jhipster": {
+        "namespace": "JhipsterSampleApplication",
+        "databaseType": "oracle",
+        "prodDatabaseType": "mysql",
+        "authenticationType": "oauth2",
+        "serverPort": "5000",
+        "jhipsterVersion": "7.7.0",
+        "applicationType": "monolith",
+        "baseName": "JhipsterSampleApplication",
+        "useSass": true,
+        "clientPackageManager": "npm",
+        "clientFramework": "angularX",
+        "clientTheme": "none",
+        "clientThemeVariant": "",
+        "creationTimestamp": 1587112984699,
+        "testFrameworks": [],
+        "jhiPrefix": "jhi",
+        "entitySuffix": "",
+        "dtoSuffix": "VIEW_MODEL",
+        "otherModules": [
+            {
+                "name": "generator-jhipster-dotnetcore",
+                "version": "3.2.0"
+            }
+        ],
+        "enableTranslation": false,
+        "blueprints": [
+            {
+                "name": "generator-jhipster-dotnetcore",
+                "version": "2.0.0"
+            }
+        ]
+    }
 }

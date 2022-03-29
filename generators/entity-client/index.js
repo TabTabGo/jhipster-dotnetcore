@@ -23,7 +23,7 @@ module.exports = class extends EntityClientGenerator {
             ...super._configuring(),
             dtoWorkaround() {
                 // only work with relation id rather than complete json
-                this.dto = 'yes';
+                this.viewModel = 'yes';
             },
         };
     }

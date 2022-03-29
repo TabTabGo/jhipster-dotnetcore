@@ -105,8 +105,8 @@ relationship ManyToMany {
 // Set pagination options
 paginate * with pagination
 
-// Use Data Transfert Objects (DTO)
-dto * with mapstruct
+// Use Data Transfert Objects (VIEW_MODEL)
+viewModel * with mapstruct
 
 // Set service options to all except few
 service all with serviceImpl except Employee, Job

@@ -17,7 +17,7 @@
         "creationTimestamp": 1585496278113,
         "jhiPrefix": "jhi",
         "entitySuffix": "",
-        "dtoSuffix": "DTO",
+        "dtoSuffix": "VIEW_MODEL",
         "otherModules": [
             {
                 "name": "generator-jhipster-dotnetcore",

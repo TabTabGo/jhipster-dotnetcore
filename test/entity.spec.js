@@ -23,7 +23,7 @@ describe('Subgenerator entity of dotnetcore JHipster blueprint', () => {
                 .withPrompts({
                     fieldAdd: false,
                     relationshipAdd: false,
-                    dto: 'no',
+                    viewModel: 'no',
                     service: 'no',
                     pagination: 'infinite-scroll',
                 })
