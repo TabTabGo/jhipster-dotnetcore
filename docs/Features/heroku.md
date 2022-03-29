@@ -1,15 +1,20 @@
 # Heroku Deploy
+
 This sub-generator initializes a Heroku [.Net 5](https://docs.microsoft.com/pt-br/dotnet/core/dotnet-five) app that is ready to push to Heroku.
 
 ## Pre-requisites
+
 Before running the sub-generator, you must install the [Heroku CLI](https://cli.heroku.com/).
 You must also create a Heroku account and run:
+
 ```bash
 heroku login
 ```
+
 [Git](https://git-scm.com/) is also required to deploy to Heroku.
 
 ## Deploying to Heroku
+
 To deploy your .Net 5 application to Heroku, run this command:
 
 ```bash

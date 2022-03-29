@@ -164,7 +164,7 @@ const files = {
                     renameTo: generator => `${generator.mainClientDir}/Views/WelcomeView.xaml`,
                 },
             ],
-        }
+        },
     ],
     xamarinAppViewModels: [
         {
@@ -220,7 +220,7 @@ const files = {
                     renameTo: generator => `${generator.mainClientDir}/ViewModels/WelcomeViewModel.cs`,
                 },
             ],
-        }
+        },
     ],
     xamarinAppServices: [
         {
@@ -285,7 +285,7 @@ const files = {
                     renameTo: generator => `${generator.mainClientDir}/Services/RegisterService.cs`,
                 },
             ],
-        }
+        },
     ],
     xamarinAppResources: [
         {
@@ -305,7 +305,7 @@ const files = {
                     renameTo: generator => `${generator.mainClientDir}/Resources/Strings.resx`,
                 },
             ],
-        }
+        },
     ],
     xamarinAppBase: [
         {
@@ -361,7 +361,7 @@ const files = {
                     renameTo: generator => `${generator.mainClientDir}/${generator.pascalizedBaseName}.Client.Xamarin.Core.csproj`,
                 },
             ],
-        }
+        },
     ],
     xamarinAppShared: [
         {
@@ -381,7 +381,7 @@ const files = {
                     renameTo: generator => `${generator.sharedClientDir}/${generator.pascalizedBaseName}.Client.Xamarin.Shared.csproj`,
                 },
             ],
-        }
+        },
     ],
     xamarinAppAndroid: [
         {
@@ -416,10 +416,11 @@ const files = {
             templates: [
                 {
                     file: 'Project.Client.Xamarin.Android/Project.Client.Xamarin.Android.csproj.user',
-                    renameTo: generator => `${generator.androidClientDir}/${generator.pascalizedBaseName}.Client.Xamarin.Android.csproj.user`,
+                    renameTo: generator =>
+                        `${generator.androidClientDir}/${generator.pascalizedBaseName}.Client.Xamarin.Android.csproj.user`,
                 },
             ],
-        }
+        },
     ],
     xamarinAppAndroidResourcesValues: [
         {
@@ -439,7 +440,7 @@ const files = {
                     renameTo: generator => `${generator.androidClientDir}/Resources/values/styles.xml`,
                 },
             ],
-        }
+        },
     ],
     xamarinAppAndroidResourcesLayout: [
         {
@@ -469,7 +470,7 @@ const files = {
                 },
             ],
         },
-    ],    
+    ],
     xamarinAppAndroidResourcesImage: [
         {
             path: CLIENT_SRC_DIR,
@@ -529,7 +530,7 @@ const files = {
                 },
             ],
         },
-                {
+        {
             path: CLIENT_SRC_DIR,
             templates: [
                 {
@@ -549,7 +550,7 @@ const files = {
                 },
             ],
         },
-                {
+        {
             path: CLIENT_SRC_DIR,
             templates: [
                 {
@@ -569,7 +570,7 @@ const files = {
                 },
             ],
         },
-                {
+        {
             path: CLIENT_SRC_DIR,
             templates: [
                 {
@@ -589,7 +590,7 @@ const files = {
                 },
             ],
         },
-                {
+        {
             path: CLIENT_SRC_DIR,
             templates: [
                 {
@@ -609,7 +610,7 @@ const files = {
                 },
             ],
         },
-    ], 
+    ],
     xamarinAppAndroidProperties: [
         {
             path: CLIENT_SRC_DIR,
@@ -628,7 +629,7 @@ const files = {
                     renameTo: generator => `${generator.androidClientDir}/Properties/AssemblyInfo.cs`,
                 },
             ],
-        }
+        },
     ],
     xamarinAppiOS: [
         {
@@ -685,7 +686,7 @@ const files = {
                     renameTo: generator => `${generator.iOSClientDir}/AppDelegate.cs`,
                 },
             ],
-        }
+        },
     ],
     xamarinAppiOSProperties: [
         {
@@ -696,7 +697,7 @@ const files = {
                     renameTo: generator => `${generator.iOSClientDir}/Properties/AssemblyInfo.cs`,
                 },
             ],
-        }
+        },
     ],
     xamarinAppiOSResources: [
         {
@@ -789,4 +790,3 @@ module.exports = {
 function writeFiles() {
     this.writeFilesToDisk(files, this, false, 'xamarin');
 }
-

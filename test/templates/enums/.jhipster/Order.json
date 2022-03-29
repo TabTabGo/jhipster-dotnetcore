@@ -5,7 +5,7 @@
             "fieldName": "status",
             "fieldType": "OrderStatus",
             "fieldValues": "IN_PROGRESS,FINISHED"
-          }
+        }
     ],
     "relationships": [],
     "changelogDate": "20200415193919",

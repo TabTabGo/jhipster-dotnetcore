@@ -8,16 +8,18 @@ To do this we use a Directory.Build.targets file (you can find it in root folder
 
 This file contains all nuget dependencies with for each one their version.
 
-To add a dependency, you need to add it in csproj without the version and add it in Directory.Build.targets with the version 
+To add a dependency, you need to add it in csproj without the version and add it in Directory.Build.targets with the version
 
-example: 
+example:
 
 in csproj
+
 ```xml
 <PackageReference Include="Newtonsoft.Json" />
 ```
 
 in Directory.Build.targets
+
 ```xml
 <PackageReference Update="Newtonsoft.Json" Version="12.0.3" />
 ```

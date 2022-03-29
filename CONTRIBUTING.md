@@ -1,4 +1,3 @@
-
 # Contributing to JHipster
 
 Are you ready to contribute to JHipster? We'd love to have you on board, and we will help you as much as we can. Here are the guidelines we'd like you to follow so that we can be of more help:
@@ -240,7 +239,6 @@ It is possible to debug JHipster's code using a Node.js debugger. To achieve thi
 To start debugging JHipster with **VSCode**, open the generator code in your workspace and simply press F5 (or click the green arrow in the **Debug** menu reachable with Ctrl+Shift+D). This will start the generator in debug mode and generate files in the `test-integration/samples/app-sample-dev` folder.
 
 It is also possible to debug sub generators by selecting one of the other debug options (for example `jhipster entity`). Those debug configurations are specified in the `.vscode/launch.json` file.
-
 
 ## <a name="rules"></a> Coding Rules
 

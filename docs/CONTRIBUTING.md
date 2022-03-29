@@ -1,12 +1,10 @@
-
-
 # Generate Documentation
 
 ## Prerequisites
 
-- [Python and pip](https://www.python.org/downloads/)<br>
-or
-- [Chocolatey](https://chocolatey.org/install)
+-   [Python and pip](https://www.python.org/downloads/)<br>
+    or
+-   [Chocolatey](https://chocolatey.org/install)
 
 ## Install Python and pip with Chocolatey
 
@@ -17,21 +15,24 @@ choco install python3 --pre
 ## Prerequisites
 
 Install Sphinx
+
 ```bash
 py -m pip install sphinx
 ```
 
 Install Theme
+
 ```bash
 py -m pip install sphinx_rtd_theme
 ```
 
 Install Recommark
+
 ```bash
 py -m pip install Recommonmark
 ```
 
-## Generate the documentation HTML files 
+## Generate the documentation HTML files
 
 ```bash
 cd ./docs/

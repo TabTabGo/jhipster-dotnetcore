@@ -27,12 +27,12 @@ jobs:
             - uses: actions/checkout@v2.4.0
             - uses: actions/setup-node@v2.5.1
               with:
-                node-version: ${{ matrix.node_version }}
+                  node-version: ${{ matrix.node_version }}
             - name: 'install required npm version'
               run: npm install -g npm@$(node -e "console.log(require('./generators/generator-dotnetcore-constants').NPM_VERSION);")
             - uses: actions/setup-dotnet@v1
               with:
-                dotnet-version: '6.0.200'
+                  dotnet-version: '6.0.200'
             - name: git history
               run: git --no-pager log -n 10 --graph --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue) <%an>%Creset' --abbrev-commit
             - name: PREPARE jhipster env
@@ -44,15 +44,14 @@ jobs:
             - name: 'GENERATE JHipster.NET entities'
               run: ./test-integration/scripts/04-generate-entities-sample.sh $JHI_APP $JHI_ARG
               env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
             - name: 'RUN SERVER UNIT TESTS of generated app'
               run: ./test-integration/scripts/06-run-generated-server-tests-of-sample.sh $JHI_APP
             - name: 'RUN SONAR ANALYZE on generated app'
               run: ./test-integration/scripts/08-run-sonar-analyze.sh $JHI_APP
               env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
             - name: 'VERIFY FORMAT'
               run: ./test-integration/scripts/09-verify-format.sh $JHI_APP
-

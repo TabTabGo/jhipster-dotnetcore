@@ -63,7 +63,8 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/Repositories/Interfaces/IReadOnlyEntityRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX
+                        `${generator.pascalizedBaseName}${
+                            constants.PROJECT_DOMAIN_SUFFIX
                         }/Repositories/Interfaces/IReadOnly${generator.asEntity(generator.entityClass)}Repository.cs`,
                 },
                 {
@@ -167,7 +168,9 @@ const serverFiles = {
                 {
                     file: 'Project.ViewModel/ViewModel.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/${generator.asViewModel(generator.entityClass)}.cs`,
+                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/${generator.asViewModel(
+                            generator.entityClass
+                        )}.cs`,
                 },
             ],
         },
@@ -177,7 +180,8 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.ViewModel/AuditedEntityBaseViewModel.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/AuditedEntityBaseViewModel.cs`,
+                    renameTo: generator =>
+                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/AuditedEntityBaseViewModel.cs`,
                 },
             ],
         },

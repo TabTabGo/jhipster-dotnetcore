@@ -63,7 +63,7 @@ module.exports = class extends ServerGenerator {
                     this.log(
                         chalk.green(
                             'This is an existing project, using the configuration from your .yo-rc.json file \n' +
-                            'to re-generate the project...\n'
+                                'to re-generate the project...\n'
                         )
                     );
                     this.existingProject = true;

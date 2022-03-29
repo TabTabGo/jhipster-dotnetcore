@@ -53,14 +53,12 @@ function askForClient() {
             name: 'No client',
         },
     ];
-    
+
     if (this.configOptions.isDebugEnabled) {
-        choices.push(
-            {
-                value: XAMARIN,
-                name: '[Alpha] - Xamarin',
-            },
-        )
+        choices.push({
+            value: XAMARIN,
+            name: '[Alpha] - Xamarin',
+        });
     }
 
     const PROMPT = {

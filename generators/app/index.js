@@ -52,7 +52,9 @@ module.exports = class extends AppGenerator {
                 if (process.cwd() === this.getUserHome()) {
                     this.log(chalk.red.bold('\n️⚠️  WARNING ⚠️  You are in your HOME folder!'));
                     this.log(
-                        chalk.red('This can cause problems, you should always create a new directory and run the jhipster command from here.')
+                        chalk.red(
+                            'This can cause problems, you should always create a new directory and run the jhipster command from here.'
+                        )
                     );
                     this.log(chalk.white(`See the troubleshooting section at ${chalk.yellow('https://www.jhipster.tech/installation/')}`));
                 }
@@ -62,7 +64,9 @@ module.exports = class extends AppGenerator {
                     )
                 );
                 this.log(
-                    chalk.white(`  Documentation for creating an application is at ${chalk.yellow('https://www.jhipster.tech/creating-an-app/')}`)
+                    chalk.white(
+                        `  Documentation for creating an application is at ${chalk.yellow('https://www.jhipster.tech/creating-an-app/')}`
+                    )
                 );
                 this.log(
                     chalk.white(
@@ -82,7 +86,7 @@ module.exports = class extends AppGenerator {
                 this.namespace = this.jhipsterConfig.namespace;
                 this.applicationType = this.jhipsterConfig.applicationType;
                 this.serviceDiscoveryType = this.jhipsterConfig.serviceDiscoveryType;
-                const serverConfigFound = this.namespace !== undefined ;
+                const serverConfigFound = this.namespace !== undefined;
 
                 if (this.baseName !== undefined && serverConfigFound) {
                     this.log(
@@ -93,7 +97,7 @@ module.exports = class extends AppGenerator {
                     );
                     this.existingProject = true;
                 }
-            }
+            },
         };
         return Object.assign(initPhaseFromJHipster, dotnetInitAppPhaseSteps);
     }
@@ -130,7 +134,7 @@ module.exports = class extends AppGenerator {
 
     get default() {
         return super._default();
-    }   
+    }
 
     get writing() {
         return super._writing();

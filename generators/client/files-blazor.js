@@ -238,7 +238,7 @@ const files = {
                     renameTo: generator => `${generator.mainClientDir}/Pages/Login.razor.cs`,
                 },
             ],
-        }
+        },
     ],
     blazorAppProperties: [
         {
@@ -816,7 +816,7 @@ const files = {
                     renameTo: generator => `${generator.clientTestProject}/Helpers/TestPolicyRequirement.cs`,
                 },
             ],
-        }
+        },
     ],
     blazorTestPages: [
         {
@@ -924,4 +924,3 @@ module.exports = {
 function writeFiles() {
     this.writeFilesToDisk(files, this, false, 'blazor');
 }
-

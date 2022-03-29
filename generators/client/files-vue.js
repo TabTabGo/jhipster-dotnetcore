@@ -22,7 +22,6 @@ const constants = require('../generator-dotnetcore-constants');
 /* Constants use throughout */
 const SERVER_SRC_DIR = constants.SERVER_SRC_DIR;
 
-
 function updateHomeTitle() {
     this.replaceContent(`${SERVER_SRC_DIR}${this.mainClientAppDir}/app/core/home/home.vue`, 'Java', '.Net Core', false);
 }

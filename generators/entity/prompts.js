@@ -865,8 +865,7 @@ function askForField(done) {
                 fieldType: props.enumType || props.fieldType,
                 /* fieldTypeBlobContent: props.fieldTypeBlobContent, */
                 fieldValues: props.fieldValues,
-                fieldValidateRules:
-                    props.fieldValidateRules /* ,
+                fieldValidateRules: props.fieldValidateRules /* ,
                 fieldValidateRulesMinlength: props.fieldValidateRulesMinlength,
                 fieldValidateRulesMaxlength: props.fieldValidateRulesMaxlength,
                 fieldValidateRulesPattern: props.fieldValidateRulesPattern,
@@ -1123,8 +1122,8 @@ function logFieldsAndRelationships() {
             }
             this.log(
                 chalk.red(field.fieldName) +
-                chalk.white(` (${field.fieldType}${field.fieldTypeBlobContent ? ` ${field.fieldTypeBlobContent}` : ''}) `) +
-                chalk.cyan(validationDetails.join(' '))
+                    chalk.white(` (${field.fieldType}${field.fieldTypeBlobContent ? ` ${field.fieldTypeBlobContent}` : ''}) `) +
+                    chalk.cyan(validationDetails.join(' '))
             );
         });
         this.log();

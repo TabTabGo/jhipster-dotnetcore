@@ -286,7 +286,8 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.ViewModel/ProfileInfoViewModel.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/ProfileInfo/ProfileInfoViewModel.cs`,
+                    renameTo: generator =>
+                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/ProfileInfo/ProfileInfoViewModel.cs`,
                 },
             ],
         },
@@ -307,7 +308,8 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.ViewModel/LoginViewModel.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/Authentication/LoginViewModel.cs`,
+                    renameTo: generator =>
+                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/Authentication/LoginViewModel.cs`,
                 },
             ],
         },
@@ -316,7 +318,8 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.ViewModel/SwaggerResourceViewModel.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/SwaggerResourceViewModel.cs`,
+                    renameTo: generator =>
+                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/SwaggerResourceViewModel.cs`,
                 },
             ],
         },

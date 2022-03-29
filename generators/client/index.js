@@ -55,11 +55,11 @@ module.exports = class extends ClientGenerator {
         return {
             customizeDotnetPaths,
             ...super._initializing(),
-            initializingDotnet () {
+            initializingDotnet() {
                 this.namespace = this.jhipsterConfig.namespace;
                 this.clientFramework = this.jhipsterConfig.clientFramework;
-            }
-        }
+            },
+        };
     }
 
     get prompting() {
@@ -68,14 +68,14 @@ module.exports = class extends ClientGenerator {
             askForClient: prompts.askForClient,
             askFori18n: basePrompts.askForI18n,
             askForClientTheme: basePrompts.askForClientTheme,
-            askForClientThemeVariant: basePrompts.askForClientThemeVariant
+            askForClientThemeVariant: basePrompts.askForClientThemeVariant,
         };
     }
 
     get configuring() {
         return {
             customizeDotnetPaths,
-            ...super._configuring()
+            ...super._configuring(),
         };
     }
 
@@ -90,11 +90,11 @@ module.exports = class extends ClientGenerator {
     get loading() {
         return {
             ...super._loading(),
-            loadingDotnet () {
+            loadingDotnet() {
                 this.serverPort = this.jhipsterConfig.serverPort;
                 this.serverPortSecured = parseInt(this.serverPort, 10) + 1;
-            }
-        }
+            },
+        };
     }
 
     get preparing() {
@@ -124,18 +124,18 @@ module.exports = class extends ClientGenerator {
                     default:
                     // do nothing by default
                 }
-            }
+            },
         };
     }
 
     get postWriting() {
         return {
-            postWritingDotnet(){
+            postWritingDotnet() {
                 if (this.clientFramework === BLAZOR) {
-                   this.skipClient = true;
+                    this.skipClient = true;
                 }
             },
-            ... super._postWriting(),
+            ...super._postWriting(),
             postWriteFilesDotnetcore() {
                 if (this.skipClient) return;
                 switch (this.clientFramework) {
@@ -151,8 +151,8 @@ module.exports = class extends ClientGenerator {
                     default:
                     // do nothing by default
                 }
-            }
-        }
+            },
+        };
     }
 
     get install() {
@@ -167,7 +167,7 @@ module.exports = class extends ClientGenerator {
                     );
                     this.spawnCommandSync('npm', ['install'], { cwd: `${constants.SERVER_SRC_DIR}${this.mainClientDir}` });
                 }
-            }
+            },
         };
         return customPhase;
     }
@@ -187,7 +187,7 @@ module.exports = class extends ClientGenerator {
                         `${constants.CLIENT_SRC_DIR}${this.sharedClientDir}/${this.pascalizedBaseName}.Client.Shared.csproj`,
                         `${constants.CLIENT_TEST_DIR}${this.clientTestProject}/${this.pascalizedBaseName}.Client.Test.csproj`,
                     ]);
-                    this.log(chalk.green.bold('\Client application generated successfully.\n'));
+                    this.log(chalk.green.bold('Client application generated successfully.\n'));
                     this.log(
                         chalk.green(
                             `Run your blazor application:\n${chalk.yellow.bold(
@@ -205,20 +205,19 @@ module.exports = class extends ClientGenerator {
                     }
                     await dotnet.slnAdd(`${this.solutionName}.sln`, [
                         `${constants.CLIENT_SRC_DIR}${this.mainClientDir}/${this.pascalizedBaseName}.Client.Xamarin.Core.csproj`,
-                        `${constants.CLIENT_SRC_DIR}${this.sharedClientDir}/${this.pascalizedBaseName}.Client.Xamarin.Shared.csproj`,                       
+                        `${constants.CLIENT_SRC_DIR}${this.sharedClientDir}/${this.pascalizedBaseName}.Client.Xamarin.Shared.csproj`,
                     ]);
                     await dotnet.newSlnAddProj(this.solutionName, [
                         {
-                            'path': `${constants.CLIENT_SRC_DIR}${this.androidClientDir}/${this.pascalizedBaseName}.Client.Xamarin.Android.csproj`,
-                            'name' : `${this.pascalizedBaseName}.Client.Xamarin.Android`
+                            path: `${constants.CLIENT_SRC_DIR}${this.androidClientDir}/${this.pascalizedBaseName}.Client.Xamarin.Android.csproj`,
+                            name: `${this.pascalizedBaseName}.Client.Xamarin.Android`,
                         },
                         {
-                            'path': `${constants.CLIENT_SRC_DIR}${this.iOSClientDir}/${this.pascalizedBaseName}.Client.Xamarin.iOS.csproj`,  
-                            'name' : `${this.pascalizedBaseName}.Client.Xamarin.iOS`
-                        }                                                
+                            path: `${constants.CLIENT_SRC_DIR}${this.iOSClientDir}/${this.pascalizedBaseName}.Client.Xamarin.iOS.csproj`,
+                            name: `${this.pascalizedBaseName}.Client.Xamarin.iOS`,
+                        },
                     ]);
-                    this.log(chalk.green.bold('\Client application generated successfully.\n'));
-
+                    this.log(chalk.green.bold('Client application generated successfully.\n'));
                 } else {
                     if (this.skipClient) return;
                     this.log(chalk.green.bold('\nClient application generated successfully.\n'));
@@ -228,6 +227,6 @@ module.exports = class extends ClientGenerator {
                     }
                 }
             },
-        }
+        };
     }
 };
