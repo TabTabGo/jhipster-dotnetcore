@@ -20,7 +20,7 @@ module.exports = class extends EntityGenerator {
             getConfigNetBlueprint() {
                 this.context.namespace = this.jhipsterConfig.namespace;
                 this.context.cqrsEnabled = this.jhipsterConfig.cqrsEnabled;
-                this.context.dtoSuffix = 'Dto';
+                this.context.dtoSuffix = 'ViewModel';
             },
             fixConfig() {
                 this.context.prodDatabaseType = 'mysql'; // set only for jdl-importer compatibility
