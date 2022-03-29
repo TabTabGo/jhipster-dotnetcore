@@ -8,4 +8,4 @@ Example using JDL:
 
 `viewModel * with mapstruct`
 
-See [JHispter's documentation](https://www.jhipster.tech/using-dtos/) for more details about using VIEW_MODELs.
+See [JHispter's documentation](https://www.jhipster.tech/using-viewModels/) for more details about using VIEW_MODELs.

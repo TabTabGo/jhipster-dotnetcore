@@ -43,7 +43,7 @@ const serverFiles = {
                         )}.cs`,
                 },
                 {
-                    file: 'Project/Controllers/EntityController.cs',
+                    file: 'Project.Api/Controllers/EntityController.cs',
                     renameTo: generator => `${generator.mainProjectDir}/Controllers/${generator.pascalizedEntityClassPlural}Controller.cs`,
                 },
                 {
@@ -80,7 +80,7 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project/Configuration/AutoMapper/AutoMapperProfile.cs',
+                    file: 'Project.Api/Configuration/AutoMapper/AutoMapperProfile.cs',
                     renameTo: generator => `${generator.mainProjectDir}/Configuration/AutoMapper/AutoMapperProfile.cs`,
                 },
             ],

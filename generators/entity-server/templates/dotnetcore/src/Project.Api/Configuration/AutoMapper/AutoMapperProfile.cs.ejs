@@ -16,6 +16,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
+<%
+const entityClassName = pascalizedEntityClass;
+%>
 using AutoMapper;
 using System.Linq;
 using <%= namespace %>.Domain;
@@ -24,18 +27,30 @@ using <%= namespace %>.ViewModel;
 
 namespace <%= namespace %>.Configuration.AutoMapper
 {
+
     public class AutoMapperProfile : Profile
     {
         public AutoMapperProfile()
         {
-            <%_ if (authenticationType === 'jwt') {
-                 if (applicationType !== 'microservice') { _%>
+            <%_ if (authenticationType === 'jwt' && applicationType !== 'microservice') { _%>
             CreateMap<User, UserViewModel>()
                 .ForMember(userViewModel => userViewModel.Roles, opt => opt.MapFrom(user => user.UserRoles.Select(iur => iur.Role.Name).ToHashSet()))
             .ReverseMap()
                 .ForPath(user => user.UserRoles, opt => opt.MapFrom(userViewModel => userViewModel.Roles.Select(role => new UserRole { Role = new Role { Name = role }, UserId = userViewModel.Id }).ToHashSet()));
-                <%_ }
-            } _%>
+            <%_ } _%>
+
+            <%_ if(entities.length !== 0) {
+                entities.forEach(entity => {
+                    if(entity.definition.viewModel === 'mapstruct') { _%>
+            CreateMap<<%= entity.name %>, <%= asViewModel(entity.name) %>>().ReverseMap();
+            <%_
+                    }
+                });
+            }
+            else {
+                if(viewModel === 'mapstruct') { _%>
+            CreateMap<<%= entityClassName %>, <%= asViewModel(entityClassName) %>>().ReverseMap();
+            <%_ }} _%>
         }
     }
 }

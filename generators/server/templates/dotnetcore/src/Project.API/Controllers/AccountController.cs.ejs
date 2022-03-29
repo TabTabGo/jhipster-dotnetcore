@@ -1,659 +1,234 @@
-<%# Copyright 2019-2021 the original author or authors from the JHipster project. This file is part of the JHipster
-    project, see https://www.jhipster.tech/ for more information. Licensed under the Apache License, Version 2.0
-    (the "License" ); you may not use this file except in compliance with the License. You may obtain a copy of the
-    License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied. See the License for the specific language governing permissions and limitations
-    under the License. -%>
-    using AutoMapper;
-    using System;
-    using System.Threading.Tasks;
-    using System.Linq;
-    using System.Security.Claims;
-    using <%= namespace %>.Domain;
-        using <%= namespace %>.ViewModel;
-            using <%= namespace %>.Web.Extensions;
-                using <%= namespace %>.Web.Filters;
-                    using <%= namespace %>.Web.Rest.Problems;
-                        using <%= namespace %>.Configuration;
-                            using <%= namespace %>.Crosscutting.Constants;
-                                using <%= namespace %>.Crosscutting.Exceptions;
-                                    using Microsoft.AspNetCore.Mvc;
-                                    <%_ if (authenticationType==='jwt' ) { _%>
-                                        <%_ if (cqrsEnabled) { _%>
-                                            using <%= namespace %>.Application.Queries;
-                                                using <%= namespace %>.Application.Commands;
-                                                    using MediatR;
-                                                    <%_ } else { _%>
-                                                        using <%= namespace %>.Domain.Services.Interfaces;
-                                                            <%_ } _%>
-                                                                using Microsoft.AspNetCore.Identity;
-                                                                using Microsoft.Extensions.Logging;
-                                                                <%_ } _%>
-                                                                    using Microsoft.AspNetCore.Authorization;
+<%#
+ Copyright 2019-2021 the original author or authors from the JHipster project.
+ This file is part of the JHipster project, see https://www.jhipster.tech/
+ for more information.
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+      http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+using AutoMapper;
+using System;
+using System.Threading.Tasks;
+using System.Linq;
+using System.Security.Claims;
+using <%= namespace %>.Domain;
+using <%= namespace %>.ViewModel;
+using <%= namespace %>.Web.Extensions;
+using <%= namespace %>.Web.Filters;
+using <%= namespace %>.Web.Rest.Problems;
+using <%= namespace %>.Configuration;
+using <%= namespace %>.Crosscutting.Constants;
+using <%= namespace %>.Crosscutting.Exceptions;
+using Microsoft.AspNetCore.Mvc;
+<%_ if (authenticationType === 'jwt') { _%>
+<%_ if (cqrsEnabled) { _%>
+using <%= namespace %>.Application.Queries;
+using <%= namespace %>.Application.Commands;
+using MediatR;
+<%_ } else { _%>
+using <%= namespace %>.Domain.Services.Interfaces;
+<%_ } _%>
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
+<%_ } _%>
+using Microsoft.AspNetCore.Authorization;
 
-                                                                    namespace <%= namespace %>.Controllers
-                                                                        {
+namespace <%= namespace %>.Controllers
+{
 
-                                                                        [Route("api")]
-                                                                        [ApiController]
-                                                                        public class AccountController : ControllerBase
-                                                                        {
+    [Route("api")]
+    [ApiController]
+    public class AccountController : ControllerBase
+    {
 
-                                                                        <%_ if (authenticationType==='jwt' ) { _%>
-                                                                            private readonly ILogger<AccountController>
-                                                                                _log;
-                                                                                <%_ if (cqrsEnabled) { _%>
-                                                                                    private readonly IMediator
-                                                                                    _mediator;
-                                                                                    <%_ } else { _%>
-                                                                                        private readonly IMapper
-                                                                                        _userMapper;
-                                                                                        private readonly IMailService
-                                                                                        _mailService;
-                                                                                        private readonly UserManager
-                                                                                        <User> _userManager;
-                                                                                            private readonly
-                                                                                            IUserService _userService;
-                                                                                            <%_ } _%>
+        <%_ if (authenticationType === 'jwt') { _%>
+        private readonly ILogger<AccountController> _log;
+        <%_ if (cqrsEnabled) { _%>
+        private readonly IMediator _mediator;
+        <%_ } else { _%>
+        private readonly IMapper _userMapper;
+        private readonly IMailService _mailService;
+        private readonly UserManager<User> _userManager;
+        private readonly IUserService _userService;
+        <%_ } _%>
 
-                                                                                                <%_ if (cqrsEnabled) {
-                                                                                                    _%>
-                                                                                                    public
-                                                                                                    AccountController(ILogger
-                                                                                                    <AccountController>
-                                                                                                        log, IMediator
-                                                                                                        mediator)
-                                                                                                        {
-                                                                                                        _log = log;
-                                                                                                        _mediator =
-                                                                                                        mediator;
-                                                                                                        }
-                                                                                                        <%_ } else { _%>
-                                                                                                            public
-                                                                                                            AccountController(ILogger
-                                                                                                            <AccountController>
-                                                                                                                log,
-                                                                                                                UserManager
-                                                                                                                <User>
-                                                                                                                    userManager,
-                                                                                                                    IUserService
-                                                                                                                    userService,
-                                                                                                                    IMapper
-                                                                                                                    userMapper,
-                                                                                                                    IMailService
-                                                                                                                    mailService)
-                                                                                                                    {
-                                                                                                                    _log
-                                                                                                                    =
-                                                                                                                    log;
-                                                                                                                    _userMapper
-                                                                                                                    =
-                                                                                                                    userMapper;
-                                                                                                                    _userManager
-                                                                                                                    =
-                                                                                                                    userManager;
-                                                                                                                    _userService
-                                                                                                                    =
-                                                                                                                    userService;
-                                                                                                                    _mailService
-                                                                                                                    =
-                                                                                                                    mailService;
-                                                                                                                    }
-                                                                                                                    <%_ }
-                                                                                                                        _%>
+        <%_ if (cqrsEnabled) { _%>
+        public AccountController(ILogger<AccountController> log, IMediator mediator)
+        {
+            _log = log;
+            _mediator = mediator;
+        }
+        <%_ } else { _%>
+        public AccountController(ILogger<AccountController> log, UserManager<User> userManager, IUserService userService,
+            IMapper userMapper, IMailService mailService)
+        {
+            _log = log;
+            _userMapper = userMapper;
+            _userManager = userManager;
+            _userService = userService;
+            _mailService = mailService;
+        }
+        <%_ } _%>
 
-                                                                                                                        [HttpPost("register")]
-                                                                                                                        [ValidateModel]
-                                                                                                                        public
-                                                                                                                        async
-                                                                                                                        Task
-                                                                                                                        <IActionResult>
-                                                                                                                            RegisterAccount([FromBody]
-                                                                                                                            ManagedUserViewModel
-                                                                                                                            managedUserViewModel)
-                                                                                                                            {
-                                                                                                                            if
-                                                                                                                            (!CheckPasswordLength(managedUserViewModel.Password))
-                                                                                                                            throw
-                                                                                                                            new
-                                                                                                                            InvalidPasswordException();
-                                                                                                                            <%_ if
-                                                                                                                                (cqrsEnabled)
-                                                                                                                                {
-                                                                                                                                _%>
-                                                                                                                                var
-                                                                                                                                user
-                                                                                                                                =
-                                                                                                                                await
-                                                                                                                                _mediator.Send(new
-                                                                                                                                AccountCreateCommand
-                                                                                                                                {
-                                                                                                                                ManagedUserViewModel
-                                                                                                                                =
-                                                                                                                                managedUserViewModel
-                                                                                                                                });
-                                                                                                                                <%_ }
-                                                                                                                                    else
-                                                                                                                                    {
-                                                                                                                                    _%>
-                                                                                                                                    var
-                                                                                                                                    user
-                                                                                                                                    =
-                                                                                                                                    await
-                                                                                                                                    _userService.RegisterUser(_userMapper.Map
-                                                                                                                                    <User>
-                                                                                                                                        (managedUserViewModel),
-                                                                                                                                        managedUserViewModel.Password);
-                                                                                                                                        await
-                                                                                                                                        _mailService.SendActivationEmail(user);
-                                                                                                                                        <%_ }
-                                                                                                                                            _%>
-                                                                                                                                            return
-                                                                                                                                            CreatedAtAction(nameof(GetAccount),
-                                                                                                                                            user);
-                                                                                                                                            }
+        [HttpPost("register")]
+        [ValidateModel]
+        public async Task<IActionResult> RegisterAccount([FromBody] ManagedUserViewModel managedUserViewModel)
+        {
+            if (!CheckPasswordLength(managedUserViewModel.Password)) throw new InvalidPasswordException();
+            <%_ if (cqrsEnabled) { _%>
+            var user = await _mediator.Send(new AccountCreateCommand { ManagedUserViewModel = managedUserViewModel });
+            <%_ } else { _%>
+            var user = await _userService.RegisterUser(_userMapper.Map<User>(managedUserViewModel), managedUserViewModel.Password);
+            await _mailService.SendActivationEmail(user);
+            <%_ } _%>
+            return CreatedAtAction(nameof(GetAccount), user);
+        }
 
-                                                                                                                                            [HttpGet("activate")]
-                                                                                                                                            [ValidateModel]
-                                                                                                                                            public
-                                                                                                                                            async
-                                                                                                                                            Task
-                                                                                                                                            ActivateAccount([FromQuery(Name
-                                                                                                                                            =
-                                                                                                                                            "key")]
-                                                                                                                                            string
-                                                                                                                                            key)
-                                                                                                                                            {
-                                                                                                                                            <%_ if
-                                                                                                                                                (cqrsEnabled)
-                                                                                                                                                {
-                                                                                                                                                _%>
-                                                                                                                                                var
-                                                                                                                                                user
-                                                                                                                                                =
-                                                                                                                                                await
-                                                                                                                                                _mediator.Send(new
-                                                                                                                                                AccountActivateCommand
-                                                                                                                                                {
-                                                                                                                                                Key
-                                                                                                                                                =
-                                                                                                                                                key
-                                                                                                                                                });
-                                                                                                                                                <%_ }
-                                                                                                                                                    else
-                                                                                                                                                    {
-                                                                                                                                                    _%>
-                                                                                                                                                    var
-                                                                                                                                                    user
-                                                                                                                                                    =
-                                                                                                                                                    await
-                                                                                                                                                    _userService.ActivateRegistration(key);
-                                                                                                                                                    <%_ }
-                                                                                                                                                        _%>
-                                                                                                                                                        if
-                                                                                                                                                        (user
-                                                                                                                                                        ==
-                                                                                                                                                        null)
-                                                                                                                                                        throw
-                                                                                                                                                        new
-                                                                                                                                                        InternalServerErrorException("Not
-                                                                                                                                                        user
-                                                                                                                                                        was
-                                                                                                                                                        found
-                                                                                                                                                        for
-                                                                                                                                                        this
-                                                                                                                                                        activation
-                                                                                                                                                        key");
-                                                                                                                                                        }
+        [HttpGet("activate")]
+        [ValidateModel]
+        public async Task ActivateAccount([FromQuery(Name = "key")] string key)
+        {
+            <%_ if (cqrsEnabled) { _%>
+            var user = await _mediator.Send(new AccountActivateCommand { Key = key });
+            <%_ } else { _%>
+            var user = await _userService.ActivateRegistration(key);
+            <%_ } _%>
+            if (user == null) throw new InternalServerErrorException("Not user was found for this activation key");
+        }
 
-                                                                                                                                                        [HttpGet("authenticate")]
-                                                                                                                                                        <%_ if
-                                                                                                                                                            (cqrsEnabled)
-                                                                                                                                                            {
-                                                                                                                                                            _%>
-                                                                                                                                                            public
-                                                                                                                                                            async
-                                                                                                                                                            Task
-                                                                                                                                                            <string>
-                                                                                                                                                                IsAuthenticated()
-                                                                                                                                                                {
-                                                                                                                                                                _log.LogDebug("REST
-                                                                                                                                                                request
-                                                                                                                                                                to
-                                                                                                                                                                check
-                                                                                                                                                                if
-                                                                                                                                                                the
-                                                                                                                                                                current
-                                                                                                                                                                user
-                                                                                                                                                                is
-                                                                                                                                                                authenticated");
-                                                                                                                                                                return
-                                                                                                                                                                await
-                                                                                                                                                                _mediator.Send(new
-                                                                                                                                                                AccountGetAuthenticatedQuery
-                                                                                                                                                                {
-                                                                                                                                                                User
-                                                                                                                                                                =
-                                                                                                                                                                User
-                                                                                                                                                                });
-                                                                                                                                                                }
-                                                                                                                                                                <%_ }
-                                                                                                                                                                    else
-                                                                                                                                                                    {
-                                                                                                                                                                    _%>
-                                                                                                                                                                    public
-                                                                                                                                                                    string
-                                                                                                                                                                    IsAuthenticated()
-                                                                                                                                                                    {
-                                                                                                                                                                    _log.LogDebug("REST
-                                                                                                                                                                    request
-                                                                                                                                                                    to
-                                                                                                                                                                    check
-                                                                                                                                                                    if
-                                                                                                                                                                    the
-                                                                                                                                                                    current
-                                                                                                                                                                    user
-                                                                                                                                                                    is
-                                                                                                                                                                    authenticated");
-                                                                                                                                                                    return
-                                                                                                                                                                    _userManager.GetUserName(User);
-                                                                                                                                                                    }
-                                                                                                                                                                    <%_ }
-                                                                                                                                                                        _%>
+        [HttpGet("authenticate")]
+        <%_ if (cqrsEnabled) { _%>
+        public async Task<string> IsAuthenticated()
+        {
+            _log.LogDebug("REST request to check if the current user is authenticated");
+            return await _mediator.Send(new AccountGetAuthenticatedQuery { User = User });
+        }
+        <%_ } else { _%>
+        public string IsAuthenticated()
+        {
+            _log.LogDebug("REST request to check if the current user is authenticated");
+            return _userManager.GetUserName(User);
+        }
+        <%_ } _%>
 
-                                                                                                                                                                        [Authorize]
-                                                                                                                                                                        [HttpGet("account")]
-                                                                                                                                                                        public
-                                                                                                                                                                        async
-                                                                                                                                                                        Task
-                                                                                                                                                                        <ActionResult<UserViewModel>
-                                                                                                                                                                            >
-                                                                                                                                                                            GetAccount()
-                                                                                                                                                                            {
-                                                                                                                                                                            <%_ if
-                                                                                                                                                                                (cqrsEnabled)
-                                                                                                                                                                                {
-                                                                                                                                                                                _%>
-                                                                                                                                                                                var
-                                                                                                                                                                                userViewModel
-                                                                                                                                                                                =
-                                                                                                                                                                                await
-                                                                                                                                                                                _mediator.Send(new
-                                                                                                                                                                                AccountGetQuery());
-                                                                                                                                                                                <%_ }
-                                                                                                                                                                                    else
-                                                                                                                                                                                    {
-                                                                                                                                                                                    _%>
-                                                                                                                                                                                    var
-                                                                                                                                                                                    user
-                                                                                                                                                                                    =
-                                                                                                                                                                                    await
-                                                                                                                                                                                    _userService.GetUserWithUserRoles();
-                                                                                                                                                                                    if
-                                                                                                                                                                                    (user
-                                                                                                                                                                                    ==
-                                                                                                                                                                                    null)
-                                                                                                                                                                                    throw
-                                                                                                                                                                                    new
-                                                                                                                                                                                    InternalServerErrorException("User
-                                                                                                                                                                                    could
-                                                                                                                                                                                    not
-                                                                                                                                                                                    be
-                                                                                                                                                                                    found");
-                                                                                                                                                                                    var
-                                                                                                                                                                                    userViewModel
-                                                                                                                                                                                    =
-                                                                                                                                                                                    _userMapper.Map
-                                                                                                                                                                                    <UserViewModel>
-                                                                                                                                                                                        (user);
-                                                                                                                                                                                        <%_ }
-                                                                                                                                                                                            _%>
-                                                                                                                                                                                            return
-                                                                                                                                                                                            Ok(userViewModel);
-                                                                                                                                                                                            }
+        [Authorize]
+        [HttpGet("account")]
+        public async Task<ActionResult<UserViewModel>> GetAccount()
+        {
+            <%_ if (cqrsEnabled) { _%>
+            var userViewModel = await _mediator.Send(new AccountGetQuery());
+            <%_ } else { _%>
+            var user = await _userService.GetUserWithUserRoles();
+            if (user == null) throw new InternalServerErrorException("User could not be found");
+            var userViewModel = _userMapper.Map<UserViewModel>(user);
+            <%_ } _%>
+            return Ok(userViewModel);
+        }
 
-                                                                                                                                                                                            [Authorize]
-                                                                                                                                                                                            [HttpPost("account")]
-                                                                                                                                                                                            [ValidateModel]
-                                                                                                                                                                                            public
-                                                                                                                                                                                            async
-                                                                                                                                                                                            Task
-                                                                                                                                                                                            <ActionResult>
-                                                                                                                                                                                                SaveAccount([FromBody]
-                                                                                                                                                                                                UserViewModel
-                                                                                                                                                                                                userViewModel)
-                                                                                                                                                                                                {
-                                                                                                                                                                                                <%_ if
-                                                                                                                                                                                                    (cqrsEnabled)
-                                                                                                                                                                                                    {
-                                                                                                                                                                                                    _%>
-                                                                                                                                                                                                    await
-                                                                                                                                                                                                    _mediator.Send(new
-                                                                                                                                                                                                    AccountSaveCommand
-                                                                                                                                                                                                    {
-                                                                                                                                                                                                    User
-                                                                                                                                                                                                    =
-                                                                                                                                                                                                    User,
-                                                                                                                                                                                                    UserViewModel
-                                                                                                                                                                                                    =
-                                                                                                                                                                                                    userViewModel
-                                                                                                                                                                                                    });
-                                                                                                                                                                                                    <%_ }
-                                                                                                                                                                                                        else
-                                                                                                                                                                                                        {
-                                                                                                                                                                                                        _%>
-                                                                                                                                                                                                        var
-                                                                                                                                                                                                        userName
-                                                                                                                                                                                                        =
-                                                                                                                                                                                                        _userManager.GetUserName(User);
-                                                                                                                                                                                                        if
-                                                                                                                                                                                                        (userName
-                                                                                                                                                                                                        ==
-                                                                                                                                                                                                        null)
-                                                                                                                                                                                                        throw
-                                                                                                                                                                                                        new
-                                                                                                                                                                                                        InternalServerErrorException("Current
-                                                                                                                                                                                                        user
-                                                                                                                                                                                                        login
-                                                                                                                                                                                                        not
-                                                                                                                                                                                                        found");
+        [Authorize]
+        [HttpPost("account")]
+        [ValidateModel]
+        public async Task<ActionResult> SaveAccount([FromBody] UserViewModel userViewModel)
+        {
+            <%_ if (cqrsEnabled) { _%>
+            await _mediator.Send(new AccountSaveCommand { User = User, UserViewModel = userViewModel });
+            <%_ } else { _%>
+            var userName = _userManager.GetUserName(User);
+            if (userName == null) throw new InternalServerErrorException("Current user login not found");
 
-                                                                                                                                                                                                        var
-                                                                                                                                                                                                        existingUser
-                                                                                                                                                                                                        =
-                                                                                                                                                                                                        await
-                                                                                                                                                                                                        _userManager.FindByEmailAsync(userViewModel.Email);
-                                                                                                                                                                                                        if
-                                                                                                                                                                                                        (existingUser
-                                                                                                                                                                                                        !=
-                                                                                                                                                                                                        null
-                                                                                                                                                                                                        &&
-                                                                                                                                                                                                        !string.Equals(existingUser.Login,
-                                                                                                                                                                                                        userName,
-                                                                                                                                                                                                        StringComparison.InvariantCultureIgnoreCase))
-                                                                                                                                                                                                        throw
-                                                                                                                                                                                                        new
-                                                                                                                                                                                                        EmailAlreadyUsedException();
+            var existingUser = await _userManager.FindByEmailAsync(userViewModel.Email);
+            if (existingUser != null &&
+                !string.Equals(existingUser.Login, userName, StringComparison.InvariantCultureIgnoreCase))
+                throw new EmailAlreadyUsedException();
 
-                                                                                                                                                                                                        var
-                                                                                                                                                                                                        user
-                                                                                                                                                                                                        =
-                                                                                                                                                                                                        await
-                                                                                                                                                                                                        _userManager.FindByNameAsync(userName);
-                                                                                                                                                                                                        if
-                                                                                                                                                                                                        (user
-                                                                                                                                                                                                        ==
-                                                                                                                                                                                                        null)
-                                                                                                                                                                                                        throw
-                                                                                                                                                                                                        new
-                                                                                                                                                                                                        InternalServerErrorException("User
-                                                                                                                                                                                                        could
-                                                                                                                                                                                                        not
-                                                                                                                                                                                                        be
-                                                                                                                                                                                                        found");
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null) throw new InternalServerErrorException("User could not be found");
 
-                                                                                                                                                                                                        await
-                                                                                                                                                                                                        _userService.UpdateUser(userViewModel.FirstName,
-                                                                                                                                                                                                        userViewModel.LastName,
-                                                                                                                                                                                                        userViewModel.Email,
-                                                                                                                                                                                                        userViewModel.LangKey,
-                                                                                                                                                                                                        userViewModel.ImageUrl);
-                                                                                                                                                                                                        <%_ }
-                                                                                                                                                                                                            _%>
-                                                                                                                                                                                                            return
-                                                                                                                                                                                                            Ok();
-                                                                                                                                                                                                            }
+            await _userService.UpdateUser(userViewModel.FirstName, userViewModel.LastName, userViewModel.Email, userViewModel.LangKey,
+                userViewModel.ImageUrl);
+            <%_ } _%>
+            return Ok();
+        }
 
-                                                                                                                                                                                                            [Authorize]
-                                                                                                                                                                                                            [HttpPost("account/change-password")]
-                                                                                                                                                                                                            [ValidateModel]
-                                                                                                                                                                                                            public
-                                                                                                                                                                                                            async
-                                                                                                                                                                                                            Task
-                                                                                                                                                                                                            <ActionResult>
-                                                                                                                                                                                                                ChangePassword([FromBody]
-                                                                                                                                                                                                                PasswordChangeViewModel
-                                                                                                                                                                                                                passwordChangeViewModel)
-                                                                                                                                                                                                                {
-                                                                                                                                                                                                                if
-                                                                                                                                                                                                                (!CheckPasswordLength(passwordChangeViewModel.NewPassword))
-                                                                                                                                                                                                                throw
-                                                                                                                                                                                                                new
-                                                                                                                                                                                                                InvalidPasswordException();
-                                                                                                                                                                                                                <%_ if
-                                                                                                                                                                                                                    (cqrsEnabled)
-                                                                                                                                                                                                                    {
-                                                                                                                                                                                                                    _%>
-                                                                                                                                                                                                                    await
-                                                                                                                                                                                                                    _mediator.Send(new
-                                                                                                                                                                                                                    AccountChangePasswordCommand
-                                                                                                                                                                                                                    {
-                                                                                                                                                                                                                    PasswordChangeViewModel
-                                                                                                                                                                                                                    =
-                                                                                                                                                                                                                    passwordChangeViewModel
-                                                                                                                                                                                                                    });
-                                                                                                                                                                                                                    <%_ }
-                                                                                                                                                                                                                        else
-                                                                                                                                                                                                                        {
-                                                                                                                                                                                                                        _%>
-                                                                                                                                                                                                                        await
-                                                                                                                                                                                                                        _userService.ChangePassword(passwordChangeViewModel.CurrentPassword,
-                                                                                                                                                                                                                        passwordChangeViewModel.NewPassword);
-                                                                                                                                                                                                                        <%_ }
-                                                                                                                                                                                                                            _%>
-                                                                                                                                                                                                                            return
-                                                                                                                                                                                                                            Ok();
-                                                                                                                                                                                                                            }
+        [Authorize]
+        [HttpPost("account/change-password")]
+        [ValidateModel]
+        public async Task<ActionResult> ChangePassword([FromBody] PasswordChangeViewModel passwordChangeViewModel)
+        {
+            if (!CheckPasswordLength(passwordChangeViewModel.NewPassword)) throw new InvalidPasswordException();
+            <%_ if (cqrsEnabled) { _%>
+            await _mediator.Send(new AccountChangePasswordCommand { PasswordChangeViewModel = passwordChangeViewModel });
+            <%_ } else { _%>
+            await _userService.ChangePassword(passwordChangeViewModel.CurrentPassword, passwordChangeViewModel.NewPassword);
+            <%_ } _%>
+            return Ok();
+        }
 
-                                                                                                                                                                                                                            [HttpPost("account/reset-password/init")]
-                                                                                                                                                                                                                            public
-                                                                                                                                                                                                                            async
-                                                                                                                                                                                                                            Task
-                                                                                                                                                                                                                            <ActionResult>
-                                                                                                                                                                                                                                RequestPasswordReset()
-                                                                                                                                                                                                                                {
-                                                                                                                                                                                                                                var
-                                                                                                                                                                                                                                mail
-                                                                                                                                                                                                                                =
-                                                                                                                                                                                                                                await
-                                                                                                                                                                                                                                Request.BodyAsStringAsync();
-                                                                                                                                                                                                                                <%_ if
-                                                                                                                                                                                                                                    (cqrsEnabled)
-                                                                                                                                                                                                                                    {
-                                                                                                                                                                                                                                    _%>
-                                                                                                                                                                                                                                    await
-                                                                                                                                                                                                                                    _mediator.Send(new
-                                                                                                                                                                                                                                    AccountResetPasswordCommand
-                                                                                                                                                                                                                                    {
-                                                                                                                                                                                                                                    Mail
-                                                                                                                                                                                                                                    =
-                                                                                                                                                                                                                                    mail
-                                                                                                                                                                                                                                    });
-                                                                                                                                                                                                                                    <%_ }
-                                                                                                                                                                                                                                        else
-                                                                                                                                                                                                                                        {
-                                                                                                                                                                                                                                        _%>
-                                                                                                                                                                                                                                        var
-                                                                                                                                                                                                                                        user
-                                                                                                                                                                                                                                        =
-                                                                                                                                                                                                                                        await
-                                                                                                                                                                                                                                        _userService.RequestPasswordReset(mail);
-                                                                                                                                                                                                                                        if
-                                                                                                                                                                                                                                        (user
-                                                                                                                                                                                                                                        ==
-                                                                                                                                                                                                                                        null)
-                                                                                                                                                                                                                                        throw
-                                                                                                                                                                                                                                        new
-                                                                                                                                                                                                                                        EmailNotFoundException();
-                                                                                                                                                                                                                                        await
-                                                                                                                                                                                                                                        _mailService.SendPasswordResetMail(user);
-                                                                                                                                                                                                                                        <%_ }
-                                                                                                                                                                                                                                            _%>
-                                                                                                                                                                                                                                            return
-                                                                                                                                                                                                                                            Ok();
-                                                                                                                                                                                                                                            }
+        [HttpPost("account/reset-password/init")]
+        public async Task<ActionResult> RequestPasswordReset()
+        {
+            var mail = await Request.BodyAsStringAsync();
+            <%_ if (cqrsEnabled) { _%>
+            await _mediator.Send(new AccountResetPasswordCommand { Mail = mail });
+            <%_ } else { _%>
+            var user = await _userService.RequestPasswordReset(mail);
+            if (user == null) throw new EmailNotFoundException();
+            await _mailService.SendPasswordResetMail(user);
+            <%_ } _%>
+            return Ok();
+        }
 
-                                                                                                                                                                                                                                            [HttpPost("account/reset-password/finish")]
-                                                                                                                                                                                                                                            [ValidateModel]
-                                                                                                                                                                                                                                            public
-                                                                                                                                                                                                                                            async
-                                                                                                                                                                                                                                            Task
-                                                                                                                                                                                                                                            RequestPasswordReset([FromBody]
-                                                                                                                                                                                                                                            KeyAndPasswordViewModel
-                                                                                                                                                                                                                                            keyAndPasswordViewModel)
-                                                                                                                                                                                                                                            {
-                                                                                                                                                                                                                                            if
-                                                                                                                                                                                                                                            (!CheckPasswordLength(keyAndPasswordViewModel.NewPassword))
-                                                                                                                                                                                                                                            throw
-                                                                                                                                                                                                                                            new
-                                                                                                                                                                                                                                            InvalidPasswordException();
-                                                                                                                                                                                                                                            <%_ if
-                                                                                                                                                                                                                                                (cqrsEnabled)
-                                                                                                                                                                                                                                                {
-                                                                                                                                                                                                                                                _%>
-                                                                                                                                                                                                                                                var
-                                                                                                                                                                                                                                                user
-                                                                                                                                                                                                                                                =
-                                                                                                                                                                                                                                                await
-                                                                                                                                                                                                                                                _mediator.Send(new
-                                                                                                                                                                                                                                                AccountResetPasswordFinishCommand
-                                                                                                                                                                                                                                                {
-                                                                                                                                                                                                                                                KeyAndPasswordViewModel
-                                                                                                                                                                                                                                                =
-                                                                                                                                                                                                                                                keyAndPasswordViewModel
-                                                                                                                                                                                                                                                });
-                                                                                                                                                                                                                                                <%_ }
-                                                                                                                                                                                                                                                    else
-                                                                                                                                                                                                                                                    {
-                                                                                                                                                                                                                                                    _%>
-                                                                                                                                                                                                                                                    var
-                                                                                                                                                                                                                                                    user
-                                                                                                                                                                                                                                                    =
-                                                                                                                                                                                                                                                    await
-                                                                                                                                                                                                                                                    _userService.CompletePasswordReset(keyAndPasswordViewModel.NewPassword,
-                                                                                                                                                                                                                                                    keyAndPasswordViewModel.Key);
-                                                                                                                                                                                                                                                    <%_ }
-                                                                                                                                                                                                                                                        _%>
-                                                                                                                                                                                                                                                        if
-                                                                                                                                                                                                                                                        (user
-                                                                                                                                                                                                                                                        ==
-                                                                                                                                                                                                                                                        null)
-                                                                                                                                                                                                                                                        throw
-                                                                                                                                                                                                                                                        new
-                                                                                                                                                                                                                                                        InternalServerErrorException("No
-                                                                                                                                                                                                                                                        user
-                                                                                                                                                                                                                                                        was
-                                                                                                                                                                                                                                                        found
-                                                                                                                                                                                                                                                        for
-                                                                                                                                                                                                                                                        this
-                                                                                                                                                                                                                                                        reset
-                                                                                                                                                                                                                                                        key");
-                                                                                                                                                                                                                                                        }
+        [HttpPost("account/reset-password/finish")]
+        [ValidateModel]
+        public async Task RequestPasswordReset([FromBody] KeyAndPasswordViewModel keyAndPasswordViewModel)
+        {
+            if (!CheckPasswordLength(keyAndPasswordViewModel.NewPassword)) throw new InvalidPasswordException();
+            <%_ if (cqrsEnabled) { _%>
+            var user = await _mediator.Send(new AccountResetPasswordFinishCommand { KeyAndPasswordViewModel = keyAndPasswordViewModel });
+            <%_ } else { _%>
+            var user = await _userService.CompletePasswordReset(keyAndPasswordViewModel.NewPassword, keyAndPasswordViewModel.Key);
+            <%_ } _%>
+            if (user == null) throw new InternalServerErrorException("No user was found for this reset key");
+        }
 
-                                                                                                                                                                                                                                                        private
-                                                                                                                                                                                                                                                        static
-                                                                                                                                                                                                                                                        bool
-                                                                                                                                                                                                                                                        CheckPasswordLength(string
-                                                                                                                                                                                                                                                        password)
-                                                                                                                                                                                                                                                        {
-                                                                                                                                                                                                                                                        return
-                                                                                                                                                                                                                                                        !string.IsNullOrEmpty(password)
-                                                                                                                                                                                                                                                        &&
-                                                                                                                                                                                                                                                        password.Length
-                                                                                                                                                                                                                                                        >=
-                                                                                                                                                                                                                                                        ManagedUserViewModel.PasswordMinLength
-                                                                                                                                                                                                                                                        &&
-                                                                                                                                                                                                                                                        password.Length
-                                                                                                                                                                                                                                                        <= ManagedUserViewModel.PasswordMaxLength;
-                                                                                                                                                                                                                                                            }
-                                                                                                                                                                                                                                                            <%_
-                                                                                                                                                                                                                                                            }
-                                                                                                                                                                                                                                                            else
-                                                                                                                                                                                                                                                            {
-                                                                                                                                                                                                                                                            _%>
-                                                                                                                                                                                                                                                            [Authorize]
-                                                                                                                                                                                                                                                            [HttpGet("account")]
-                                                                                                                                                                                                                                                            public
-                                                                                                                                                                                                                                                            ActionResult
-                                                                                                                                                                                                                                                            <UserViewModel>
-                                                                                                                                                                                                                                                                GetAccount()
-                                                                                                                                                                                                                                                                {
-                                                                                                                                                                                                                                                                UserViewModel
-                                                                                                                                                                                                                                                                user
-                                                                                                                                                                                                                                                                =
-                                                                                                                                                                                                                                                                null;
-                                                                                                                                                                                                                                                                if
-                                                                                                                                                                                                                                                                (User
-                                                                                                                                                                                                                                                                !=
-                                                                                                                                                                                                                                                                null)
-                                                                                                                                                                                                                                                                {
-                                                                                                                                                                                                                                                                user
-                                                                                                                                                                                                                                                                =
-                                                                                                                                                                                                                                                                new
-                                                                                                                                                                                                                                                                UserViewModel
-                                                                                                                                                                                                                                                                {
-                                                                                                                                                                                                                                                                Login
-                                                                                                                                                                                                                                                                =
-                                                                                                                                                                                                                                                                User.Claims.FirstOrDefault(claim
-                                                                                                                                                                                                                                                                =>
-                                                                                                                                                                                                                                                                claim.Type.Equals("preferred_username"))?.Value,
-                                                                                                                                                                                                                                                                Activated
-                                                                                                                                                                                                                                                                =
-                                                                                                                                                                                                                                                                true,
-                                                                                                                                                                                                                                                                Email
-                                                                                                                                                                                                                                                                =
-                                                                                                                                                                                                                                                                User.Claims.FirstOrDefault(claim
-                                                                                                                                                                                                                                                                =>
-                                                                                                                                                                                                                                                                claim.Type.Equals(ClaimTypes.Email))?.Value,
-                                                                                                                                                                                                                                                                FirstName
-                                                                                                                                                                                                                                                                =
-                                                                                                                                                                                                                                                                User.Claims.FirstOrDefault(claim
-                                                                                                                                                                                                                                                                =>
-                                                                                                                                                                                                                                                                claim.Type.Equals(ClaimTypes.GivenName))?.Value,
-                                                                                                                                                                                                                                                                LastName
-                                                                                                                                                                                                                                                                =
-                                                                                                                                                                                                                                                                User.Claims.FirstOrDefault(claim
-                                                                                                                                                                                                                                                                =>
-                                                                                                                                                                                                                                                                claim.Type.Equals(ClaimTypes.Surname))?.Value,
-                                                                                                                                                                                                                                                                LangKey
-                                                                                                                                                                                                                                                                =
-                                                                                                                                                                                                                                                                User.Claims.FirstOrDefault(claim
-                                                                                                                                                                                                                                                                =>
-                                                                                                                                                                                                                                                                claim.Type.Equals("langKey"))?.Value
-                                                                                                                                                                                                                                                                ??
-                                                                                                                                                                                                                                                                Constants.DefaultLangKey,
-                                                                                                                                                                                                                                                                ImageUrl
-                                                                                                                                                                                                                                                                =
-                                                                                                                                                                                                                                                                User.Claims.FirstOrDefault(claim
-                                                                                                                                                                                                                                                                =>
-                                                                                                                                                                                                                                                                claim.Type.Equals("picture"))?.Value,
-                                                                                                                                                                                                                                                                Roles
-                                                                                                                                                                                                                                                                =
-                                                                                                                                                                                                                                                                User.Claims.Where(claim
-                                                                                                                                                                                                                                                                =>
-                                                                                                                                                                                                                                                                claim.Type.Equals("role"))
-                                                                                                                                                                                                                                                                .Select(claim
-                                                                                                                                                                                                                                                                =>
-                                                                                                                                                                                                                                                                claim.Value).ToHashSet()
-                                                                                                                                                                                                                                                                };
-                                                                                                                                                                                                                                                                }
+        private static bool CheckPasswordLength(string password)
+        {
+            return !string.IsNullOrEmpty(password) &&
+                   password.Length >= ManagedUserViewModel.PasswordMinLength &&
+                   password.Length <= ManagedUserViewModel.PasswordMaxLength;
+        }
+        <%_ } else { _%>
+        [Authorize]
+        [HttpGet("account")]
+        public ActionResult<UserViewModel> GetAccount()
+        {
+            UserViewModel user = null;
+            if (User != null)
+            {
+                user = new UserViewModel
+                {
+                    Login = User.Claims.FirstOrDefault(claim => claim.Type.Equals("preferred_username"))?.Value,
+                    Activated = true,
+                    Email = User.Claims.FirstOrDefault(claim => claim.Type.Equals(ClaimTypes.Email))?.Value,
+                    FirstName = User.Claims.FirstOrDefault(claim => claim.Type.Equals(ClaimTypes.GivenName))?.Value,
+                    LastName = User.Claims.FirstOrDefault(claim => claim.Type.Equals(ClaimTypes.Surname))?.Value,
+                    LangKey = User.Claims.FirstOrDefault(claim => claim.Type.Equals("langKey"))?.Value ?? Constants.DefaultLangKey,
+                    ImageUrl = User.Claims.FirstOrDefault(claim => claim.Type.Equals("picture"))?.Value,
+                    Roles = User.Claims.Where(claim => claim.Type.Equals("role"))
+                        .Select(claim => claim.Value).ToHashSet()
+                };
+            }
 
-                                                                                                                                                                                                                                                                if
-                                                                                                                                                                                                                                                                (user
-                                                                                                                                                                                                                                                                ==
-                                                                                                                                                                                                                                                                null)
-                                                                                                                                                                                                                                                                return
-                                                                                                                                                                                                                                                                Unauthorized("User
-                                                                                                                                                                                                                                                                could
-                                                                                                                                                                                                                                                                not
-                                                                                                                                                                                                                                                                be
-                                                                                                                                                                                                                                                                found");
+            if (user == null) return Unauthorized("User could not be found");
 
-                                                                                                                                                                                                                                                                return
-                                                                                                                                                                                                                                                                Ok(user);
-                                                                                                                                                                                                                                                                }
-                                                                                                                                                                                                                                                                <%_ }
-                                                                                                                                                                                                                                                                    _%>
-                                                                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                                                                    }
+            return Ok(user);
+        }
+        <%_ } _%>
+    }
+}

@@ -41,7 +41,7 @@ describe('testing viewModel', () => {
     context('generating viewModel', () => {
         const personClass = `${SERVER_MAIN_SRC_DIR}JhipsterBlueprint.Domain/Entities/Person.cs`;
         const personViewModel = `${SERVER_MAIN_SRC_DIR}JhipsterBlueprint.ViewModel/PersonViewModel.cs`;
-        const dtoMappingFile = `${SERVER_MAIN_SRC_DIR}JhipsterBlueprint/Configuration/AutoMapper/AutoMapperProfile.cs`;
+        const viewModelMappingFile = `${SERVER_MAIN_SRC_DIR}JhipsterBlueprint/Configuration/AutoMapper/AutoMapperProfile.cs`;
 
         before(done => {
             getPreCondition()
@@ -64,9 +64,9 @@ describe('testing viewModel', () => {
         it('checks viewModel files', () => {
             assert.file(personClass);
             assert.file(personViewModel);
-            assert.file(dtoMappingFile);
+            assert.file(viewModelMappingFile);
             assert.fileContent(personViewModel, /public class PersonViewModel/);
-            assert.fileContent(dtoMappingFile, /public class AutoMapperProfile : Profile/);
+            assert.fileContent(viewModelMappingFile, /public class AutoMapperProfile : Profile/);
         });
     });
 });

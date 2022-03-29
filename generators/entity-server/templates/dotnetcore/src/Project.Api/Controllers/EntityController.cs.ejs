@@ -1,0 +1,256 @@
+<%#
+ Copyright 2019-2021 the original author or authors from the JHipster project.
+
+ This file is part of the JHipster project, see https://www.jhipster.tech/
+ for more information.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+<%
+let hasViewModel = viewModel === 'mapstruct';
+let hasService = service === 'serviceImpl';
+%>
+<%_ if (cqrsEnabled) { _%>
+using MediatR;
+<%_ } _%>
+using System.Threading;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using JHipsterNet.Core.Pagination;
+using <%= namespace %>.Domain;
+<%_
+let hasEnumField = false;
+fields.forEach(field => {
+        if (field.fieldIsEnum) {
+            hasEnumField = true;
+        }
+    });
+if (hasEnumField) { _%>
+using <%= namespace %>.Crosscutting.Enums;
+<%_ } _%>
+using <%= namespace %>.Crosscutting.Exceptions;
+<%_ if (hasViewModel) { _%>
+using <%= namespace %>.ViewModel;
+<%_ } _%>
+using <%= namespace %>.Web.Extensions;
+using <%= namespace %>.Web.Filters;
+using <%= namespace %>.Web.Rest.Utilities;
+<%_ if (cqrsEnabled) { _%>
+using <%= namespace %>.Application.Queries;
+using <%= namespace %>.Application.Commands;
+<%_ } else { _%>
+<%_ if (hasViewModel) { _%>
+using AutoMapper;
+using System.Linq;
+<%_ } _%>
+using <%= namespace %>.Domain.Repositories.Interfaces;
+using <%= namespace %>.Domain.Services.Interfaces;
+<%_ } _%>
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+
+namespace <%= namespace %>.Controllers
+{
+    [Authorize]
+    [Route("api/<%= kebabCasedEntityClassPlural %>")]
+    [ApiController]
+    public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
+    {
+        private const string EntityName = "<%= camelCasedEntityClass %>";
+        private readonly ILogger<<%= pascalizedEntityClassPlural %>Controller> _log;
+        <%_ if (cqrsEnabled) { _%>
+        private readonly IMediator _mediator;
+        <%_ } else { _%>
+        <%_ if (hasViewModel) { _%>
+        private readonly IMapper _mapper;
+        <%_ } _%>
+        <%_ if (hasService) { _%>
+        private readonly I<%= pascalizedEntityClass %>Service _<%= camelCasedEntityClass %>Service;
+        <%_ } else { _%>
+        private readonly I<%= pascalizedEntityClass %>Repository _<%= camelCasedEntityClass %>Repository;
+        <%_ } _%>
+        <%_ } _%>
+
+        <%_ if (cqrsEnabled) { _%>
+        public <%= pascalizedEntityClassPlural %>Controller(ILogger<<%= pascalizedEntityClassPlural %>Controller> log, IMediator mediator)
+        {
+            _log = log;
+            _mediator = mediator;
+        }
+        <%_ } else { _%>
+        public <%= pascalizedEntityClassPlural %>Controller(ILogger<<%= pascalizedEntityClassPlural %>Controller> log,
+        <%_ if (hasViewModel) { _%>
+        IMapper mapper,
+        <%_ } _%>
+        <%_ if (hasService) { _%>
+        I<%= pascalizedEntityClass %>Service <%= camelCasedEntityClass %>Service)
+        <%_ } else { _%>
+        I<%= pascalizedEntityClass %>Repository <%= camelCasedEntityClass %>Repository)
+        <%_ } _%>
+        {
+            _log = log;
+            <%_ if (hasViewModel) { _%>
+            _mapper = mapper;
+            <%_ } _%>
+            <%_ if (hasService) { _%>
+            _<%= camelCasedEntityClass %>Service = <%= camelCasedEntityClass %>Service;
+            <%_ } else { _%>
+            _<%= camelCasedEntityClass %>Repository = <%= camelCasedEntityClass %>Repository;
+            <%_ } _%>
+        }
+        <%_ } _%>
+
+        [HttpPost]
+        [ValidateModel]
+        public async Task<ActionResult<<%= hasViewModel ? asViewModel(pascalizedEntityClass) : pascalizedEntityClass %>>> Create<%= pascalizedEntityClass %>([FromBody] <%= hasViewModel ? asViewModel(pascalizedEntityClass) : pascalizedEntityClass %> <%= hasViewModel ? asViewModel(camelCasedEntityClass) : camelCasedEntityClass %>)
+        {
+            _log.LogDebug($"REST request to save <%= pascalizedEntityClass %> : {<%= hasViewModel ? asViewModel(camelCasedEntityClass) : camelCasedEntityClass %>}");
+            <%_ if (primaryKeyType == 'string') { _%>
+            if (<%= hasViewModel ? asViewModel(camelCasedEntityClass) : camelCasedEntityClass %>.Id != null)
+            <%_ } else { _%>
+            if (<%= hasViewModel ? asViewModel(camelCasedEntityClass) : camelCasedEntityClass %>.Id != 0)
+            <%_ } _%>
+                throw new BadRequestAlertException("A new <%= camelCasedEntityClass %> cannot already have an ID", EntityName, "idexists");
+            <%_ if (cqrsEnabled) { _%>
+            <% if (hasViewModel) { _%> var <% } %><%= camelCasedEntityClass %> = await _mediator.Send(new <%= pascalizedEntityClass %>CreateCommand { <%= hasViewModel ? asViewModel(pascalizedEntityClass) : pascalizedEntityClass %> = <%= hasViewModel ? asViewModel(camelCasedEntityClass) : camelCasedEntityClass %> });
+            <%_ } else { %>
+            <%_ if (hasViewModel) { _%>
+            <%= pascalizedEntityClass %> <%= camelCasedEntityClass %> = _mapper.Map<<%= pascalizedEntityClass %>>(<%= asViewModel(camelCasedEntityClass) %>);
+            <%_ } _%>
+            <%_ if (hasService) { _%>
+            await _<%= camelCasedEntityClass %>Service.Save(<%= camelCasedEntityClass %>);
+            <%_ } else { _%>
+            await _<%= camelCasedEntityClass %>Repository.CreateOrUpdateAsync(<%= camelCasedEntityClass %>);
+            await _<%= camelCasedEntityClass %>Repository.SaveChangesAsync();
+            <%_ } _%>
+            <%_ } _%>
+            return CreatedAtAction(nameof(Get<%= pascalizedEntityClass %>), new { id = <%= camelCasedEntityClass %>.Id }, <%= camelCasedEntityClass %>)
+                .WithHeaders(HeaderUtil.CreateEntityCreationAlert(EntityName, <%= camelCasedEntityClass %>.Id.ToString()));
+        }
+
+        [HttpPut("{id}")]
+        [ValidateModel]
+        public async Task<IActionResult> Update<%= pascalizedEntityClass %>(<%= primaryKeyType %> id, [FromBody] <%= hasViewModel ? asViewModel(pascalizedEntityClass) : pascalizedEntityClass %> <%= hasViewModel ? asViewModel(camelCasedEntityClass) : camelCasedEntityClass %>)
+        {
+            _log.LogDebug($"REST request to update <%= pascalizedEntityClass %> : {<%= hasViewModel ? asViewModel(camelCasedEntityClass) : camelCasedEntityClass %>}");
+            <%_ if (primaryKeyType == 'string') { _%>
+            if (<%= hasViewModel ? asViewModel(camelCasedEntityClass) : camelCasedEntityClass %>.Id == null) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
+            <%_ } else { _%>
+            if (<%= hasViewModel ? asViewModel(camelCasedEntityClass) : camelCasedEntityClass %>.Id == 0) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
+            <%_ } _%>
+            if (id != <%= hasViewModel ? asViewModel(camelCasedEntityClass) : camelCasedEntityClass %>.Id) throw new BadRequestAlertException("Invalid Id", EntityName, "idinvalid");
+            <%_ if (cqrsEnabled) { _%>
+            <% if (hasViewModel) { _%> var <% } %><%= camelCasedEntityClass %> = await _mediator.Send(new <%= pascalizedEntityClass %>UpdateCommand { <%= hasViewModel ? asViewModel(pascalizedEntityClass) : pascalizedEntityClass %> = <%= hasViewModel ? asViewModel(camelCasedEntityClass) : camelCasedEntityClass %> });
+            <%_ } else { _%>
+            <%_ if (hasViewModel) { _%>
+            <%= pascalizedEntityClass %> <%= camelCasedEntityClass %> = _mapper.Map<<%= pascalizedEntityClass %>>(<%= asViewModel(camelCasedEntityClass) %>);
+            <%_ } _%>
+            <%_ if (hasService) { _%>
+            await _<%= camelCasedEntityClass %>Service.Save(<%= camelCasedEntityClass %>);
+            <%_ } else { _%>
+            await _<%= camelCasedEntityClass %>Repository.CreateOrUpdateAsync(<%= camelCasedEntityClass %>);
+            await _<%= camelCasedEntityClass %>Repository.SaveChangesAsync();
+            <%_ }_%>
+            <%_ } _%>
+            return Ok(<%= camelCasedEntityClass %>)
+                .WithHeaders(HeaderUtil.CreateEntityUpdateAlert(EntityName, <%= camelCasedEntityClass %>.Id.ToString()));
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<<%= hasViewModel ? asViewModel(pascalizedEntityClass) : pascalizedEntityClass %>>>> GetAll<%= pascalizedEntityClassPlural %>(IPageable pageable)
+        {
+            _log.LogDebug("REST request to get a page of <%= pascalizedEntityClassPlural %>");
+            <%_ if (cqrsEnabled) { _%>
+            var result = await _mediator.Send(new <%= pascalizedEntityClass %>GetAllQuery { Page = pageable });
+            <%_ if (hasViewModel) { _%>
+            return Ok(((IPage<<%= asViewModel(pascalizedEntityClass) %>>)result).Content).WithHeaders(result.GeneratePaginationHttpHeaders());
+            <%_ } else { _%>
+            return Ok(result.Content).WithHeaders(result.GeneratePaginationHttpHeaders());
+            <%_ } _%>
+            <%_ } else { _%>
+            <%_ if (hasService) { _%>
+            var result = await _<%= camelCasedEntityClass %>Service.FindAll(pageable);
+            <%_ } else { _%>
+            var result = await _<%= camelCasedEntityClass %>Repository.QueryHelper()
+            <%_ if (databaseType != 'mongodb') { _%>
+            <%_ relationships.forEach( relationship => {
+                if (relationship.relationshipType === 'many-to-one' || relationship.relationshipType === 'one-to-one') { _%>
+                .Include(<%= camelCasedEntityClass %> => <%= camelCasedEntityClass %>.<%= relationship.relationshipFieldNamePascalized %>)
+                <%_ } else if (relationship.relationshipType === 'many-to-many' && relationship.ownerSide) { _%>
+                .Include(<%= camelCasedEntityClass %> => <%= camelCasedEntityClass %>.<%= relationship.relationshipFieldNamePascalizedPlural %>)
+                <%_ }
+            }); _%>
+            <%_ } _%>
+                .GetPageAsync(pageable);
+            <%_ } _%>
+            <%_ if (hasViewModel) { _%>
+            var page = new Page<<%= asViewModel(pascalizedEntityClass) %>>(result.Content.Select(entity => _mapper.Map<<%= asViewModel(pascalizedEntityClass) %>>(entity)).ToList(), pageable, result.TotalElements);
+            return Ok(((IPage<<%= asViewModel(pascalizedEntityClass) %>>)page).Content).WithHeaders(page.GeneratePaginationHttpHeaders());
+            <%_ } else { _%>
+            return Ok(result.Content).WithHeaders(result.GeneratePaginationHttpHeaders());
+            <%_ } _%>
+            <%_ } _%>
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get<%= pascalizedEntityClass %>([FromRoute] <%= primaryKeyType %> id)
+        {
+            _log.LogDebug($"REST request to get <%= pascalizedEntityClass %> : {id}");
+            <%_ if (cqrsEnabled) { _%>
+            var result = await _mediator.Send(new <%= pascalizedEntityClass %>GetQuery { Id = id });
+            return ActionResultUtil.WrapOrNotFound(result);
+            <%_ } else { _%>
+            <%_ if (hasService) { _%>
+            var result = await _<%= camelCasedEntityClass %>Service.FindOne(id);
+            <%_ } else { _%>
+            var result = await _<%= camelCasedEntityClass %>Repository.QueryHelper()
+            <%_ if (databaseType != 'mongodb') { _%>
+            <%_ relationships.forEach( relationship => {
+                if (relationship.relationshipType === 'many-to-one' || relationship.relationshipType === 'one-to-one') { _%>
+                .Include(<%= camelCasedEntityClass %> => <%= camelCasedEntityClass %>.<%= relationship.relationshipFieldNamePascalized %>)
+                <%_ } else if (relationship.relationshipType === 'many-to-many' && relationship.ownerSide) { _%>
+                .Include(<%= camelCasedEntityClass %> => <%= camelCasedEntityClass %>.<%= relationship.relationshipFieldNamePascalizedPlural %>)
+                <%_ }
+            }); _%>
+            <%_ } _%>
+                .GetOneAsync(<%= camelCasedEntityClass %> => <%= camelCasedEntityClass %>.Id == id);
+            <%_ } _%>
+            <%_ if (hasViewModel) { _%>
+            <%= asViewModel(pascalizedEntityClass) %> <%= asViewModel(camelCasedEntityClass) %> = _mapper.Map<<%= asViewModel(pascalizedEntityClass) %>>(result);
+            return ActionResultUtil.WrapOrNotFound(<%= asViewModel(camelCasedEntityClass) %>);
+            <%_ } else { _%>
+            return ActionResultUtil.WrapOrNotFound(result);
+            <%_ }_%>
+            <%_ } _%>
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete<%= pascalizedEntityClass %>([FromRoute] <%= primaryKeyType %> id)
+        {
+            _log.LogDebug($"REST request to delete <%= pascalizedEntityClass %> : {id}");
+            <%_ if (cqrsEnabled) { _%>
+            await _mediator.Send(new <%= pascalizedEntityClass %>DeleteCommand { Id = id });
+            <%_ } else {_%>
+            <%_ if (hasService) { _%>
+            await _<%= camelCasedEntityClass %>Service.Delete(id);
+            <%_ } else {_%>
+            await _<%= camelCasedEntityClass %>Repository.DeleteByIdAsync(id);
+            await _<%= camelCasedEntityClass %>Repository.SaveChangesAsync();
+            <%_ }_%>
+            <%_ } _%>
+            return NoContent().WithHeaders(HeaderUtil.CreateEntityDeletionAlert(EntityName, id.ToString()));
+        }
+    }
+}

@@ -1,108 +1,91 @@
-<%# Copyright 2019-2021 the original author or authors from the JHipster project. This file is part of the JHipster
-    project, see https://www.jhipster.tech/ for more information. Licensed under the Apache License, Version 2.0
-    (the "License" ); you may not use this file except in compliance with the License. You may obtain a copy of the
-    License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied. See the License for the specific language governing permissions and limitations
-    under the License. -%>
+<%#
+ Copyright 2019-2021 the original author or authors from the JHipster project.
+ This file is part of the JHipster project, see https://www.jhipster.tech/
+ for more information.
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+      http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+<%_ if (cqrsEnabled) { _%>
+    using MediatR;
+    <%_ } _%>
+    using <%= namespace %>.ViewModel;
+    using <%= namespace %>.Security.Jwt;
+    using <%= namespace %>.Domain.Services.Interfaces;
+    using <%= namespace %>.Web.Extensions;
+    using <%= namespace %>.Web.Filters;
+    using <%= namespace %>.Crosscutting.Constants;
     <%_ if (cqrsEnabled) { _%>
-        using MediatR;
-        <%_ } _%>
-            using <%= namespace %>.ViewModel;
-                using <%= namespace %>.Security.Jwt;
-                    using <%= namespace %>.Domain.Services.Interfaces;
-                        using <%= namespace %>.Web.Extensions;
-                            using <%= namespace %>.Web.Filters;
-                                using <%= namespace %>.Crosscutting.Constants;
-                                    <%_ if (cqrsEnabled) { _%>
-                                        using <%= namespace %>.Application.Queries;
-                                            using <%= namespace %>.Application.Commands;
-                                                <%_ } _%>
-                                                    using Microsoft.AspNetCore.Http;
-                                                    using Microsoft.AspNetCore.Mvc;
-                                                    using Microsoft.Extensions.Logging;
-                                                    using Newtonsoft.Json;
-                                                    using System.Threading.Tasks;
-
-                                                    namespace <%= namespace %>.Controllers
-                                                        {
-                                                        [Route("api")]
-                                                        [ApiController]
-                                                        public class UserJwtController : ControllerBase
-                                                        {
-                                                        <%_ if (cqrsEnabled) { _%>
-                                                            private readonly IMediator _mediator;
-                                                            private readonly ITokenProvider _tokenProvider;
-                                                            <%_ } else { _%>
-                                                                private readonly IAuthenticationService
-                                                                _authenticationService;
-                                                                private readonly ITokenProvider _tokenProvider;
-                                                                <%_ } _%>
-
-                                                                    <%_ if (cqrsEnabled) { _%>
-                                                                        public UserJwtController(IMediator mediator,
-                                                                        ITokenProvider tokenProvider)
-                                                                        {
-                                                                        _mediator = mediator;
-                                                                        _tokenProvider = tokenProvider;
-                                                                        }
-                                                                        <%_ } else { _%>
-                                                                            public
-                                                                            UserJwtController(IAuthenticationService
-                                                                            authenticationService, ITokenProvider
-                                                                            tokenProvider)
-                                                                            {
-                                                                            _authenticationService =
-                                                                            authenticationService;
-                                                                            _tokenProvider = tokenProvider;
-                                                                            }
-                                                                            <%_ } _%>
-
-                                                                                [HttpPost("authenticate")]
-                                                                                [ValidateModel]
-                                                                                public async Task<ActionResult<JwtToken>
-                                                                                    > Authorize([FromBody]
-                                                                                    LoginViewModel loginViewModel)
-                                                                                    {
-                                                                                    <%_ if (cqrsEnabled) { _%>
-                                                                                        var user = await
-                                                                                        _mediator.Send(new
-                                                                                        UserJwtAuthorizeCommand {
-                                                                                        LoginViewModel = loginViewModel
-                                                                                        });
-                                                                                        <%_ } else { _%>
-                                                                                            var user = await
-                                                                                            _authenticationService.Authenticate(loginViewModel.Username,
-                                                                                            loginViewModel.Password);
-                                                                                            <%_ } _%>
-                                                                                                var rememberMe =
-                                                                                                loginViewModel.RememberMe;
-                                                                                                var jwt =
-                                                                                                _tokenProvider.CreateToken(user,
-                                                                                                rememberMe);
-                                                                                                var httpHeaders = new
-                                                                                                HeaderDictionary
-                                                                                                {
-                                                                                                [JwtConstants.AuthorizationHeader]
-                                                                                                =
-                                                                                                $"{JwtConstants.BearerPrefix}
-                                                                                                {jwt}"
-                                                                                                };
-                                                                                                return Ok(new
-                                                                                                JwtToken(jwt)).WithHeaders(httpHeaders);
-                                                                                                }
-                                                                                                }
-
-                                                                                                public class JwtToken
-                                                                                                {
-                                                                                                public JwtToken(string
-                                                                                                idToken)
-                                                                                                {
-                                                                                                IdToken = idToken;
-                                                                                                }
-
-                                                                                                [JsonProperty("id_token")]
-                                                                                                private string IdToken {
-                                                                                                get; }
-                                                                                                }
-                                                                                                }
+    using <%= namespace %>.Application.Queries;
+    using <%= namespace %>.Application.Commands;
+    <%_ } _%>
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using Newtonsoft.Json;
+    using System.Threading.Tasks;
+    
+    namespace <%= namespace %>.Controllers
+    {
+        [Route("api")]
+        [ApiController]
+        public class UserJwtController : ControllerBase
+        {
+            <%_ if (cqrsEnabled) { _%>
+            private readonly IMediator _mediator;
+            private readonly ITokenProvider _tokenProvider;
+            <%_ } else { _%>
+            private readonly IAuthenticationService _authenticationService;
+            private readonly ITokenProvider _tokenProvider;
+            <%_ } _%>
+    
+            <%_ if (cqrsEnabled) { _%>
+            public UserJwtController(IMediator mediator, ITokenProvider tokenProvider)
+            {
+                _mediator = mediator;
+                _tokenProvider = tokenProvider;
+            }
+            <%_ } else { _%>
+            public UserJwtController(IAuthenticationService authenticationService, ITokenProvider tokenProvider)
+            {
+                _authenticationService = authenticationService;
+                _tokenProvider = tokenProvider;
+            }
+            <%_ } _%>
+    
+            [HttpPost("authenticate")]
+            [ValidateModel]
+            public async Task<ActionResult<JwtToken>> Authorize([FromBody] LoginViewModel loginViewModel)
+            {
+                <%_ if (cqrsEnabled) { _%>
+                var user = await _mediator.Send(new UserJwtAuthorizeCommand { LoginViewModel = loginViewModel });
+                <%_ } else { _%>
+                var user = await _authenticationService.Authenticate(loginViewModel.Username, loginViewModel.Password);
+                <%_ } _%>
+                var rememberMe = loginViewModel.RememberMe;
+                var jwt = _tokenProvider.CreateToken(user, rememberMe);
+                var httpHeaders = new HeaderDictionary
+                {
+                    [JwtConstants.AuthorizationHeader] = $"{JwtConstants.BearerPrefix} {jwt}"
+                };
+                return Ok(new JwtToken(jwt)).WithHeaders(httpHeaders);
+            }
+        }
+    
+        public class JwtToken
+        {
+            public JwtToken(string idToken)
+            {
+                IdToken = idToken;
+            }
+    
+            [JsonProperty("id_token")] private string IdToken { get; }
+        }
+    }
+    

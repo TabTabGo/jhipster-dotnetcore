@@ -21,7 +21,7 @@ module.exports = class extends EntityClientGenerator {
     get configuring() {
         return {
             ...super._configuring(),
-            dtoWorkaround() {
+            viewModelWorkaround() {
                 // only work with relation id rather than complete json
                 this.viewModel = 'yes';
             },

@@ -249,7 +249,7 @@ const serverFiles = {
             ],
         },
     ],
-    dtoFiles: [
+    viewModelFiles: [
         {
             condition: generator => generator.authenticationType === 'jwt' && generator.applicationType !== 'microservice',
             path: SERVER_SRC_DIR,
