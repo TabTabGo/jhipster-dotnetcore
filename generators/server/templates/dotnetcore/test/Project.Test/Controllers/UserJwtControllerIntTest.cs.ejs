@@ -1,128 +1,130 @@
-<%# Copyright 2019-2021 the original author or authors from the JHipster project. This file is part of the JHipster
-    project, see https://www.jhipster.tech/ for more information. Licensed under the Apache License, Version 2.0
-    (the "License" ); you may not use this file except in compliance with the License. You may obtain a copy of the
-    License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied. See the License for the specific language governing permissions and limitations
-    under the License. -%>
-    using FluentAssertions;
-    using FluentAssertions.Json;
-    using <%= namespace %>.Domain;
-        using <%= namespace %>.ViewModels;
-            using <%= namespace %>.Test.Setup;
-                using Microsoft.AspNetCore.Identity;
-                using Newtonsoft.Json.Linq;
-                using System.Linq;
-                using System.Net;
-                using System.Net.Http;
-                using System.Threading.Tasks;
-                using Xunit;
+<%#
+ Copyright 2019-2021 the original author or authors from the JHipster project.
+ This file is part of the JHipster project, see https://www.jhipster.tech/
+ for more information.
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+      http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+using FluentAssertions;
+using FluentAssertions.Json;
+using <%= namespace %>.Domain;
+using <%= namespace %>.ViewModels;
+using <%= namespace %>.Test.Setup;
+using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json.Linq;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Xunit;
 
-                namespace <%= namespace %>.Test.Controllers
-                    {
-                    public class UserJwtControllerIntTest
-                    {
-                    public UserJwtControllerIntTest()
-                    {
-                    _factory = new AppWebApplicationFactory<TestStartup>();
-                        _client = _factory.CreateClient();
+namespace <%= namespace %>.Test.Controllers
+{
+    public class UserJwtControllerIntTest
+    {
+        public UserJwtControllerIntTest()
+        {
+            _factory = new AppWebApplicationFactory<TestStartup>();
+            _client = _factory.CreateClient();
 
-                        _userManager = _factory.GetRequiredService<UserManager<User>>();
-                            _passwordHasher = _factory.GetRequiredService<IPasswordHasher<User>>();
-                                }
+            _userManager = _factory.GetRequiredService<UserManager<User>>();
+            _passwordHasher = _factory.GetRequiredService<IPasswordHasher<User>>();
+        }
 
-                                private readonly AppWebApplicationFactory<TestStartup> _factory;
-                                    private readonly HttpClient _client;
+        private readonly AppWebApplicationFactory<TestStartup> _factory;
+        private readonly HttpClient _client;
 
-                                    private readonly UserManager<User> _userManager;
-                                        private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly UserManager<User> _userManager;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
-                                            [Fact]
-                                            public async Task TestAuthorize()
-                                            {
-                                            var user = new User
-                                            {
-                                            UserName = "user-jwt-controller",
-                                            Email = "user-jwt-controller@example.com",
-                                            PasswordHash = _passwordHasher.HashPassword(null, "test"),
-                                            Activated = true
-                                            };
-                                            await _userManager.CreateAsync(user);
+        [Fact]
+        public async Task TestAuthorize()
+        {
+            var user = new User
+            {
+                UserName = "user-jwt-controller",
+                Email = "user-jwt-controller@example.com",
+                PasswordHash = _passwordHasher.HashPassword(null, "test"),
+                Activated = true
+            };
+            await _userManager.CreateAsync(user);
 
-                                            var login = new LoginViewModel
-                                            {
-                                            Username = "user-jwt-controller",
-                                            Password = "test"
-                                            };
+            var login = new LoginDto
+            {
+                Username = "user-jwt-controller",
+                Password = "test"
+            };
 
-                                            var response = await _client.PostAsync("/api/authenticate",
-                                            TestUtil.ToJsonContent(login));
-                                            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            var response = await _client.PostAsync("/api/authenticate", TestUtil.ToJsonContent(login));
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-                                            var json = JToken.Parse(await response.Content.ReadAsStringAsync());
-                                            json.Should().HaveElement("id_token");
-                                            json.SelectToken("$.id_token").Value<string>().Should().NotBeEmpty();
+            var json = JToken.Parse(await response.Content.ReadAsStringAsync());
+            json.Should().HaveElement("id_token");
+            json.SelectToken("$.id_token").Value<string>().Should().NotBeEmpty();
 
-                                                var headers = response.Headers;
-                                                headers.Contains("Authorization").Should().BeTrue();
-                                                var authorization = headers.FirstOrDefault(it => it.Key ==
-                                                "Authorization").Value.FirstOrDefault();
-                                                authorization.Should().NotBeNull().And.NotBeEmpty();
-                                                }
+            var headers = response.Headers;
+            headers.Contains("Authorization").Should().BeTrue();
+            var authorization = headers.FirstOrDefault(it => it.Key == "Authorization").Value.FirstOrDefault();
+            authorization.Should().NotBeNull().And.NotBeEmpty();
+        }
 
-                                                [Fact]
-                                                public async Task TestAuthorizeFails()
-                                                {
-                                                var login = new LoginViewModel
-                                                {
-                                                Username = "wrong-user",
-                                                Password = "wrong-password"
-                                                };
+        [Fact]
+        public async Task TestAuthorizeFails()
+        {
+            var login = new LoginDto
+            {
+                Username = "wrong-user",
+                Password = "wrong-password"
+            };
 
-                                                var response = await _client.PostAsync("/api/authenticate",
-                                                TestUtil.ToJsonContent(login));
-                                                response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+            var response = await _client.PostAsync("/api/authenticate", TestUtil.ToJsonContent(login));
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
 
-                                                var json = JToken.Parse(await response.Content.ReadAsStringAsync());
-                                                json.Should().NotHaveElement("id_token");
+            var json = JToken.Parse(await response.Content.ReadAsStringAsync());
+            json.Should().NotHaveElement("id_token");
 
-                                                var headers = response.Headers;
-                                                headers.Contains("Authorization").Should().BeFalse();
-                                                }
+            var headers = response.Headers;
+            headers.Contains("Authorization").Should().BeFalse();
+        }
 
-                                                [Fact]
-                                                public async Task TestAuthorizeWithRememberMe()
-                                                {
-                                                var user = new User
-                                                {
-                                                UserName = "user-jwt-controller",
-                                                Email = "user-jwt-controller@example.com",
-                                                PasswordHash = _passwordHasher.HashPassword(null, "test"),
-                                                Activated = true
-                                                };
+        [Fact]
+        public async Task TestAuthorizeWithRememberMe()
+        {
+            var user = new User
+            {
+                UserName = "user-jwt-controller",
+                Email = "user-jwt-controller@example.com",
+                PasswordHash = _passwordHasher.HashPassword(null, "test"),
+                Activated = true
+            };
 
-                                                await _userManager.CreateAsync(user);
+            await _userManager.CreateAsync(user);
 
-                                                var login = new LoginViewModel
-                                                {
-                                                Username = "user-jwt-controller",
-                                                Password = "test",
-                                                RememberMe = true
-                                                };
+            var login = new LoginDto
+            {
+                Username = "user-jwt-controller",
+                Password = "test",
+                RememberMe = true
+            };
 
-                                                var response = await _client.PostAsync("/api/authenticate",
-                                                TestUtil.ToJsonContent(login));
-                                                response.StatusCode.Should().Be(HttpStatusCode.OK);
+            var response = await _client.PostAsync("/api/authenticate", TestUtil.ToJsonContent(login));
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-                                                var json = JToken.Parse(await response.Content.ReadAsStringAsync());
-                                                json.Should().HaveElement("id_token");
-                                                json.SelectToken("$.id_token").Value<string>().Should().NotBeEmpty();
+            var json = JToken.Parse(await response.Content.ReadAsStringAsync());
+            json.Should().HaveElement("id_token");
+            json.SelectToken("$.id_token").Value<string>().Should().NotBeEmpty();
 
-                                                    var headers = response.Headers;
-                                                    headers.Contains("Authorization").Should().BeTrue();
-                                                    var authorization = headers.FirstOrDefault(it => it.Key ==
-                                                    "Authorization").Value.FirstOrDefault();
-                                                    authorization.Should().NotBeNull().And.NotBeEmpty();
-                                                    }
-                                                    }
-                                                    }
+            var headers = response.Headers;
+            headers.Contains("Authorization").Should().BeTrue();
+            var authorization = headers.FirstOrDefault(it => it.Key == "Authorization").Value.FirstOrDefault();
+            authorization.Should().NotBeNull().And.NotBeEmpty();
+        }
+    }
+}
