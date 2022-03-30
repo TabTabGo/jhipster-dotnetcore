@@ -122,8 +122,7 @@ module.exports = class extends ServerGenerator {
                     `${constants.SERVER_SRC_DIR}${this.mainProjectDir}/${this.pascalizedBaseName}.csproj`,
                     `${constants.SERVER_TEST_DIR}${this.testProjectDir}/${this.pascalizedBaseName}${constants.PROJECT_TEST_SUFFIX}.csproj`,
                     `${constants.SERVER_SRC_DIR}${this.pascalizedBaseName}${constants.PROJECT_CROSSCUTTING_SUFFIX}/${this.pascalizedBaseName}${constants.PROJECT_CROSSCUTTING_SUFFIX}.csproj`,
-                    `${constants.SERVER_SRC_DIR}${this.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/${this.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}.csproj`,
-                    `${constants.SERVER_SRC_DIR}${this.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/${this.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}.csproj`,
+                    `${constants.SERVER_SRC_DIR}${this.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/${this.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}.csproj`,                    
                     `${constants.SERVER_SRC_DIR}${this.pascalizedBaseName}${constants.PROJECT_SERVICE_SUFFIX}/${this.pascalizedBaseName}${constants.PROJECT_SERVICE_SUFFIX}.csproj`,
                     `${constants.SERVER_SRC_DIR}${this.pascalizedBaseName}${constants.PROJECT_INFRASTRUCTURE_SUFFIX}/${this.pascalizedBaseName}${constants.PROJECT_INFRASTRUCTURE_SUFFIX}.csproj`,
                 ];

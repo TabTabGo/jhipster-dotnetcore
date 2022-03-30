@@ -16,15 +16,14 @@
 AppFolder
 ├───docker -> all docker related files
 ├───src
-│   ├───MyApp
+│   ├───MyApp.Api
 │   │   └───ClientApp -> all client related files
 │   │       ├───src
 │   │       ├───test
 │   │       └───webpack
 │   ├───MyApp.Crosscuting
-│   ├───MyApp.Domain
-│   ├───MyApp.Domain.Services
-│   ├───MyApp.ViewModel
+│   ├───MyApp
+│   ├───MyApp.Services
 │   └───MyApp.Infrastructure
 └───tests -> Server tests
 ```

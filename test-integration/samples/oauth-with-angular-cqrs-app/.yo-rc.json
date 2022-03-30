@@ -18,7 +18,7 @@
         "testFrameworks": [],
         "jhiPrefix": "jhi",
         "entitySuffix": "",
-        "viewModelSuffix": "VIEW_MODEL",
+        "dtoSuffix": "VIEW_MODEL",
         "otherModules": [
             {
                 "name": "generator-jhipster-dotnetcore",

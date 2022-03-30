@@ -17,7 +17,7 @@
                 namespace <%= namespace %>.Client.Services.EntityServices.<%= entityClassName %>
                         {
                         public class <%= entityClassName %>Service : AbstractEntityService<<%= asModel(entityClassName)
-                                %>, <%= asViewModel(entityClassName) %>, long>, I<%= entityClassName %>Service
+                                %>, <%= asDto(entityClassName) %>, long>, I<%= entityClassName %>Service
                                         {
                                         public <%= entityClassName %>Service(HttpClient httpClient,
                                             AuthenticationStateProvider authenticationStateProvider, IMapper mapper,

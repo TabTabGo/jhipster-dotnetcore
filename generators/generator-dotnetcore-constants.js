@@ -3,13 +3,14 @@ const CLIENT_SRC_DIR = 'src/';
 const CLIENT_TEST_DIR = 'test/';
 const SERVER_TEST_DIR = 'test/';
 const PROJECT_TEST_SUFFIX = '.Test';
+const PROJECT_API_SUFFIX = '.Api';
 const PROJECT_VIEW_MODEL_SUFFIX = '.ViewModel';
-const PROJECT_DOMAIN_SUFFIX = '.Domain';
+const PROJECT_DOMAIN_SUFFIX = '';
 const PROJECT_APPLICATION_SUFFIX = '.Application';
 const DOCKER_DIR = 'docker/';
 const PROJECT_CROSSCUTTING_SUFFIX = '.Crosscutting';
 const PROJECT_INFRASTRUCTURE_SUFFIX = '.Infrastructure';
-const PROJECT_SERVICE_SUFFIX = '.Domain.Services';
+const PROJECT_SERVICE_SUFFIX = '.Services';
 const BLAZOR = 'Blazor';
 const XAMARIN = 'Xamarin';
 const TERRAFORM_DIR = 'terraform/';
@@ -19,6 +20,7 @@ const NODE_VERSION = '16.14.0';
 const NPM_VERSION = '8.4.1';
 
 const constants = {
+    PROJECT_API_SUFFIX,
     SERVER_SRC_DIR,
     CLIENT_SRC_DIR,
     CLIENT_TEST_DIR,

@@ -17,12 +17,12 @@
  limitations under the License.
 -%>
 <%
-let hasViewModel = viewModel === 'mapstruct';
+let hasDto = viewModel === 'mapstruct';
 let hasService = service === 'serviceImpl';
 %>
 using <%= namespace %>.Domain;
 using MediatR;
-<%_ if (hasViewModel) { _%>
+<%_ if (hasDto) { _%>
 using <%= namespace %>.ViewModel;
 <%_ } _%>
 
@@ -30,6 +30,6 @@ namespace <%= namespace %>.Application.Commands
 {
     public class <%= pascalizedEntityClass %>UpdateCommand : IRequest<<%= pascalizedEntityClass %>>
     {
-        public <%= hasViewModel ? asViewModel(pascalizedEntityClass) : pascalizedEntityClass %> <%= hasViewModel ? asViewModel(pascalizedEntityClass) : pascalizedEntityClass %> { get; set; }
+        public <%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %> <%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %> { get; set; }
     }
 }

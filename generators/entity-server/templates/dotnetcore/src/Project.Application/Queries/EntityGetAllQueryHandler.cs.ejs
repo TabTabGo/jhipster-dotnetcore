@@ -17,9 +17,9 @@
  limitations under the License.
 -%>
 <%
-let hasViewModel = viewModel === 'mapstruct';
+let hasDto = viewModel === 'mapstruct';
 %>
-<%_ if (hasViewModel) { _%>
+<%_ if (hasDto) { _%>
 using AutoMapper;
 using System.Linq;
 <%_ } _%>
@@ -33,26 +33,26 @@ using JHipsterNet.Core.Pagination;
 
 namespace <%= namespace %>.Application.Queries
 {
-    public class <%= pascalizedEntityClass %>GetAllQueryHandler : IRequestHandler<<%= pascalizedEntityClass %>GetAllQuery, <%= hasViewModel ? "Page" : "IPage" %><<%= hasViewModel ? asViewModel(pascalizedEntityClass) : pascalizedEntityClass %>>>
+    public class <%= pascalizedEntityClass %>GetAllQueryHandler : IRequestHandler<<%= pascalizedEntityClass %>GetAllQuery, <%= hasDto ? "Page" : "IPage" %><<%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %>>>
     {
         private IReadOnly<%= pascalizedEntityClass %>Repository _<%= camelCasedEntityClass %>Repository;
-        <%_ if (hasViewModel) { _%>
+        <%_ if (hasDto) { _%>
         private readonly IMapper _mapper;
         <%_ } _%>
 
         public <%= pascalizedEntityClass %>GetAllQueryHandler(
-            <%_ if (hasViewModel) { _%>
+            <%_ if (hasDto) { _%>
             IMapper mapper,
             <%_ } _%>
             IReadOnly<%= pascalizedEntityClass %>Repository <%= camelCasedEntityClass %>Repository)
         {
-            <%_ if (hasViewModel) { _%>
+            <%_ if (hasDto) { _%>
             _mapper = mapper;
             <%_ } _%>
             _<%= camelCasedEntityClass %>Repository = <%= camelCasedEntityClass %>Repository;
         }
 
-        public async Task<<%= hasViewModel ? "Page" : "IPage" %><<%= hasViewModel ? asViewModel(pascalizedEntityClass) : pascalizedEntityClass %>>> Handle(<%= pascalizedEntityClass %>GetAllQuery request, CancellationToken cancellationToken)
+        public async Task<<%= hasDto ? "Page" : "IPage" %><<%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %>>> Handle(<%= pascalizedEntityClass %>GetAllQuery request, CancellationToken cancellationToken)
         {
             var page = await _<%= camelCasedEntityClass %>Repository.QueryHelper()
             <%_ if (databaseType != 'mongodb') { _%>
@@ -65,8 +65,8 @@ namespace <%= namespace %>.Application.Queries
                 }); _%>
                 <%_ } _%>
                 .GetPageAsync(request.Page);
-            <%_ if (hasViewModel) { _%>
-            return new Page<<%= asViewModel(pascalizedEntityClass) %>>(page.Content.Select(entity => _mapper.Map<<%= asViewModel(pascalizedEntityClass) %>>(entity)).ToList(), request.Page, page.TotalElements);
+            <%_ if (hasDto) { _%>
+            return new Page<<%= asDto(pascalizedEntityClass) %>>(page.Content.Select(entity => _mapper.Map<<%= asDto(pascalizedEntityClass) %>>(entity)).ToList(), request.Page, page.TotalElements);
             <%_ } else { _%>
             return page;
             <%_ } _%>

@@ -17,9 +17,9 @@
  limitations under the License.
 -%>
 <%
-let hasViewModel = viewModel === 'mapstruct';
+let hasDto = viewModel === 'mapstruct';
 %>
-<%_ if (hasViewModel) { _%>
+<%_ if (hasDto) { _%>
 using AutoMapper;
 using System.Linq;
 <%_ } _%>
@@ -32,26 +32,26 @@ using System.Threading.Tasks;
 
 namespace <%= namespace %>.Application.Queries
 {
-    public class <%= pascalizedEntityClass %>GetQueryHandler : IRequestHandler<<%= pascalizedEntityClass %>GetQuery, <%= hasViewModel ? asViewModel(pascalizedEntityClass) : pascalizedEntityClass %>>
+    public class <%= pascalizedEntityClass %>GetQueryHandler : IRequestHandler<<%= pascalizedEntityClass %>GetQuery, <%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %>>
     {
         private IReadOnly<%= pascalizedEntityClass %>Repository _<%= camelCasedEntityClass %>Repository;
-        <%_ if (hasViewModel) { _%>
+        <%_ if (hasDto) { _%>
         private readonly IMapper _mapper;
         <%_ } _%>
 
         public <%= pascalizedEntityClass %>GetQueryHandler(
-            <%_ if (hasViewModel) { _%>
+            <%_ if (hasDto) { _%>
             IMapper mapper,
             <%_ } _%>
             IReadOnly<%= pascalizedEntityClass %>Repository <%= camelCasedEntityClass %>Repository)
         {
-            <%_ if (hasViewModel) { _%>
+            <%_ if (hasDto) { _%>
             _mapper = mapper;
             <%_ } _%>
             _<%= camelCasedEntityClass %>Repository = <%= camelCasedEntityClass %>Repository;
         }
 
-        public async Task<<%= hasViewModel ? asViewModel(pascalizedEntityClass) : pascalizedEntityClass %>> Handle(<%= pascalizedEntityClass %>GetQuery request, CancellationToken cancellationToken)
+        public async Task<<%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %>> Handle(<%= pascalizedEntityClass %>GetQuery request, CancellationToken cancellationToken)
         {
             var entity = await _<%= camelCasedEntityClass %>Repository.QueryHelper()
             <%_ if (databaseType != 'mongodb') { _%>
@@ -64,8 +64,8 @@ namespace <%= namespace %>.Application.Queries
             }); _%>
             <%_ } _%>
                 .GetOneAsync(<%= camelCasedEntityClass %> => <%= camelCasedEntityClass %>.Id == request.Id);
-            <%_ if (hasViewModel) { _%>
-            return _mapper.Map<<%= asViewModel(pascalizedEntityClass) %>>(entity);
+            <%_ if (hasDto) { _%>
+            return _mapper.Map<<%= asDto(pascalizedEntityClass) %>>(entity);
             <%_ } else { _%>
             return entity;
             <%_ } _%>

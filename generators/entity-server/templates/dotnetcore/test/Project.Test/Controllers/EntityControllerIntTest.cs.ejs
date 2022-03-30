@@ -119,9 +119,9 @@ if (hasDateTimeTypeField()) { _%>
 using System;
 <%_ } _%>
 <%
-let hasViewModel = viewModel === 'mapstruct';
+let hasDto = viewModel === 'mapstruct';
 %>
-<%_ if (hasViewModel) { _%>
+<%_ if (hasDto) { _%>
 using AutoMapper;
 <%_ } _%>
 using System.Linq;
@@ -142,7 +142,7 @@ fields.forEach(field => {
 if (hasEnumField) { _%>
 using <%= namespace %>.Crosscutting.Enums;
 <%_ } _%>
-<%_ if (hasViewModel) { _%>
+<%_ if (hasDto) { _%>
 using <%= namespace %>.ViewModel;
 using <%= namespace %>.Configuration.AutoMapper;
 <%_ } _%>
@@ -165,7 +165,7 @@ namespace <%= namespace %>.Test.Controllers
 
             _<%= camelCasedEntityClass %>Repository = _factory.GetRequiredService<I<%= pascalizedEntityClass %>Repository>();
 
-            <%_ if (hasViewModel) { _%>
+            <%_ if (hasDto) { _%>
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new AutoMapperProfile());
@@ -197,7 +197,7 @@ namespace <%= namespace %>.Test.Controllers
 
         private <%= pascalizedEntityClass %> _<%= camelCasedEntityClass %>;
 
-        <%_ if (hasViewModel) { _%>
+        <%_ if (hasDto) { _%>
         private readonly IMapper _mapper;
         <%_ } _%>
 
@@ -230,9 +230,9 @@ namespace <%= namespace %>.Test.Controllers
             var databaseSizeBeforeCreate = await _<%= camelCasedEntityClass %>Repository.CountAsync();
 
             // Create the <%= pascalizedEntityClass %>
-            <%_ if (hasViewModel) { _%>
-            <%= asViewModel(pascalizedEntityClass) %> _<%= asViewModel(camelCasedEntityClass) %> = _mapper.Map<<%= asViewModel(pascalizedEntityClass) %>>(_<%= camelCasedEntityClass %>);
-            var response = await _client.PostAsync("/api/<%= kebabCasedEntityClassPlural %>", TestUtil.ToJsonContent(_<%= asViewModel(camelCasedEntityClass) %>));
+            <%_ if (hasDto) { _%>
+            <%= asDto(pascalizedEntityClass) %> _<%= asDto(camelCasedEntityClass) %> = _mapper.Map<<%= asDto(pascalizedEntityClass) %>>(_<%= camelCasedEntityClass %>);
+            var response = await _client.PostAsync("/api/<%= kebabCasedEntityClassPlural %>", TestUtil.ToJsonContent(_<%= asDto(camelCasedEntityClass) %>));
             <%_ } else { _%>
             var response = await _client.PostAsync("/api/<%= kebabCasedEntityClassPlural %>", TestUtil.ToJsonContent(_<%= camelCasedEntityClass %>));
             <%_ } _%>
@@ -256,9 +256,9 @@ namespace <%= namespace %>.Test.Controllers
             _<%= camelCasedEntityClass %>.Id = 1L<% if (primaryKeyType == 'string') { _%>.ToString()<%_ } _%>;
 
             // An entity with an existing ID cannot be created, so this API call must fail
-            <%_ if (hasViewModel) { _%>
-            <%= asViewModel(pascalizedEntityClass) %> _<%= asViewModel(camelCasedEntityClass) %> = _mapper.Map<<%= asViewModel(pascalizedEntityClass) %>>(_<%= camelCasedEntityClass %>);
-            var response = await _client.PostAsync("/api/<%= kebabCasedEntityClassPlural %>", TestUtil.ToJsonContent(_<%= asViewModel(camelCasedEntityClass) %>));
+            <%_ if (hasDto) { _%>
+            <%= asDto(pascalizedEntityClass) %> _<%= asDto(camelCasedEntityClass) %> = _mapper.Map<<%= asDto(pascalizedEntityClass) %>>(_<%= camelCasedEntityClass %>);
+            var response = await _client.PostAsync("/api/<%= kebabCasedEntityClassPlural %>", TestUtil.ToJsonContent(_<%= asDto(camelCasedEntityClass) %>));
             <%_ } else { _%>
             var response = await _client.PostAsync("/api/<%= kebabCasedEntityClassPlural %>", TestUtil.ToJsonContent(_<%= camelCasedEntityClass %>));
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -287,9 +287,9 @@ namespace <%= namespace %>.Test.Controllers
             _<%= camelCasedEntityClass %>.<%= field.fieldNamePascalized %> = null;
 
             // Create the <%= pascalizedEntityClass %>, which fails.
-            <%_ if (hasViewModel) { _%>
-            <%= asViewModel(pascalizedEntityClass) %> _<%= asViewModel(camelCasedEntityClass) %> = _mapper.Map<<%= asViewModel(pascalizedEntityClass) %>>(_<%= camelCasedEntityClass %>);
-            var response = await _client.PostAsync("/api/<%= kebabCasedEntityClassPlural %>", TestUtil.ToJsonContent(_<%= asViewModel(camelCasedEntityClass) %>));
+            <%_ if (hasDto) { _%>
+            <%= asDto(pascalizedEntityClass) %> _<%= asDto(camelCasedEntityClass) %> = _mapper.Map<<%= asDto(pascalizedEntityClass) %>>(_<%= camelCasedEntityClass %>);
+            var response = await _client.PostAsync("/api/<%= kebabCasedEntityClassPlural %>", TestUtil.ToJsonContent(_<%= asDto(camelCasedEntityClass) %>));
             <%_ } else { _%>
             var response = await _client.PostAsync("/api/<%= kebabCasedEntityClassPlural %>", TestUtil.ToJsonContent(_<%= camelCasedEntityClass %>));
             <%_ } _%>
@@ -364,9 +364,9 @@ namespace <%= namespace %>.Test.Controllers
             updated<%= pascalizedEntityClass %>.<%= field.fieldNamePascalized %> = Updated<%= field.fieldNamePascalized %>;
             <%_ }); _%>
 
-            <%_ if (hasViewModel) { _%>
-            <%= asViewModel(pascalizedEntityClass) %> updated<%= asViewModel(pascalizedEntityClass) %> = _mapper.Map<<%= asViewModel(pascalizedEntityClass) %>>(updated<%= pascalizedEntityClass %>);
-            var response = await _client.PutAsync($"/api/<%= kebabCasedEntityClassPlural %>/{_<%= camelCasedEntityClass %>.Id}", TestUtil.ToJsonContent(updated<%= asViewModel(pascalizedEntityClass) %>));
+            <%_ if (hasDto) { _%>
+            <%= asDto(pascalizedEntityClass) %> updated<%= asDto(pascalizedEntityClass) %> = _mapper.Map<<%= asDto(pascalizedEntityClass) %>>(updated<%= pascalizedEntityClass %>);
+            var response = await _client.PutAsync($"/api/<%= kebabCasedEntityClassPlural %>/{_<%= camelCasedEntityClass %>.Id}", TestUtil.ToJsonContent(updated<%= asDto(pascalizedEntityClass) %>));
             <%_ } else { _%>
             var response = await _client.PutAsync($"/api/<%= kebabCasedEntityClassPlural %>/{_<%= camelCasedEntityClass %>.Id}", TestUtil.ToJsonContent(updated<%= pascalizedEntityClass %>));
             <%_ } _%>
@@ -388,9 +388,9 @@ namespace <%= namespace %>.Test.Controllers
             var databaseSizeBeforeUpdate = await _<%= camelCasedEntityClass %>Repository.CountAsync();
 
             // If the entity doesn't have an ID, it will throw BadRequestAlertException
-            <%_ if (hasViewModel) { _%>
-            <%= asViewModel(pascalizedEntityClass) %> _<%= asViewModel(camelCasedEntityClass) %> = _mapper.Map<<%= asViewModel(pascalizedEntityClass) %>>(_<%= camelCasedEntityClass %>);
-            var response = await _client.PutAsync("/api/<%= kebabCasedEntityClassPlural %>/1", TestUtil.ToJsonContent(_<%= asViewModel(camelCasedEntityClass) %>));
+            <%_ if (hasDto) { _%>
+            <%= asDto(pascalizedEntityClass) %> _<%= asDto(camelCasedEntityClass) %> = _mapper.Map<<%= asDto(pascalizedEntityClass) %>>(_<%= camelCasedEntityClass %>);
+            var response = await _client.PutAsync("/api/<%= kebabCasedEntityClassPlural %>/1", TestUtil.ToJsonContent(_<%= asDto(camelCasedEntityClass) %>));
             <%_ } else { _%>
             var response = await _client.PutAsync("/api/<%= kebabCasedEntityClassPlural %>/1", TestUtil.ToJsonContent(_<%= camelCasedEntityClass %>));
             <%_ } _%>

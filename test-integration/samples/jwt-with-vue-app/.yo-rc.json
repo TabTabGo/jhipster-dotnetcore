@@ -16,7 +16,7 @@
         "creationTimestamp": 1587112984699,
         "jhiPrefix": "jhi",
         "entitySuffix": "",
-        "viewModelSuffix": "VIEW_MODEL",
+        "dtoSuffix": "VIEW_MODEL",
         "testFrameworks": ["cypress"],
         "otherModules": [
             {

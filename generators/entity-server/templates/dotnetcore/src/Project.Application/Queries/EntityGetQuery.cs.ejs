@@ -17,7 +17,7 @@
  limitations under the License.
 -%>
 <%
-let hasViewModel = viewModel === 'mapstruct';
+let hasDto = viewModel === 'mapstruct';
 let hasService = service === 'serviceImpl';
 %>
 using <%= namespace %>.Domain;
@@ -26,7 +26,7 @@ using MediatR;
 
 namespace <%= namespace %>.Application.Queries
 {
-    public class <%= pascalizedEntityClass %>GetQuery : IRequest<<%= hasViewModel ? asViewModel(pascalizedEntityClass) : pascalizedEntityClass %>>
+    public class <%= pascalizedEntityClass %>GetQuery : IRequest<<%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %>>
     {
         public <%= primaryKeyType %> Id { get; set; }
     }

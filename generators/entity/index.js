@@ -20,7 +20,7 @@ module.exports = class extends EntityGenerator {
             getConfigNetBlueprint() {
                 this.context.namespace = this.jhipsterConfig.namespace;
                 this.context.cqrsEnabled = this.jhipsterConfig.cqrsEnabled;
-                this.context.viewModelSuffix = 'ViewModel';
+                this.context.dtoSuffix = 'ViewModel';
             },
             fixConfig() {
                 this.context.prodDatabaseType = 'mysql'; // set only for jdl-importer compatibility
@@ -80,8 +80,8 @@ module.exports = class extends EntityGenerator {
                 context.lowerCasedEntityClassPlural = _.toLower(context.entityClassPlural);
                 context.entityClassHasManyToMany = false;
                 context.entities = this.getExistingEntities();
-                context.mainClientAppDir = `${context.mainProjectDir}/ClientApp/src`;
-                context.mainClientDir = `${context.mainProjectDir}/ClientApp`;
+                context.mainClientAppDir = `${context.mainProjectDir}${constants.PROJECT_API_SUFFIX}/ClientApp/src`;
+                context.mainClientDir = `${context.mainProjectDir}${constants.PROJECT_API_SUFFIX}/ClientApp`;
 
                 // Embed functions to use in EJS templates
                 context.toPascalCase = toPascalCase;

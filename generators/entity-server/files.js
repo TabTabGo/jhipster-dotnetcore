@@ -29,7 +29,7 @@ const PROJECT_APPLICATION_SUFFIX = constants.PROJECT_APPLICATION_SUFFIX;
 const PROJECT_CROSSCUTTING_SUFFIX = constants.PROJECT_CROSSCUTTING_SUFFIX;
 const PROJECT_SERVICE_SUFFIX = constants.PROJECT_SERVICE_SUFFIX;
 const PROJECT_INFRASTRUCTURE_SUFFIX = constants.PROJECT_INFRASTRUCTURE_SUFFIX;
-
+const PROJECT_API_SUFFIX = constants.PROJECT_API_SUFFIX;
 const serverFiles = {
     server: [
         {
@@ -44,12 +44,12 @@ const serverFiles = {
                 },
                 {
                     file: 'Project.Api/Controllers/EntityController.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Controllers/${generator.pascalizedEntityClassPlural}Controller.cs`,
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Controllers/${generator.pascalizedEntityClassPlural}Controller.cs`,
                 },
                 {
                     file: 'Project.Domain/Repositories/Interfaces/IEntityRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/Repositories/Interfaces/I${generator.asEntity(
+                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/Repositories/I${generator.asEntity(
                             generator.entityClass
                         )}Repository.cs`,
                 },
@@ -63,9 +63,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/Repositories/Interfaces/IReadOnlyEntityRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${
-                            constants.PROJECT_DOMAIN_SUFFIX
-                        }/Repositories/Interfaces/IReadOnly${generator.asEntity(generator.entityClass)}Repository.cs`,
+                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/Repositories/IReadOnly${generator.asEntity(generator.entityClass)}Repository.cs`,
                 },
                 {
                     file: 'Project.Infrastructure/Data/Repositories/ReadOnlyEntityRepository.cs',
@@ -81,7 +79,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Api/Configuration/AutoMapper/AutoMapperProfile.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Configuration/AutoMapper/AutoMapperProfile.cs`,
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Configuration/AutoMapper/AutoMapperProfile.cs`,
                 },
             ],
         },
@@ -168,7 +166,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/ViewModels/ViewModel.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/${generator.asViewModel(
+                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/${generator.asDto(
                             generator.entityClass
                         )}.cs`,
                 },
@@ -222,7 +220,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/Services/Interfaces/IService.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/Services/Interfaces/I${generator.entityClass}Service.cs`,
+                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/Services/I${generator.entityClass}Service.cs`,
                 },
             ],
         },

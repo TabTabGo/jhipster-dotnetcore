@@ -42,14 +42,14 @@ namespace <%= namespace %>.Configuration.AutoMapper
             <%_ if(entities.length !== 0) {
                 entities.forEach(entity => {
                     if(entity.definition.viewModel === 'mapstruct') { _%>
-            CreateMap<<%= entity.name %>, <%= asViewModel(entity.name) %>>().ReverseMap();
+            CreateMap<<%= entity.name %>, <%= asDto(entity.name) %>>().ReverseMap();
             <%_
                     }
                 });
             }
             else {
                 if(viewModel === 'mapstruct') { _%>
-            CreateMap<<%= entityClassName %>, <%= asViewModel(entityClassName) %>>().ReverseMap();
+            CreateMap<<%= entityClassName %>, <%= asDto(entityClassName) %>>().ReverseMap();
             <%_ }} _%>
         }
     }

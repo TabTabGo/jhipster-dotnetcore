@@ -17,9 +17,9 @@
  limitations under the License.
 -%>
 <%
-let hasViewModel = viewModel === 'mapstruct';
+let hasDto = viewModel === 'mapstruct';
 %>
-<%_ if (hasViewModel) { _%>
+<%_ if (hasDto) { _%>
 using AutoMapper;
 using System.Linq;
 <%_ } _%>
@@ -34,17 +34,17 @@ namespace <%= namespace %>.Application.Commands
     public class <%= pascalizedEntityClass %>UpdateCommandHandler : IRequestHandler<<%= pascalizedEntityClass %>UpdateCommand, <%= pascalizedEntityClass %>>
     {
         private I<%= pascalizedEntityClass %>Repository _<%= camelCasedEntityClass %>Repository;
-        <%_ if (hasViewModel) { _%>
+        <%_ if (hasDto) { _%>
         private readonly IMapper _mapper;
         <%_ } _%>
 
         public <%= pascalizedEntityClass %>UpdateCommandHandler(
-            <%_ if (hasViewModel) { _%>
+            <%_ if (hasDto) { _%>
             IMapper mapper,
             <%_ } _%>
             I<%= pascalizedEntityClass %>Repository <%= camelCasedEntityClass %>Repository)
         {
-            <%_ if (hasViewModel) { _%>
+            <%_ if (hasDto) { _%>
             _mapper = mapper;
             <%_ } _%>
             _<%= camelCasedEntityClass %>Repository = <%= camelCasedEntityClass %>Repository;
@@ -52,8 +52,8 @@ namespace <%= namespace %>.Application.Commands
 
         public async Task<<%= pascalizedEntityClass %>> Handle(<%= pascalizedEntityClass %>UpdateCommand command, CancellationToken cancellationToken)
         {
-            <%_ if (hasViewModel) { _%>
-            <%= pascalizedEntityClass %> <%= camelCasedEntityClass %> = _mapper.Map<<%= pascalizedEntityClass %>>(command.<%= hasViewModel ? asViewModel(pascalizedEntityClass) : pascalizedEntityClass %>);
+            <%_ if (hasDto) { _%>
+            <%= pascalizedEntityClass %> <%= camelCasedEntityClass %> = _mapper.Map<<%= pascalizedEntityClass %>>(command.<%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %>);
             var entity = await _<%= camelCasedEntityClass %>Repository.CreateOrUpdateAsync(<%= camelCasedEntityClass %>);
             <%_ } else { _%>
             var entity = await _<%= camelCasedEntityClass %>Repository.CreateOrUpdateAsync(command.<%= pascalizedEntityClass %>);

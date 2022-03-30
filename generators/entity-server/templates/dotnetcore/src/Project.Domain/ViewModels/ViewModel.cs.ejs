@@ -38,10 +38,10 @@ using <%= namespace %>.Crosscutting.Enums;
 using Newtonsoft.Json;
 <%_ } _%>
 
-namespace <%= namespace %>.ViewModel
+namespace <%= namespace %>.ViewModels
 {
 
-    public class <%= asViewModel(entityClassName) %>
+    public class <%= asDto(entityClassName) %>
     {
 
         public <%= primaryKeyType %> Id { get; set; }
@@ -81,7 +81,7 @@ namespace <%= namespace %>.ViewModel
                 <%_ }
             }
             if(relationshipType === 'one-to-many') { _%>
-        public IList<<%= asViewModel(otherEntityNamePascalized) %>> <%= relationshipFieldNamePascalizedPlural %> { get; set; } = new List<<%= asViewModel(otherEntityNamePascalized) %>>();
+        public IList<<%= asDto(otherEntityNamePascalized) %>> <%= relationshipFieldNamePascalizedPlural %> { get; set; } = new List<<%= asDto(otherEntityNamePascalized) %>>();
             <%_  } else if (relationshipType === 'many-to-one') {
                 if (relationshipRequired) { _%>
         [Required]
@@ -97,7 +97,7 @@ namespace <%= namespace %>.ViewModel
                 <%_ if (!ownerSide) { _%>
         [JsonIgnore]
                 <%_ } _%>
-        public IList<<%= asViewModel(otherEntityNamePascalized) %>> <%= relationshipFieldNamePascalizedPlural %> { get; set; } = new List<<%= asViewModel(otherEntityNamePascalized) %>>();
+        public IList<<%= asDto(otherEntityNamePascalized) %>> <%= relationshipFieldNamePascalizedPlural %> { get; set; } = new List<<%= asDto(otherEntityNamePascalized) %>>();
             <%_ } _%>
 
         <%_ } _%>

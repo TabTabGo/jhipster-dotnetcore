@@ -17,7 +17,7 @@ When generating your application, make sure to check "Cypress" in your optional 
 Once your application is generated, you can optionally add some entities, it will automatically generate the corresponding tests for your entities. To begin, go to your ClientApp folder:
 
 ```bash
-cd src/YourApplication/ClientApp
+cd src/YourApplication.Api/ClientApp
 ```
 
 Then execute one of the following commands:

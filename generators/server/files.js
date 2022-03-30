@@ -30,15 +30,15 @@ const PROJECT_CROSSCUTTING_SUFFIX = constants.PROJECT_CROSSCUTTING_SUFFIX;
 const PROJECT_INFRASTRUCTURE_SUFFIX = constants.PROJECT_INFRASTRUCTURE_SUFFIX;
 const PROJECT_SERVICE_SUFFIX = constants.PROJECT_SERVICE_SUFFIX;
 const TERRAFORM_DIR = constants.TERRAFORM_DIR;
-
+const PROJECT_API_SUFFIX = constants.PROJECT_API_SUFFIX;
 const serverFiles = {
     serverCsProj: [
         {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Project.csproj',
-                    renameTo: generator => `${generator.mainProjectDir}/${generator.pascalizedBaseName}.Api.csproj`,
+                    file: 'Project.Api/Project.csproj',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/${generator.pascalizedBaseName}${PROJECT_API_SUFFIX}.csproj`,
                 },
             ],
         },
@@ -115,7 +115,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/Entities/Interfaces/IAuditedEntityBase.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Entities/Interfaces/IAuditedEntityBase.cs`,
+                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Entities/IAuditedEntityBase.cs`,
                 },
             ],
         },
@@ -221,7 +221,7 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Security/UsernameNotFoundException.cs',
+                    file: 'Project.Api/Security/UsernameNotFoundException.cs',
                     renameTo: generator =>
                         `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Exceptions/UsernameNotFoundException.cs`,
                 },
@@ -232,7 +232,7 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Security/UserNotActivatedException.cs',
+                    file: 'Project.Api/Security/UserNotActivatedException.cs',
                     renameTo: generator =>
                         `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Exceptions/UserNotActivatedException.cs`,
                 },
@@ -267,7 +267,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Domain/ViewModels/UserViewModel.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/ViewModels/UserViewModel.cs`,
+                    renameTo: generator => `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/UserViewModel.cs`,
                 },
             ],
         },
@@ -277,7 +277,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/ViewModels/ProfileInfoViewModel.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/ViewModels/ProfileInfo/ProfileInfoViewModel.cs`,
+                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/ProfileInfo/ProfileInfoViewModel.cs`,
                 },
             ],
         },
@@ -288,7 +288,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/ViewModels/KeyAndPasswordViewModel.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/ViewModels/Authentication/KeyAndPasswordViewModel.cs`,
+                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/Authentication/KeyAndPasswordViewModel.cs`,
                 },
             ],
         },
@@ -299,7 +299,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/ViewModels/LoginViewModel.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/ViewModels/Authentication/LoginViewModel.cs`,
+                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/Authentication/LoginViewModel.cs`,
                 },
             ],
         },
@@ -309,7 +309,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/ViewModels/SwaggerResourceViewModel.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_VIEW_MODEL_SUFFIX}/ViewModels/SwaggerResourceViewModel.cs`,
+                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/SwaggerResourceViewModel.cs`,
                 },
             ],
         },
@@ -321,7 +321,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/Services/Interfaces/ServicesInterfacesAssemblyHelper.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Services/Interfaces/ServicesInterfacesAssemblyHelper.cs`,
+                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Services/ServicesInterfacesAssemblyHelper.cs`,
                 },
             ],
         },
@@ -342,7 +342,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/Repositories/Interfaces/IFluentRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/Interfaces/IFluentRepository.cs`,
+                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/IFluentRepository.cs`,
                 },
             ],
         },
@@ -352,7 +352,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/Repositories/Interfaces/INoSqlFluentRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/Interfaces/INoSqlFluentRepository.cs`,
+                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/INoSqlFluentRepository.cs`,
                 },
             ],
         },
@@ -362,7 +362,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/Repositories/Interfaces/IGenericRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/Interfaces/IGenericRepository.cs`,
+                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/IGenericRepository.cs`,
                 },
             ],
         },
@@ -372,7 +372,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/Repositories/Interfaces/IReadOnlyGenericRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/Interfaces/IReadOnlyGenericRepository.cs`,
+                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/IReadOnlyGenericRepository.cs`,
                 },
             ],
         },
@@ -382,7 +382,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/Repositories/Interfaces/IReadOnlyGenericRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/Interfaces/IReadOnlyGenericRepository.cs`,
+                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/IReadOnlyGenericRepository.cs`,
                 },
             ],
         },
@@ -393,7 +393,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/Repositories/Interfaces/INoSqlGenericRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/Interfaces/INoSqlGenericRepository.cs`,
+                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/INoSqlGenericRepository.cs`,
                 },
             ],
         },
@@ -404,7 +404,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/Repositories/Interfaces/INoSqlReadOnlyGenericRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/Interfaces/INoSqlReadOnlyGenericRepository.cs`,
+                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/INoSqlReadOnlyGenericRepository.cs`,
                 },
             ],
         },
@@ -415,7 +415,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/Repositories/Interfaces/INoSqlReadOnlyGenericRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/Interfaces/INoSqlReadOnlyGenericRepository.cs`,
+                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/INoSqlReadOnlyGenericRepository.cs`,
                 },
             ],
         },
@@ -424,7 +424,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Domain/Repositories/Interfaces/IUnitOfWork.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/Interfaces/IUnitOfWork.cs`,
+                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/IUnitOfWork.cs`,
                 },
             ],
         },
@@ -547,8 +547,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Properties/launchSettings.json',
-                    renameTo: generator => `${generator.mainProjectDir}/Properties/launchSettings.json`,
+                    file: 'Project.Api/Properties/launchSettings.json',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Properties/launchSettings.json`,
                 },
             ],
         },
@@ -565,7 +565,7 @@ const serverFiles = {
     serverProgram: [
         {
             path: SERVER_SRC_DIR,
-            templates: [{ file: 'Project.API/Program.cs', renameTo: generator => `${generator.mainProjectDir}/Program.cs` }],
+            templates: [{ file: 'Project.Api/Program.cs', renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Program.cs` }],
         },
     ],
     serverConfiguration: [
@@ -591,14 +591,14 @@ const serverFiles = {
         },
         {
             path: SERVER_SRC_DIR,
-            templates: [{ file: 'Project.API/appsettings.json', renameTo: generator => `${generator.mainProjectDir}/appsettings.json` }],
+            templates: [{ file: 'Project.Api/appsettings.json', renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/appsettings.json` }],
         },
         {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/appsettings.Development.json',
-                    renameTo: generator => `${generator.mainProjectDir}/appsettings.Development.json`,
+                    file: 'Project.Api/appsettings.Development.json',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/appsettings.Development.json`,
                 },
             ],
         },
@@ -606,8 +606,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/appsettings.Production.json',
-                    renameTo: generator => `${generator.mainProjectDir}/appsettings.Production.json`,
+                    file: 'Project.Api/appsettings.Production.json',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/appsettings.Production.json`,
                 },
             ],
         },
@@ -615,14 +615,14 @@ const serverFiles = {
     serverStartup: [
         {
             path: SERVER_SRC_DIR,
-            templates: [{ file: 'Project.API/Startup.cs', renameTo: generator => `${generator.mainProjectDir}/Startup.cs` }],
+            templates: [{ file: 'Project.Api/Startup.cs', renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Startup.cs` }],
         },
         {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Configuration/ConfigurationHelper.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Configuration/ConfigurationHelper.cs`,
+                    file: 'Project.Api/Configuration/ConfigurationHelper.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Configuration/ConfigurationHelper.cs`,
                 },
             ],
         },
@@ -630,8 +630,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Configuration/AutoMapperStartup.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Configuration/AutoMapperStartup.cs`,
+                    file: 'Project.Api/Configuration/AutoMapperStartup.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Configuration/AutoMapperStartup.cs`,
                 },
             ],
         },
@@ -639,8 +639,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Configuration/DatabaseStartup.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Configuration/DatabaseStartup.cs`,
+                    file: 'Project.Api/Configuration/DatabaseStartup.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Configuration/DatabaseStartup.cs`,
                 },
             ],
         },
@@ -649,8 +649,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Configuration/IdentityStartup.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Configuration/IdentityStartup.cs`,
+                    file: 'Project.Api/Configuration/IdentityStartup.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Configuration/IdentityStartup.cs`,
                 },
             ],
         },
@@ -658,8 +658,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Configuration/MvcStartup.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Configuration/MvcStartup.cs`,
+                    file: 'Project.Api/Configuration/MvcStartup.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Configuration/MvcStartup.cs`,
                 },
             ],
         },
@@ -667,8 +667,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Configuration/AppSettingsStartup.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Configuration/AppSettingsStartup.cs`,
+                    file: 'Project.Api/Configuration/AppSettingsStartup.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Configuration/AppSettingsStartup.cs`,
                 },
             ],
         },
@@ -676,8 +676,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Configuration/ProblemDetailsStartup.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Configuration/ProblemDetailsStartup.cs`,
+                    file: 'Project.Api/Configuration/ProblemDetailsStartup.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Configuration/ProblemDetailsStartup.cs`,
                 },
             ],
         },
@@ -685,8 +685,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Configuration/SecurityStartup.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Configuration/SecurityStartup.cs`,
+                    file: 'Project.Api/Configuration/SecurityStartup.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Configuration/SecurityStartup.cs`,
                 },
             ],
         },
@@ -694,8 +694,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Configuration/SwaggerStartup.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Configuration/SwaggerStartup.cs`,
+                    file: 'Project.Api/Configuration/SwaggerStartup.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Configuration/SwaggerStartup.cs`,
                 },
             ],
         },
@@ -703,8 +703,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Configuration/ServiceStartup.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Configuration/ServiceStartup.cs`,
+                    file: 'Project.Api/Configuration/ServiceStartup.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Configuration/ServiceStartup.cs`,
                 },
             ],
         },
@@ -712,8 +712,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Configuration/RepositoryStartup.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Configuration/RepositoryStartup.cs`,
+                    file: 'Project.Api/Configuration/RepositoryStartup.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Configuration/RepositoryStartup.cs`,
                 },
             ],
         },
@@ -750,7 +750,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/Services/Interfaces/IAuthenticationService.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Services/Interfaces/IAuthenticationService.cs`,
+                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Services/IAuthenticationService.cs`,
                 },
             ],
         },
@@ -770,7 +770,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Domain/Services/Interfaces/IMailService.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Services/Interfaces/IMailService.cs`,
+                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Services/IMailService.cs`,
                 },
             ],
         },
@@ -790,7 +790,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Domain/Services/Interfaces/IUserService.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Services/Interfaces/IUserService.cs`,
+                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Services/IUserService.cs`,
                 },
             ],
         },
@@ -818,8 +818,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Configuration/AutoMapper/AutoMapperProfile.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Configuration/AutoMapper/AutoMapperProfile.cs`,
+                    file: 'Project.Api/Configuration/AutoMapper/AutoMapperProfile.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Configuration/AutoMapper/AutoMapperProfile.cs`,
                 },
             ],
         },
@@ -828,8 +828,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Controllers/AccountController.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Controllers/AccountController.cs`,
+                    file: 'Project.Api/Controllers/AccountController.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Controllers/AccountController.cs`,
                 },
             ],
         },
@@ -935,8 +935,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Controllers/ProfileInfoController.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Controllers/ProfileInfoController.cs`,
+                    file: 'Project.Api/Controllers/ProfileInfoController.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Controllers/ProfileInfoController.cs`,
                 },
             ],
         },
@@ -945,8 +945,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Controllers/AuthController.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Controllers/AuthController.cs`,
+                    file: 'Project.Api/Controllers/AuthController.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Controllers/AuthController.cs`,
                 },
             ],
         },
@@ -955,8 +955,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Controllers/UsersController.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Controllers/UsersController.cs`,
+                    file: 'Project.Api/Controllers/UsersController.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Controllers/UsersController.cs`,
                 },
             ],
         },
@@ -1091,8 +1091,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Security/BCryptPasswordHasher.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Security/BCryptPasswordHasher.cs`,
+                    file: 'Project.Api/Security/BCryptPasswordHasher.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Security/BCryptPasswordHasher.cs`,
                 },
             ],
         },
@@ -1100,18 +1100,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Security/PoliciesConstants.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Security/PoliciesConstants.cs`,
-                },
-            ],
-        },
-        {
-            condition: generator => generator.authenticationType === 'jwt',
-            path: SERVER_SRC_DIR,
-            templates: [
-                {
-                    file: 'Project.API/Security/Jwt/RoleClaimsTransformation.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Security/Jwt/RoleClaimsTransformation.cs`,
+                    file: 'Project.Api/Security/PoliciesConstants.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Security/PoliciesConstants.cs`,
                 },
             ],
         },
@@ -1120,8 +1110,18 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Security/Jwt/TokenProvider.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Security/Jwt/TokenProvider.cs`,
+                    file: 'Project.Api/Security/Jwt/RoleClaimsTransformation.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Security/Jwt/RoleClaimsTransformation.cs`,
+                },
+            ],
+        },
+        {
+            condition: generator => generator.authenticationType === 'jwt',
+            path: SERVER_SRC_DIR,
+            templates: [
+                {
+                    file: 'Project.Api/Security/Jwt/TokenProvider.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Security/Jwt/TokenProvider.cs`,
                 },
             ],
         },
@@ -1130,8 +1130,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Controllers/UserJwtController.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Controllers/UserJwtController.cs`,
+                    file: 'Project.Api/Controllers/UserJwtController.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Controllers/UserJwtController.cs`,
                 },
             ],
         },
@@ -1141,8 +1141,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Web/Extensions/ActionResultExtensions.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Web/Extensions/ActionResultExtensions.cs`,
+                    file: 'Project.Api/Web/Extensions/ActionResultExtensions.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Web/Extensions/ActionResultExtensions.cs`,
                 },
             ],
         },
@@ -1150,8 +1150,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Web/Extensions/ActionResultWithHeaders.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Web/Extensions/ActionResultWithHeaders.cs`,
+                    file: 'Project.Api/Web/Extensions/ActionResultWithHeaders.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Web/Extensions/ActionResultWithHeaders.cs`,
                 },
             ],
         },
@@ -1159,8 +1159,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Web/Extensions/HttpRequestExtensions.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Web/Extensions/HttpRequestExtensions.cs`,
+                    file: 'Project.Api/Web/Extensions/HttpRequestExtensions.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Web/Extensions/HttpRequestExtensions.cs`,
                 },
             ],
         },
@@ -1168,8 +1168,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Web/Filters/ValidateModelAttribute.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Web/Filters/ValidateModelAttribute.cs`,
+                    file: 'Project.Api/Web/Filters/ValidateModelAttribute.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Web/Filters/ValidateModelAttribute.cs`,
                 },
             ],
         },
@@ -1177,8 +1177,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Web/Rest/Utilities/ActionResultUtil.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Web/Rest/Utilities/ActionResultUtil.cs`,
+                    file: 'Project.Api/Web/Rest/Utilities/ActionResultUtil.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Web/Rest/Utilities/ActionResultUtil.cs`,
                 },
             ],
         },
@@ -1186,7 +1186,7 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Web/Rest/Utilities/HeaderUtil.cs',
+                    file: 'Project.Api/Web/Rest/Utilities/HeaderUtil.cs',
                     renameTo: generator =>
                         `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Web/Rest/Utilities/HeaderUtil.cs`,
                 },
@@ -1196,7 +1196,7 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Web/Rest/Utilities/PaginationUtil.cs',
+                    file: 'Project.Api/Web/Rest/Utilities/PaginationUtil.cs',
                     renameTo: generator =>
                         `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Web/Rest/Utilities/PaginationUtil.cs`,
                 },
@@ -1247,8 +1247,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Web/Rest/Problems/ExceptionTranslator.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Web/Rest/Problems/ExceptionTranslator.cs`,
+                    file: 'Project.Api/Web/Rest/Problems/ExceptionTranslator.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Web/Rest/Problems/ExceptionTranslator.cs`,
                 },
             ],
         },
@@ -1288,8 +1288,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Web/Rest/Problems/ProblemDetailsConfiguration.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Web/Rest/Problems/ProblemDetailsConfiguration.cs`,
+                    file: 'Project.Api/Web/Rest/Problems/ProblemDetailsConfiguration.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Web/Rest/Problems/ProblemDetailsConfiguration.cs`,
                 },
             ],
         },
@@ -1297,8 +1297,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Web/Rest/Problems/ValidationFailedException.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Web/Rest/Problems/ValidationFailedException.cs`,
+                    file: 'Project.Api/Web/Rest/Problems/ValidationFailedException.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Web/Rest/Problems/ValidationFailedException.cs`,
                 },
             ],
         },
@@ -1355,8 +1355,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Controllers/SwaggerController.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Controllers/SwaggerController.cs`,
+                    file: 'Project.Api/Controllers/SwaggerController.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Controllers/SwaggerController.cs`,
                 },
             ],
         },
@@ -1440,12 +1440,12 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/Configuration/Consul/ConsulOptions.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Configuration/Consul/ConsulOptions.cs`,
+                    file: 'Project.Api/Configuration/Consul/ConsulOptions.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Configuration/Consul/ConsulOptions.cs`,
                 },
                 {
-                    file: 'Project.API/Configuration/Consul/ConsulStartup.cs',
-                    renameTo: generator => `${generator.mainProjectDir}/Configuration/Consul/ConsulStartup.cs`,
+                    file: 'Project.Api/Configuration/Consul/ConsulStartup.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Configuration/Consul/ConsulStartup.cs`,
                 },
             ],
         },
@@ -1473,8 +1473,8 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.API/ocelot.json',
-                    renameTo: generator => `${generator.mainProjectDir}/ocelot.json`,
+                    file: 'Project.Api/ocelot.json',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/ocelot.json`,
                 },
             ],
         },

@@ -23,6 +23,7 @@ const packagejs = require('../package.json');
 const constants = require('./generator-dotnetcore-constants');
 
 const SERVER_SRC_DIR = constants.SERVER_SRC_DIR;
+const PROJECT_API_SUFFIX = constants.PROJECT_API_SUFFIX;
 const BLAZOR = constants.BLAZOR;
 const XAMARIN = constants.XAMARIN;
 
@@ -90,8 +91,8 @@ function customizeDotnetPaths() {
     this.humanizedBaseName = _.startCase(this.baseName);
     this.solutionName = this.pascalizedBaseName;
     this.mainProjectDir = this.pascalizedBaseName;
-    this.mainClientDir = `${this.mainProjectDir}/ClientApp`;
-    this.mainClientAppDir = `${this.mainProjectDir}/ClientApp/src`;
+    this.mainClientDir = `${this.mainProjectDir}${PROJECT_API_SUFFIX}/ClientApp`;
+    this.mainClientAppDir = `${this.mainProjectDir}${PROJECT_API_SUFFIX}/ClientApp/src`;
     this.relativeMainClientDir = 'ClientApp';
     this.relativeMainAppDir = `${this.relativeMainClientDir}/src`;
     this.relativeMainTestDir = `${this.relativeMainClientDir}/test`;
