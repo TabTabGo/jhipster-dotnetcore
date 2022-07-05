@@ -1,87 +1,87 @@
 {
-    "name": "generator-jhipster-dotnetcore",
-    "version": "3.2.0",
-    "description": "",
-    "keywords": [
-        "yeoman-generator",
-        "jhipster-blueprint",
-        "jhipster-7",
-        "dotnet"
-    ],
-    "homepage": "https://github.com/jhipster/jhipster-dotnetcore",
-    "author": {
-        "name": "Daniel Petisme",
-        "email": "daniel@jhipster.tech",
-        "url": ""
-    },
-    "files": [
-        "cli",
-        "generators"
-    ],
-    "main": "generators/app/index.js",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/jhipster/jhipster-dotnetcore.git"
-    },
-    "dependencies": {
-        "chalk": "4.1.2",
-        "ejs": "3.1.6",
-        "generator-jhipster": "7.7.0",
-        "glob": "7.2.0",
-        "gulp-filter": "6.0.0",
-        "insight": "0.10.3",
-        "jhipster-core": "7.3.4",
-        "js-guid": "1.0.0",
-        "js-yaml": "4.1.0",
-        "lodash": "4.17.21",
-        "meow": "10.1.0",
-        "mkdirp": "1.0.4",
-        "pluralize": "8.0.0",
-        "randexp": "0.5.3",
-        "semver": "7.3.5",
-        "shelljs": "^0.8.5",
-        "through2": "4.0.2",
-        "to-pascal-case": "1.0.0",
-        "which": "2.0.2",
-        "yeoman-environment": "3.9.1",
-        "yeoman-generator": "5.6.1"
-    },
-    "devDependencies": {
-        "@j-ulrich/release-it-regex-bumper": "^2.0.0",
-        "@release-it/bumper": "^3.0.1",
-        "chai": "4.3.4",
-        "ejs-lint": "1.2.1",
-        "eslint": "7.31.0",
-        "eslint-config-airbnb-base": "14.2.1",
-        "eslint-config-prettier": "8.3.0",
-        "eslint-plugin-import": "2.22.1",
-        "eslint-plugin-prettier": "3.4.0",
-        "fs-extra": "10.0.0",
-        "jsdoc": "^3.6.10",
-        "mocha": "^9.2.2",
-        "nyc": "15.1.0",
-        "prettier": "2.6.1",
-        "release-it": "^14.2.2",
-        "sinon": "11.1.1",
-        "sonarqube-scanner": "2.8.1",
-        "yeoman-assert": "3.1.1",
-        "yeoman-test": "6.3.0"
-    },
-    "scripts": {
-        "lint": "eslint .",
-        "lint-fix": "npm run lint -- --fix",
-        "pretest": "npm run lint",
-        "sonar:scanner": "sonar-scanner",
-        "test": "npm run test:unit -- test/*.spec.js",
-        "test:unit": "nyc --reporter=lcov mocha --timeout 300000 --slow 0",
-        "jsdoc": "jsdoc --configure jsdoc-conf.json",
-        "release": "git push && git push --tags && npm publish",
-        "release:patch": "npm version patch -a -m \"Update to %s\" && npm run release",
-        "release:minor": "npm version minor -a -m \"Update to %s\" && npm run release",
-        "release:major": "npm version major -a -m \"Update to %s\" && npm run release"
-    },
-    "license": "Apache-2.0",
-    "bugs": {
-        "url": "https://github.com/danielpetisme/generator-jhipster-dotnetcore/issues"
-    }
+  "name": "@tabtabgo/generator-jhipster-dotnet",
+  "version": "3.2.0",
+  "description": "[![NPM version][npm-image]][npm-url] [![Documentation Status](https://readthedocs.org/projects/jhipsternet/badge/?version=latest)](https://jhipsternet.readthedocs.io/en/latest/?badge=latest) [![Generator Build Status][github-actions-generator-image]][github-actions-url] [![Integration JWT Build Status][github-actions-integ-jwt-image]][github-actions-url] [![Integration OAUTH Build Status][github-actions-integ-oauth-image]][github-actions-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Sonar Cloud Quality Gate][sonar-gate-image]][sonar-url] [![Sonar Cloud Reliability Rate][sonar-reliability-image]][sonar-url] [![Sonar Cloud Security Rate][sonar-security-image]][sonar-url] [![Sonar Cloud Maintainability Rate][sonar-maintainability-image]][sonar-url] [![Sonar Cloud Duplicated Code][sonar-duplication-image]][sonar-url]",
+  "keywords": [
+    "yeoman-generator",
+    "jhipster-blueprint",
+    "jhipster-7",
+    "dotnet"
+  ],
+  "homepage": "https://github.com/jhipster/jhipster-dotnetcore",
+  "author": "Daniel Petisme <daniel@jhipster.tech>",
+  "files": [
+    "cli",
+    "generators"
+  ],
+  "main": "generators/app/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jhipster/jhipster-dotnetcore.git"
+  },
+  "dependencies": {
+    "chalk": "4.1.2",
+    "ejs": "3.1.6",
+    "generator-jhipster": "7.7.0",
+    "glob": "7.2.0",
+    "gulp-filter": "6.0.0",
+    "insight": "0.10.3",
+    "jhipster-core": "7.3.4",
+    "js-guid": "1.0.0",
+    "js-yaml": "4.1.0",
+    "lodash": "4.17.21",
+    "meow": "10.1.0",
+    "mkdirp": "1.0.4",
+    "pluralize": "8.0.0",
+    "randexp": "0.5.3",
+    "semver": "7.3.5",
+    "shelljs": "^0.8.5",
+    "through2": "4.0.2",
+    "to-pascal-case": "1.0.0",
+    "which": "2.0.2",
+    "yeoman-environment": "3.9.1",
+    "yeoman-generator": "5.6.1"
+  },
+  "devDependencies": {
+    "@j-ulrich/release-it-regex-bumper": "^2.0.0",
+    "@release-it/bumper": "^3.0.1",
+    "chai": "4.3.4",
+    "ejs-lint": "1.2.1",
+    "eslint": "7.31.0",
+    "eslint-config-airbnb-base": "14.2.1",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-prettier": "3.4.0",
+    "fs-extra": "10.0.0",
+    "jsdoc": "^3.6.10",
+    "mocha": "^9.2.2",
+    "nyc": "15.1.0",
+    "prettier": "2.6.1",
+    "release-it": "^14.2.2",
+    "sinon": "11.1.1",
+    "sonarqube-scanner": "2.8.1",
+    "yeoman-assert": "3.1.1",
+    "yeoman-test": "6.3.0"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint-fix": "npm run lint -- --fix",
+    "pretest": "npm run lint",
+    "sonar:scanner": "sonar-scanner",
+    "test": "npm run test:unit -- test/*.spec.js",
+    "test:unit": "nyc --reporter=lcov mocha --timeout 300000 --slow 0",
+    "jsdoc": "jsdoc --configure jsdoc-conf.json",
+    "release": "git push && git push --tags && npm publish",
+    "release:patch": "npm version patch -a -m \"Update to %s\" && npm run release",
+    "release:minor": "npm version minor -a -m \"Update to %s\" && npm run release",
+    "release:major": "npm version major -a -m \"Update to %s\" && npm run release"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/danielpetisme/generator-jhipster-dotnetcore/issues"
+  },
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  }
 }
