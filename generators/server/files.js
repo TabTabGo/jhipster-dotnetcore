@@ -118,17 +118,7 @@ const serverFiles = {
                         `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Global.cs`,
                 },
             ],
-        },
-        {
-            path: SERVER_SRC_DIR,
-            templates: [
-                {
-                    file: 'Project.Domain/Entities/Interfaces/IAuditedEntityBase.cs',
-                    renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Entities/IAuditedEntityBase.cs`,
-                },
-            ],
-        },              
+        },           
         {
             condition: generator => generator.authenticationType === 'jwt' && generator.applicationType !== 'microservice',
             path: SERVER_SRC_DIR,
@@ -420,16 +410,6 @@ const serverFiles = {
             ],
         },
         {
-            path: SERVER_SRC_DIR,
-            templates: [
-                {
-                    file: 'Project.Infrastructure/Data/Repositories/FluentRepository.cs',
-                    renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/FluentRepository.cs`,
-                },
-            ],
-        },
-        {
             condition: generator => generator.databaseType === 'mongodb',
             path: SERVER_SRC_DIR,
             templates: [
@@ -577,6 +557,11 @@ const serverFiles = {
                     file: 'Project.Infrastructure/Configuration/MongoDatabaseConfig.cs',
                     renameTo: generator =>
                         `${generator.pascalizedBaseName}${constants.PROJECT_INFRASTRUCTURE_SUFFIX}/Configuration/MongoDatabaseConfig.cs`,
+                },
+                {
+                    file: 'Project.Infrastructure/Global.cs',
+                    renameTo: generator =>
+                        `${generator.pascalizedBaseName}${constants.PROJECT_INFRASTRUCTURE_SUFFIX}/Global.cs`,
                 },
             ],
         },

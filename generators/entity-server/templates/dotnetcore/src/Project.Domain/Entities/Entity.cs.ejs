@@ -21,43 +21,30 @@ const hasManyToMany = entityClassHasManyToMany;
 const entityTableName = snakeCasedEntityClass;
 const entityClassName = pascalizedEntityClass;
 const entityVariableName = camelCasedEntityClass; _%>
-
 namespace <%= namespace %>.Entities;
 
-[Table("<%= entityTableName %>")]
-public class <%= entityClassName %> : Entity 
+public class <%= entityClassName %> :  <%_ if (databaseType == 'mongodb') { %> MongoBaseEntity<<%= primaryKeyType %>> <%_ } else { %> Entity<<%= primaryKeyType %>> <%_ } %> 
 {
 <%_ for (idx in fields){
-    let isId = false
-    if (fields[idx].id){
-        isId = true;
-    }
+    if (fields[idx].id) continue;
     let required = false;
     const fieldValidate = fields[idx].fieldValidate;
     const fieldValidateRules = fields[idx].fieldValidateRules;
     const fieldType = equivalentCSharpType(fields[idx].fieldType);
-    const fieldNamePascalized = fields[idx].fieldNamePascalized;
+    const fieldNamePascalized =  fields[idx].fieldNamePascalized ;
     if (fieldValidate === true) {
         if (fieldValidateRules.includes('required')) {
             required = true;
         }
     }
-    if(isId){ 
-        if (databaseType == 'mongodb') { _%>
-            [BsonId]
-            [BsonRepresentation(BsonType.ObjectId)]
-        <%_ } else { _%>
-            [Key]
-            [DatabaseGenerated(DatabaseGeneratedOption.Identity)]        
-        <%_}
-        } _%>
-    <%_ if (required) { _%>
-        [Required]
+    
+    if (required) { _%>
+    [Required]
     <%_ } _%>
     <%_ if (fields[idx].fieldIsEnum) { _%>
-        public <%= fields[idx].fieldType %> <%= fieldNamePascalized %> { get; set; }
+    public <%= fields[idx].fieldType %> <%= fieldNamePascalized %> { get; set; }
     <%_ } else { _%>
-        public <%= fieldType %> <%= fieldNamePascalized %> { get; set; }
+    public <%= fieldType %> <%= fieldNamePascalized %> { get; set; }
     <%_ } _%>
 <%_ }
         for (idx in relationships) {
@@ -68,64 +55,64 @@ public class <%= entityClassName %> : Entity
             const relationshipFieldNamePascalized = relationships[idx].relationshipFieldNamePascalized;
             if (relationshipType === 'one-to-one') {
                 if(otherEntityNamePascalized === 'User') { _%>
-        public string UserId { get; set; }
+    public string UserId { get; set; }
                 <%_ } else { _%>
-        public long? <%= relationshipFieldNamePascalized %>Id { get; set; }
+    public long? <%= relationshipFieldNamePascalized %>Id { get; set; }
                 <%_ } _%>
-        public <%= otherEntityNamePascalized %> <%= relationshipFieldNamePascalized %> { get; set; }
+    public <%= otherEntityNamePascalized %> <%= relationshipFieldNamePascalized %> { get; set; }
 <%_ }
             if(relationshipType === 'one-to-many') { _%>
-        public IList<<%= otherEntityNamePascalized %>> <%= relationshipFieldNamePascalizedPlural %> { get; set; } = new List<<%= otherEntityNamePascalized %>>();
+    public IList<<%= otherEntityNamePascalized %>> <%= relationshipFieldNamePascalizedPlural %> { get; set; } = new List<<%= otherEntityNamePascalized %>>();
             <%_  } else if (relationshipType === 'many-to-one') {
                 if (relationshipRequired) { _%>
-        [Required]
+    [Required]
                 <%_ }
                 if(otherEntityNamePascalized === 'User') { _%>
-        public string UserId { get; set; }
+    public string UserId { get; set; }
                 <%_ } else { _%>
 
-        public long? <%= relationshipFieldNamePascalized %>Id { get; set; }
+    public long? <%= relationshipFieldNamePascalized %>Id { get; set; }
                 <%_ } _%>
-        public <%= otherEntityNamePascalized %> <%= relationshipFieldNamePascalized %> { get; set; }
+    public <%= otherEntityNamePascalized %> <%= relationshipFieldNamePascalized %> { get; set; }
 <% } else if (relationshipType === 'many-to-many') {
                 const ownerSide = relationships[idx].ownerSide; _%>
                 <%_ if (!ownerSide) { _%>
-        [JsonIgnore]
+    [JsonIgnore]
                 <%_ } _%>
-        public IList<<%= otherEntityNamePascalized %>> <%= relationshipFieldNamePascalizedPlural %> { get; set; } = new List<<%= otherEntityNamePascalized %>>();
+    public IList<<%= otherEntityNamePascalized %>> <%= relationshipFieldNamePascalizedPlural %> { get; set; } = new List<<%= otherEntityNamePascalized %>>();
 <%_ } _%>
         <%_ } _%>
 
-        // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
 
     public override bool Equals(object obj)
     {
-            if (this == obj) return true;
-            if (obj == null || GetType() != obj.GetType()) return false;
-            var <%= entityVariableName %> = obj as <%= entityClassName %>;
-            <%_ if (primaryKeyType != 'string') { _%>
-            if (<%= entityVariableName %>?.Id == null || <%= entityVariableName %>?.Id == 0 || Id == 0) return false;
-            return EqualityComparer<long>.Default.Equals(Id, <%= entityVariableName %>.Id);
-            <%_ } else { _%>
-            if (<%= entityVariableName %>?.Id == null || Id == null) return false;
-            return EqualityComparer<string>.Default.Equals(Id, <%= entityVariableName %>.Id);
-            <%_ } _%>
+        if (this == obj) return true;
+        if (obj == null || GetType() != obj.GetType()) return false;
+        var <%= entityVariableName %> = obj as <%= entityClassName %>;
+        <%_ if (primaryKeyType != 'string') { _%>
+        if (<%= entityVariableName %>?.Id == null || <%= entityVariableName %>?.Id == 0 || Id == 0) return false;
+        return EqualityComparer<long>.Default.Equals(Id, <%= entityVariableName %>.Id);
+        <%_ } else { _%>
+        if (<%= entityVariableName %>?.Id == null || Id == null) return false;
+        return EqualityComparer<string>.Default.Equals(Id, <%= entityVariableName %>.Id);
+        <%_ } _%>
     }
 
     public override int GetHashCode()
     {
-            return HashCode.Combine(Id);
+        return HashCode.Combine(Id);
     }
 
     public override string ToString()
-        {
-            return "<%= entityClassName %>{" +
-                    $"ID='{Id}'" +
-            <%_ for (idx in fields) {
-                if (fields[idx].id) continue;
-                const fieldNamePascalized = fields[idx].fieldNamePascalized; _%>
-                    $", <%= fieldNamePascalized %>='{<%= fieldNamePascalized %>}'" +
-            <%_ } _%>
-                    "}";
+    {
+        return "<%= entityClassName %>{" +
+                $"ID='{Id}'" +
+        <%_ for (idx in fields) {
+        if (fields[idx].id) continue;
+        const fieldNamePascalized = fields[idx].fieldNamePascalized; _%>
+                $", <%= fieldNamePascalized %>='{<%= fieldNamePascalized %>}'" +
+        <%_ } _%>
+                "}";
     }
 }

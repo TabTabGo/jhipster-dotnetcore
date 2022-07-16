@@ -61,6 +61,13 @@ const serverFiles = {
                         )}Repository.cs`,
                 },
                 {
+                    file: 'Project.Infrastructure/Data/Mappers/DataMapper.cs',
+                    renameTo: generator =>
+                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Mappers/${generator.asEntity(
+                            generator.entityClass
+                        )}DataMapper.cs`,
+                },
+                {
                     file: 'Project.Domain/Repositories/Interfaces/IReadOnlyEntityRepository.cs',
                     renameTo: generator =>
                         `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/Repositories/IReadOnly${generator.asEntity(generator.entityClass)}Repository.cs`,

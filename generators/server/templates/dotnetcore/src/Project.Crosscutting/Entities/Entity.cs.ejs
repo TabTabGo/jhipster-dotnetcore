@@ -22,8 +22,10 @@ using Newtonsoft.Json;
 
 namespace <%= namespace %>Crosscutting.Entities;
 
-public abstract class Entity : IEntity
+public abstract class Entity<TKey>> : IEntity
 {
+    public TKey Id { get; set; }
+    
     [JsonExtensionData]
     public IDictionary<string, object>? Properties { get; set; } = new Dictionary<string, object>();
 

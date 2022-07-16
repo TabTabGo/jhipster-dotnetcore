@@ -1,0 +1,59 @@
+<%_ let importJsonIgnore = false;
+const hasManyToMany = entityClassHasManyToMany;
+const entityTableName = snakeCasedEntityClass;
+const entityClassName = pascalizedEntityClass;
+const entityVariableName = camelCasedEntityClass; _%>
+
+namespace <%= namespace %>.Infrastructure.DataMappers;
+
+internal static class <%= entityClassName %>ataMapper
+{
+    public static void DataMapperBuilder(EntityTypeBuilder<<%= entityClassName %>> builder)
+    {
+        builder.ToTable("<%= entityTableName %>");
+        builder.BasicEntityBuilder<<%= entityClassName %>,<%= primaryKeyType %>>();
+        <%_ fields.forEach(field => {           
+            if (entity.name == entityClass && field.fieldIsEnum){ _%>
+        builder.Property(e => e.<%= field.fieldNamePascalized %>)
+        .HasConversion<string>();
+        <%_ }
+        });
+        _%>
+        // TODO add other properties mapping
+        <%_
+        if(entity.name.toUpperCase() !== entityClass.toUpperCase()) {
+            entity.relationships.forEach(relationship => {
+                if (relationship.relationshipType === 'many-to-many') {
+                    // executed when importing entities by jdl (jhipster import-jdl fileName.jdl)
+                    if (relationship.ownerSide) {
+                        let relationshipNamePascalized = toPascalCase(relationship.relationshipName);
+                        let relationshipNamePascalizedPlural = pluralize(relationshipNamePascalized);
+                        let relationshipFieldNamePascalizedPlural = relationship.relationshipFieldNamePascalizedPlural;
+                        let otherEntityRelationshipNamePascalized = toPascalCase(relationship.otherEntityRelationshipName);
+                        let otherEntityRelationshipNamePascalizedPlural = pluralize(otherEntityRelationshipNamePascalized);
+                        let joinEntityClassNamePascalized = otherEntityRelationshipNamePascalized + relationshipNamePascalized;
+                        let joinEntityClassNamePascalizedPlural = pluralize(joinEntityClassNamePascalized);
+                        let entityClassNamePascalized = entity.name;
+                        let entityClassNamePascalizedPlural = pluralize(entity.name);
+                        let otherEntityClassNamePascalized = toPascalCase(relationship.otherEntityName);
+                        let otherEntityClassNamePascalizedPlural = pluralize(otherEntityClassNamePascalized);
+                        let ownerRelationshipFieldName = entityClassNamePascalized;
+                        let nonOwnerRelationshipFieldName = otherEntityClassNamePascalized; _%>
+        builder.Entity<<%= ownerRelationshipFieldName %>>()
+            .HasMany(x => x.<%= relationshipNamePascalizedPlural %>)
+            .WithMany(x => x.<%= otherEntityRelationshipNamePascalizedPlural %>)
+            .UsingEntity<Dictionary<string, object>>(
+                "<%= joinEntityClassNamePascalizedPlural %>",
+                x => x.HasOne<<%= nonOwnerRelationshipFieldName %>>().WithMany(),
+                x => x.HasOne<<%= ownerRelationshipFieldName %>>().WithMany());
+
+                        <%_ }
+                    }
+                });
+            }_%>
+        <%_ 
+        
+        _%>
+    }
+}
+

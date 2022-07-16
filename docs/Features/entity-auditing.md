@@ -44,7 +44,7 @@ public override async Task<int> SaveChangesAsync(CancellationToken cancellationT
 {
     var entries = ChangeTracker
         .Entries()
-        .Where(e => e.Entity is IAuditedEntityBase && (
+        .Where(e => e.Entity is IEntity && (
             e.State == EntityState.Added
             || e.State == EntityState.Modified));
 
@@ -54,16 +54,16 @@ public override async Task<int> SaveChangesAsync(CancellationToken cancellationT
     {
         if (entityEntry.State == EntityState.Added)
         {
-            ((IAuditedEntityBase)entityEntry.Entity).CreatedDate = DateTime.Now;
-            ((IAuditedEntityBase)entityEntry.Entity).CreatedBy = modifiedOrCreatedBy;
+            ((IEntity)entityEntry.Entity).CreatedDate = DateTime.Now;
+            ((IEntity)entityEntry.Entity).CreatedBy = modifiedOrCreatedBy;
         }
         else
         {
-            Entry((IAuditedEntityBase)entityEntry.Entity).Property(p => p.CreatedDate).IsModified = false;
-            Entry((IAuditedEntityBase)entityEntry.Entity).Property(p => p.CreatedBy).IsModified = false;
+            Entry((IEntity)entityEntry.Entity).Property(p => p.CreatedDate).IsModified = false;
+            Entry((IEntity)entityEntry.Entity).Property(p => p.CreatedBy).IsModified = false;
         }
-        ((IAuditedEntityBase)entityEntry.Entity).LastModifiedDate = DateTime.Now;
-        ((IAuditedEntityBase)entityEntry.Entity).LastModifiedBy = modifiedOrCreatedBy;
+        ((IEntity)entityEntry.Entity).UpdatedDate = DateTime.Now;
+        ((IEntity)entityEntry.Entity).UpdatedBy = modifiedOrCreatedBy;
     }
     return await base.SaveChangesAsync(cancellationToken);
 }
