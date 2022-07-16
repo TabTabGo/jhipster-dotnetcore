@@ -198,6 +198,17 @@ const serverFiles = {
             ],
         },
         {
+            condition: generator => generator.viewModel === 'mapstruct',
+            path: SERVER_SRC_DIR,
+            templates: [
+                {
+                    file: 'Project.Crosscutting/ViewModels/EntityViewModel.cs',
+                    renameTo: generator =>
+                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/EntityViewModel.cs`,
+                },
+            ],
+        },
+        {
             condition: generator => generator.applicationType !== 'microservice',
             path: SERVER_SRC_DIR,
             templates: [

@@ -12,29 +12,26 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-using System.ComponentModel.DataAnnotations;
+namespace <%= namespace %>.ViewModels;
 
-namespace <%= namespace %>.ViewModels
+public class LoginViewModel
 {
-    public class LoginViewModel
+    [Required]
+    [StringLength(50, MinimumLength = 1)]
+    public string Username { get; set; }
+
+    [Required]
+    [StringLength(100, MinimumLength = 4)]
+    public string Password { get; set; }
+
+    [Required] public bool RememberMe { get; set; }
+
+    public override string ToString()
     {
-        [Required]
-        [StringLength(50, MinimumLength = 1)]
-        public string Username { get; set; }
-
-        [Required]
-        [StringLength(100, MinimumLength = 4)]
-        public string Password { get; set; }
-
-        [Required] public bool RememberMe { get; set; }
-
-        public override string ToString()
-        {
-            return "LoginViewModel{" +
-                   $"Username='{Username}'" +
-                   $", Password='{Password}'" +
-                   $", RememberMe='{RememberMe}'" +
-                   "}";
-        }
+        return "LoginViewModel{" +
+                $"Username='{Username}'" +
+                $", Password='{Password}'" +
+                $", RememberMe='{RememberMe}'" +
+                "}";
     }
 }

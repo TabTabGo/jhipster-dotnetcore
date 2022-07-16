@@ -12,24 +12,21 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-using System.Collections.Generic;
-using Newtonsoft.Json;
+namespace <%= namespace %>.ViewModels;
 
-namespace <%= namespace %>.ViewModels
+public class ProfileInfoViewModel
 {
-    public class ProfileInfoViewModel
+    [JsonProperty("display-ribbon-on-profiles")]
+    public string DisplayRibbonOnProfiles { get; set; }
+
+    [JsonProperty("activeProfiles")]
+    public List<string> ActiveProfiles { get; set; }
+
+    public ProfileInfoViewModel(string displayRibbonOnProfiles, List<string> activeProfiles)
     {
-        [JsonProperty("display-ribbon-on-profiles")]
-        public string DisplayRibbonOnProfiles { get; set; }
+        DisplayRibbonOnProfiles = displayRibbonOnProfiles;
+        ActiveProfiles = activeProfiles;
 
-        [JsonProperty("activeProfiles")]
-        public List<string> ActiveProfiles { get; set; }
-
-        public ProfileInfoViewModel(string displayRibbonOnProfiles, List<string> activeProfiles)
-        {
-            DisplayRibbonOnProfiles = displayRibbonOnProfiles;
-            ActiveProfiles = activeProfiles;
-
-        }
     }
 }
+

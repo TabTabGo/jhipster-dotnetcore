@@ -12,24 +12,22 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-using System.ComponentModel.DataAnnotations;
+namespace <%= namespace %>.ViewModels;
 
-namespace <%= namespace %>.ViewModels
+public class ManagedUserViewModel : UserViewModel
 {
-    public class ManagedUserViewModel : UserViewModel
+    public const int PasswordMinLength = 4;
+
+    public const int PasswordMaxLength = 100;
+
+    [Required]
+    [MinLength(PasswordMinLength)]
+    [MaxLength(PasswordMaxLength)]
+    public string Password { get; set; }
+
+    public override string ToString()
     {
-        public const int PasswordMinLength = 4;
-
-        public const int PasswordMaxLength = 100;
-
-        [Required]
-        [MinLength(PasswordMinLength)]
-        [MaxLength(PasswordMaxLength)]
-        public string Password { get; set; }
-
-        public override string ToString()
-        {
-            return "ManagedUserViewModel{} " + base.ToString();
-        }
+        return "ManagedUserViewModel{} " + base.ToString();
     }
 }
+

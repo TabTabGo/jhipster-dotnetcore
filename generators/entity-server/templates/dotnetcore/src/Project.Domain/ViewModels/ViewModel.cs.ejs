@@ -21,87 +21,68 @@ const hasManyToMany = entityClassHasManyToMany;
 const entityTableName = snakeCasedEntityClass;
 const entityClassName = pascalizedEntityClass;
 const entityVariableName = camelCasedEntityClass; _%>
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-<%_
-let hasEnumField = false;
-fields.forEach(field => {
-        if (field.fieldIsEnum) {
-            hasEnumField = true;
-        }
-    });
-if (hasEnumField) { _%>
-using <%= namespace %>.Crosscutting.Enums;
-<%_ } _%>
-<%_ if (importJsonIgnore === true || hasManyToMany) { _%>
-using Newtonsoft.Json;
-<%_ } _%>
 
-namespace <%= namespace %>.ViewModels
+namespace <%= namespace %>.ViewModels;
+
+public class <%= asDto(entityClassName) %> : EntityViewModel
 {
+    public <%= primaryKeyType %> Id { get; set; }
 
-    public class <%= asDto(entityClassName) %>
-    {
-
-        public <%= primaryKeyType %> Id { get; set; }
-
-        <%_ for (idx in fields){
-            if (fields[idx].id) continue;
-            let required = false;
-            const fieldValidate = fields[idx].fieldValidate;
-            const fieldValidateRules = fields[idx].fieldValidateRules;
-            const fieldType = equivalentCSharpType(fields[idx].fieldType);
-            const fieldNamePascalized = fields[idx].fieldNamePascalized;
-            if (fieldValidate === true) {
-                if (fieldValidateRules.includes('required')) {
-                    required = true;
-                }
+    <%_ for (idx in fields){
+        if (fields[idx].id) continue;
+        let required = false;
+        const fieldValidate = fields[idx].fieldValidate;
+        const fieldValidateRules = fields[idx].fieldValidateRules;
+        const fieldType = equivalentCSharpType(fields[idx].fieldType);
+        const fieldNamePascalized = fields[idx].fieldNamePascalized;
+        if (fieldValidate === true) {
+            if (fieldValidateRules.includes('required')) {
+                required = true;
             }
-            if (required) { _%>
-        [Required]
-            <%_ } _%>
-            <%_ if (fields[idx].fieldIsEnum) { _%>
-        public <%= fields[idx].fieldType %> <%= fieldNamePascalized %> { get; set; }
-                <%_ } else { _%>
-        public <%= fieldType %> <%= fieldNamePascalized %> { get; set; }
-            <%_ } _%>
-        <%_ }
-        for (idx in relationships) {
-            const relationshipType = relationships[idx].relationshipType;
-            const relationshipRequired = relationships[idx].relationshipRequired;
-            const otherEntityNamePascalized = relationships[idx].otherEntityNamePascalized;
-            const relationshipFieldNamePascalizedPlural = relationships[idx].relationshipFieldNamePascalizedPlural;
-            const relationshipFieldNamePascalized = relationships[idx].relationshipFieldNamePascalized;
-            if (relationshipType === 'one-to-one'){
-                if(otherEntityNamePascalized === 'User') { _%>
-        public string UserId { get; set; }
-                <%_ } else { _%>
-        public long? <%= relationshipFieldNamePascalized %>Id { get; set; }
-                <%_ }
-            }
-            if(relationshipType === 'one-to-many') { _%>
-        public IList<<%= asDto(otherEntityNamePascalized) %>> <%= relationshipFieldNamePascalizedPlural %> { get; set; } = new List<<%= asDto(otherEntityNamePascalized) %>>();
-            <%_  } else if (relationshipType === 'many-to-one') {
-                if (relationshipRequired) { _%>
-        [Required]
-                <%_ }
-                if(otherEntityNamePascalized === 'User') { _%>
-        public string UserId { get; set; }
-                <%_ } else { _%>
-        public long? <%= relationshipFieldNamePascalized %>Id { get; set; }
-                <%_ }
-                } else if (relationshipType === 'many-to-many') {
-                const ownerSide = relationships[idx].ownerSide; _%>
+        }
+        if (required) { _%>
+    [Required]
+        <%_ } _%>
+        <%_ if (fields[idx].fieldIsEnum) { _%>
+    public <%= fields[idx].fieldType %> <%= fieldNamePascalized %> { get; set; }
+            <%_ } else { _%>
+    public <%= fieldType %> <%= fieldNamePascalized %> { get; set; }
+        <%_ } _%>
+    <%_ }
+    for (idx in relationships) {
+        const relationshipType = relationships[idx].relationshipType;
+        const relationshipRequired = relationships[idx].relationshipRequired;
+        const otherEntityNamePascalized = relationships[idx].otherEntityNamePascalized;
+        const relationshipFieldNamePascalizedPlural = relationships[idx].relationshipFieldNamePascalizedPlural;
+        const relationshipFieldNamePascalized = relationships[idx].relationshipFieldNamePascalized;
+        if (relationshipType === 'one-to-one'){
+            if(otherEntityNamePascalized === 'User') { _%>
+    public string UserId { get; set; }
+            <%_ } else { _%>
+    public long? <%= relationshipFieldNamePascalized %>Id { get; set; }
+            <%_ }
+        }
+        if(relationshipType === 'one-to-many') { _%>
+    public IList<<%= asDto(otherEntityNamePascalized) %>> <%= relationshipFieldNamePascalizedPlural %> { get; set; } = new List<<%= asDto(otherEntityNamePascalized) %>>();
+        <%_  } else if (relationshipType === 'many-to-one') {
+            if (relationshipRequired) { _%>
+    [Required]
+            <%_ }
+            if(otherEntityNamePascalized === 'User') { _%>
+    public string UserId { get; set; }
+            <%_ } else { _%>
+    public long? <%= relationshipFieldNamePascalized %>Id { get; set; }
+            <%_ }
+            } else if (relationshipType === 'many-to-many') {
+            const ownerSide = relationships[idx].ownerSide; _%>
 
-                <%_ if (!ownerSide) { _%>
-        [JsonIgnore]
-                <%_ } _%>
-        public IList<<%= asDto(otherEntityNamePascalized) %>> <%= relationshipFieldNamePascalizedPlural %> { get; set; } = new List<<%= asDto(otherEntityNamePascalized) %>>();
+            <%_ if (!ownerSide) { _%>
+    [JsonIgnore]
             <%_ } _%>
-
+    public IList<<%= asDto(otherEntityNamePascalized) %>> <%= relationshipFieldNamePascalizedPlural %> { get; set; } = new List<<%= asDto(otherEntityNamePascalized) %>>();
         <%_ } _%>
 
-        // jhipster-needle-viewModel-add-field - JHipster will add fields here, do not remove
-    }
+    <%_ } _%>
+
+    // jhipster-needle-viewModel-add-field - JHipster will add fields here, do not remove
 }

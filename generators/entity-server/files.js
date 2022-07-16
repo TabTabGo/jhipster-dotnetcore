@@ -179,17 +179,6 @@ const serverFiles = {
                 },
             ],
         },
-        {
-            condition: generator => generator.viewModel === 'mapstruct',
-            path: SERVER_SRC_DIR,
-            templates: [
-                {
-                    file: 'Project.Domain/ViewModels/AuditedEntityBaseViewModel.cs',
-                    renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/AuditedEntityBaseViewModel.cs`,
-                },
-            ],
-        },
     ],
     db: [
         {
