@@ -21,50 +21,45 @@ const hasManyToMany = entityClassHasManyToMany;
 const entityTableName = snakeCasedEntityClass;
 const entityClassName = pascalizedEntityClass;
 const entityVariableName = camelCasedEntityClass; _%>
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-<%_
-let hasEnumField = false;
-fields.forEach(field => {
-        if (field.fieldIsEnum) {
-            hasEnumField = true;
-        }
-    });
-if (hasEnumField) { _%>
-using <%= namespace %>.Crosscutting.Enums;
-<%_ } _%>
-<%_ if (importJsonIgnore === true || hasManyToMany) { _%>
-using Newtonsoft.Json;
-<%_ } _%>
 
-namespace <%= namespace %>.Domain
+namespace <%= namespace %>.Entities;
+
+[Table("<%= entityTableName %>")]
+public class <%= entityClassName %> : Entity 
 {
-    [Table("<%= entityTableName %>")]
-    public class <%= entityClassName %> : <%_ if (databaseType == 'mongodb') { %> MongoBaseEntity<<%= primaryKeyType %>> <%_ } else { %> BaseEntity<<%= primaryKeyType %>> <%_ } %>
-    {
-        <%_ for (idx in fields){
-            if (fields[idx].id) continue;
-            let required = false;
-            const fieldValidate = fields[idx].fieldValidate;
-            const fieldValidateRules = fields[idx].fieldValidateRules;
-            const fieldType = equivalentCSharpType(fields[idx].fieldType);
-            const fieldNamePascalized = fields[idx].fieldNamePascalized;
-            if (fieldValidate === true) {
-                if (fieldValidateRules.includes('required')) {
-                    required = true;
-                }
-            }
-            if (required) { _%>
+<%_ for (idx in fields){
+    let isId = false
+    if (fields[idx].id){
+        isId = true;
+    }
+    let required = false;
+    const fieldValidate = fields[idx].fieldValidate;
+    const fieldValidateRules = fields[idx].fieldValidateRules;
+    const fieldType = equivalentCSharpType(fields[idx].fieldType);
+    const fieldNamePascalized = fields[idx].fieldNamePascalized;
+    if (fieldValidate === true) {
+        if (fieldValidateRules.includes('required')) {
+            required = true;
+        }
+    }
+    if(isId){ 
+        if (databaseType == 'mongodb') { _%>
+            [BsonId]
+            [BsonRepresentation(BsonType.ObjectId)]
+        <%_ } else { _%>
+            [Key]
+            [DatabaseGenerated(DatabaseGeneratedOption.Identity)]        
+        <%_}
+        } _%>
+    <%_ if (required) { _%>
         [Required]
-            <%_ } _%>
-            <%_ if (fields[idx].fieldIsEnum) { _%>
+    <%_ } _%>
+    <%_ if (fields[idx].fieldIsEnum) { _%>
         public <%= fields[idx].fieldType %> <%= fieldNamePascalized %> { get; set; }
-                <%_ } else { _%>
+    <%_ } else { _%>
         public <%= fieldType %> <%= fieldNamePascalized %> { get; set; }
-            <%_ } _%>
-        <%_ }
+    <%_ } _%>
+<%_ }
         for (idx in relationships) {
             const relationshipType = relationships[idx].relationshipType;
             const relationshipRequired = relationships[idx].relationshipRequired;
@@ -103,8 +98,8 @@ namespace <%= namespace %>.Domain
 
         // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
 
-        public override bool Equals(object obj)
-        {
+    public override bool Equals(object obj)
+    {
             if (this == obj) return true;
             if (obj == null || GetType() != obj.GetType()) return false;
             var <%= entityVariableName %> = obj as <%= entityClassName %>;
@@ -115,14 +110,14 @@ namespace <%= namespace %>.Domain
             if (<%= entityVariableName %>?.Id == null || Id == null) return false;
             return EqualityComparer<string>.Default.Equals(Id, <%= entityVariableName %>.Id);
             <%_ } _%>
-        }
+    }
 
-        public override int GetHashCode()
-        {
+    public override int GetHashCode()
+    {
             return HashCode.Combine(Id);
-        }
+    }
 
-        public override string ToString()
+    public override string ToString()
         {
             return "<%= entityClassName %>{" +
                     $"ID='{Id}'" +
@@ -132,6 +127,5 @@ namespace <%= namespace %>.Domain
                     $", <%= fieldNamePascalized %>='{<%= fieldNamePascalized %>}'" +
             <%_ } _%>
                     "}";
-        }
     }
 }

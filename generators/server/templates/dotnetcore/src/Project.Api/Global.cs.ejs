@@ -1,0 +1,38 @@
+<%#
+ Copyright 2019-2021 the original author or authors from the JHipster project.
+ This file is part of the JHipster project, see https://www.jhipster.tech/
+ for more information.
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+      http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+global using System;
+global using <%= namespace %>.Api.Configuration;
+global using <%= namespace %>.Configuration;
+global using <%= namespace %>.Infrastructure.Configuration;
+global using <%= namespace %>.Services;
+<%_ if (serviceDiscoveryType === 'consul' && applicationType !== 'gateway') { _%>
+    global using <%= namespace %>.Configuration.Consul;
+<%_ } _%>
+<%_ if ( applicationType === 'gateway') { _%>
+    global using Ocelot.DependencyInjection;
+    global using Ocelot.Middleware;
+    global using Ocelot.Provider.Consul;
+<%_ } _%>
+global using Microsoft.AspNetCore.Builder;
+global using Microsoft.Extensions.Hosting;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Options;
+global using Newtonsoft.Json;
+<%_ if (cqrsEnabled) { _%>
+using MediatR;
+using <%= namespace %>.Application;
+<%_ } _%>

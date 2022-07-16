@@ -113,40 +113,22 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
+                    file: 'Project.Domain/Global.cs',
+                    renameTo: generator =>
+                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Global.cs`,
+                },
+            ],
+        },
+        {
+            path: SERVER_SRC_DIR,
+            templates: [
+                {
                     file: 'Project.Domain/Entities/Interfaces/IAuditedEntityBase.cs',
                     renameTo: generator =>
                         `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Entities/IAuditedEntityBase.cs`,
                 },
             ],
-        },
-        {
-            path: SERVER_SRC_DIR,
-            templates: [
-                {
-                    file: 'Project.Domain/Entities/AuditedEntityBase.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Entities/AuditedEntityBase.cs`,
-                },
-            ],
-        },
-        {
-            path: SERVER_SRC_DIR,
-            templates: [
-                {
-                    file: 'Project.Domain/Entities/BaseEntity.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Entities/BaseEntity.cs`,
-                },
-            ],
-        },
-        {
-            condition: generator => generator.databaseType === 'mongodb',
-            path: SERVER_SRC_DIR,
-            templates: [
-                {
-                    file: 'Project.Domain/Entities/MongoBaseEntity.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Entities/MongoBaseEntity.cs`,
-                },
-            ],
-        },
+        },              
         {
             condition: generator => generator.authenticationType === 'jwt' && generator.applicationType !== 'microservice',
             path: SERVER_SRC_DIR,
@@ -213,6 +195,15 @@ const serverFiles = {
                 {
                     file: 'Project.Crosscutting/Constants/ErrorConstants.cs',
                     renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Constants/ErrorConstants.cs`,
+                },
+            ],
+        },
+        {
+            path: SERVER_SRC_DIR,
+            templates: [
+                {
+                    file: 'Project.Crosscutting/Entities/Entity.cs',
+                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Entites/Entity.cs`,
                 },
             ],
         },
@@ -615,7 +606,7 @@ const serverFiles = {
     serverStartup: [
         {
             path: SERVER_SRC_DIR,
-            templates: [{ file: 'Project.Api/Startup.cs', renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Startup.cs` }],
+            templates: [{ file: 'Project.Api/Global.cs', renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Global.cs` }],
         },
         {
             path: SERVER_SRC_DIR,
