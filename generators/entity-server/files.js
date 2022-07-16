@@ -68,16 +68,16 @@ const serverFiles = {
                         )}DataMapper.cs`,
                 },
                 {
-                    file: 'Project.Domain/Repositories/Interfaces/IReadOnlyEntityRepository.cs',
+                    file: 'Project.Domain/Repositories/Interfaces/IEntityReadOnlyRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/Repositories/IReadOnly${generator.asEntity(generator.entityClass)}Repository.cs`,
+                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/Repositories/I${generator.asEntity(generator.entityClass)}ReadOnlyRepository.cs`,
                 },
                 {
-                    file: 'Project.Infrastructure/Data/Repositories/ReadOnlyEntityRepository.cs',
+                    file: 'Project.Infrastructure/Data/Repositories/EntityReadOnlyRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/ReadOnly${generator.asEntity(
+                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/${generator.asEntity(
                             generator.entityClass
-                        )}Repository.cs`,
+                        )}ReadOnlyRepository.cs`,
                 },
             ],
         },

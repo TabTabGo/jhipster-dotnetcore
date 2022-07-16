@@ -23,16 +23,16 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using <%= namespace %>.Domain.Repositories.Interfaces;
+using <%= namespace %>.Repositories.Interfaces;
 using System.Linq.Expressions;
 using JHipsterNet.Core.Pagination;
 using JHipsterNet.Core.Pagination.Extensions;
 using MongoDB.Driver.Linq;
-using <%= namespace %>.Domain;
+using <%= namespace %>.Entities;
 
 namespace <%= namespace %>.Infrastructure.Data.Repositories
 {
-    public abstract class MongoGenericRepository<TEntity, TKey> : MongoReadOnlyGenericRepository<TEntity, TKey>, INoSqlGenericRepository<TEntity, TKey>, IDisposable where TEntity : MongoBaseEntity<TKey>
+    public abstract class MongoGenericRepository<TEntity, TKey> : MongoGenericReadOnlyRepository<TEntity, TKey>, INoSqlGenericRepository<TEntity, TKey>, IDisposable where TEntity : MongoEntity<TKey>
     {
         protected MongoGenericRepository(IMongoDatabaseContext context) : base(context)
         {

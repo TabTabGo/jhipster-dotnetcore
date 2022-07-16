@@ -1,0 +1,6 @@
+namespace <%= namespace %>.Crosscutting.Services;
+
+public interface IGenericService<TEntity,TKey> : IBaseService<TEntity, TKey> where TEntity : Entity<TKey>
+{
+    
+}

@@ -16,20 +16,10 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-using System.Threading.Tasks;
-using JHipsterNet.Core.Pagination;
-using <%= namespace %>.Domain;
+namespace <%= namespace %>.Services.Interfaces;
 
-namespace <%= namespace %>.Domain.Services.Interfaces
+public interface I<%= pascalizedEntityClass %>Service : IBaseService<<%= pascalizedEntityClass %>, <%= primaryKeyType %>>
 {
-    public interface I<%= pascalizedEntityClass %>Service
-    {
-        Task<<%= pascalizedEntityClass %>> Save(<%= pascalizedEntityClass %> <%= camelCasedEntityClass %>);
-
-        Task<IPage<<%= pascalizedEntityClass %>>> FindAll(IPageable pageable);
-
-        Task<<%= pascalizedEntityClass %>> FindOne(<%= primaryKeyType %> id);
-
-        Task Delete(<%= primaryKeyType %> id);
-    }
+    
 }
+

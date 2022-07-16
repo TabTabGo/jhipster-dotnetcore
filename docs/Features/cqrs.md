@@ -48,9 +48,9 @@ Here's the handler `MyEntityGetQueryHandler.cs` :
 namespace MyCompany.Application.Queries {
     public class MyEntityGetQueryHandler : IRequestHandler<MyEntityGetQuery, MyEntity>
     {
-        private IReadOnlyMyEntityRepository _myEntityRepository;
+        private IMyEntityReadOnlyRepository _myEntityRepository;
 
-        public MyEntityGetQueryHandler(IReadOnlyMyEntityRepository myEntityRepository)
+        public MyEntityGetQueryHandler(IMyEntityReadOnlyRepository myEntityRepository)
         {
             _myEntityRepository = myEntityRepository;
         }
@@ -65,7 +65,7 @@ namespace MyCompany.Application.Queries {
 }
 ```
 
-Please note that we are using a **ReadOnlyRepository** rather than a service in order to do the segregation between Commands and Queries. Lastly, create your routing method within your controller :
+Please note that we are using a **RepositoryReadOnly** rather than a service in order to do the segregation between Commands and Queries. Lastly, create your routing method within your controller :
 
 ```csharp
 [HttpGet("my-entity/{id}")]

@@ -3,10 +3,13 @@ global using System.Collections.Generic;
 global using System.ComponentModel.DataAnnotations;
 global using System.ComponentModel.DataAnnotations.Schema;
 global using Newtonsoft.Json;
-global using <%= namespace %>.Crosscutting.Enums;
-global using TTG.Core.Data.Entities;
-
 <%_ if (databaseType == 'mongodb') { _%>
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 <%_ } _%>
+
+global using TTG.Core.Data.Entities;
+global using TTG.Core.Services;
+
+global using <%= namespace %>.Entities;
+global using <%= namespace %>.Crosscutting.Enums;

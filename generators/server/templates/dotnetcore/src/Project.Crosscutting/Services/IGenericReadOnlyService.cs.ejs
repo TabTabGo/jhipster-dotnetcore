@@ -1,0 +1,6 @@
+namespace <%= namespace %>.Crosscutting.Services;
+
+public interface IGenericReadOnlyService<TEntity,TKey> : IBaseReadService<TEntity, TKey> where TEntity : Entity<TKey>
+{
+
+}

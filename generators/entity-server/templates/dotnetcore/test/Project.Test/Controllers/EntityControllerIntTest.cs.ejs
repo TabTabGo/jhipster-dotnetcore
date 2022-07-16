@@ -130,8 +130,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using <%= namespace %>.Infrastructure.Data;
-using <%= namespace %>.Domain;
-using <%= namespace %>.Domain.Repositories.Interfaces;
+using <%= namespace %>.Entities;
+using <%= namespace %>.Repositories.Interfaces;
 <%_
 let hasEnumField = false;
 fields.forEach(field => {

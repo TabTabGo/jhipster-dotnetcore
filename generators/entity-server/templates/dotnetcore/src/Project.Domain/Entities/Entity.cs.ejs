@@ -23,7 +23,7 @@ const entityClassName = pascalizedEntityClass;
 const entityVariableName = camelCasedEntityClass; _%>
 namespace <%= namespace %>.Entities;
 
-public class <%= entityClassName %> :  <%_ if (databaseType == 'mongodb') { %> MongoBaseEntity<<%= primaryKeyType %>> <%_ } else { %> Entity<<%= primaryKeyType %>> <%_ } %> 
+public class <%= entityClassName %> :  <%_ if (databaseType == 'mongodb') { %> MongoEntity<<%= primaryKeyType %>> <%_ } else { %> Entity<<%= primaryKeyType %>> <%_ } %> 
 {
 <%_ for (idx in fields){
     if (fields[idx].id) continue;

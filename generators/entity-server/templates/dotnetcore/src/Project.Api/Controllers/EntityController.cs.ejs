@@ -27,7 +27,7 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using JHipsterNet.Core.Pagination;
-using <%= namespace %>.Domain;
+using <%= namespace %>.Entities;
 <%_
 let hasEnumField = false;
 fields.forEach(field => {
@@ -53,8 +53,8 @@ using <%= namespace %>.Application.Commands;
 using AutoMapper;
 using System.Linq;
 <%_ } _%>
-using <%= namespace %>.Domain.Repositories.Interfaces;
-using <%= namespace %>.Domain.Services.Interfaces;
+using <%= namespace %>.Repositories.Interfaces;
+using <%= namespace %>.Services.Interfaces;
 <%_ } _%>
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

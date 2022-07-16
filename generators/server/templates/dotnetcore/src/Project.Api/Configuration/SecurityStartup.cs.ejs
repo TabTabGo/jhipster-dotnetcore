@@ -18,11 +18,11 @@ using <%= namespace %>.Infrastructure.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using <%= namespace %>.Infrastructure.Data;
-using <%= namespace %>.Domain;
+using <%= namespace %>.Entities;
 using <%= namespace %>.Security;
 using <%= namespace %>.Security.Jwt;
-using <%= namespace %>.Domain.Services;
-using <%= namespace %>.Domain.Services.Interfaces;
+using <%= namespace %>.Services;
+using <%= namespace %>.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -33,8 +33,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 <%_ if (applicationType !== 'microservice') { _%>
-using AuthenticationService = <%= namespace %>.Domain.Services.AuthenticationService;
-using IAuthenticationService = <%= namespace %>.Domain.Services.Interfaces.IAuthenticationService;
+using AuthenticationService = <%= namespace %>.Services.AuthenticationService;
+using IAuthenticationService = <%= namespace %>.Services.Interfaces.IAuthenticationService;
 <%_ } _%>
 <%_ } else { _%>
 using Microsoft.AspNetCore.Authentication;

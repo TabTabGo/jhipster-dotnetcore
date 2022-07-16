@@ -13,14 +13,14 @@
  limitations under the License.
 -%>
 using System.Threading.Tasks;
-using <%= namespace %>.Domain;
+using <%= namespace %>.Entities;
 
-namespace <%= namespace %>.Domain.Services.Interfaces
+namespace <%= namespace %>.Services.Interfaces;
+
+public interface IMailService
 {
-    public interface IMailService
-    {
-        Task SendPasswordResetMail(User user);
-        Task SendActivationEmail(User user);
-        Task SendCreationEmail(User user);
-    }
+    Task SendPasswordResetMail(User user);
+    Task SendActivationEmail(User user);
+    Task SendCreationEmail(User user);
 }
+

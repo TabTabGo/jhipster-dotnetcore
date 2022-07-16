@@ -208,6 +208,16 @@ const serverFiles = {
                 },
             ],
         },
+        {            
+            path: SERVER_SRC_DIR,
+            templates: [
+                {
+                    file: 'Project.Crosscutting/Services/IGenericReadOnlyService.cs',
+                    renameTo: generator =>
+                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/Services/IGenericReadOnlyService.cs`,
+                },
+            ],
+        },
         {
             condition: generator => generator.applicationType !== 'microservice',
             path: SERVER_SRC_DIR,
@@ -326,55 +336,36 @@ const serverFiles = {
                 },
             ],
         },
+        {
+            path: SERVER_SRC_DIR,
+            templates: [
+                {
+                    file: 'Project.Domain.Services/GenericReadOnlyService.cs',
+                    renameTo: generator =>
+                        `${generator.pascalizedBaseName}${PROJECT_SERVICE_SUFFIX}/GenericReadOnlyService.cs`,
+                },
+            ],
+        },
+        {
+            path: SERVER_SRC_DIR,
+            templates: [
+                {
+                    file: 'Project.Domain.Services/GenericService.cs',
+                    renameTo: generator =>
+                        `${generator.pascalizedBaseName}${PROJECT_SERVICE_SUFFIX}/GenericService.cs`,
+                },
+            ],
+        },
     ],
-    repository: [
+    repository: [               
         {
+            condition: generator => generator.databaseType === 'mongodb',
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.Domain/Repositories/Interfaces/IFluentRepository.cs',
+                    file: 'Project.Crosscutting/Repositories/INoSqlGenericRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/IFluentRepository.cs`,
-                },
-            ],
-        },
-        {
-            path: SERVER_SRC_DIR,
-            templates: [
-                {
-                    file: 'Project.Domain/Repositories/Interfaces/INoSqlFluentRepository.cs',
-                    renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/INoSqlFluentRepository.cs`,
-                },
-            ],
-        },
-        {
-            path: SERVER_SRC_DIR,
-            templates: [
-                {
-                    file: 'Project.Domain/Repositories/Interfaces/IGenericRepository.cs',
-                    renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/IGenericRepository.cs`,
-                },
-            ],
-        },
-        {
-            path: SERVER_SRC_DIR,
-            templates: [
-                {
-                    file: 'Project.Domain/Repositories/Interfaces/IReadOnlyGenericRepository.cs',
-                    renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/IReadOnlyGenericRepository.cs`,
-                },
-            ],
-        },
-        {
-            path: SERVER_SRC_DIR,
-            templates: [
-                {
-                    file: 'Project.Domain/Repositories/Interfaces/IReadOnlyGenericRepository.cs',
-                    renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/IReadOnlyGenericRepository.cs`,
+                        `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Repositories/INoSqlGenericRepository.cs`,
                 },
             ],
         },
@@ -383,9 +374,9 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.Domain/Repositories/Interfaces/INoSqlGenericRepository.cs',
+                    file: 'Project.Crosscutting/Repositories/INoSqlReadOnlyGenericRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/INoSqlGenericRepository.cs`,
+                        `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Repositories/INoSqlReadOnlyGenericRepository.cs`,
                 },
             ],
         },
@@ -394,20 +385,9 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.Domain/Repositories/Interfaces/INoSqlReadOnlyGenericRepository.cs',
+                    file: 'Project.Crosscutting/Repositories/INoSqlReadOnlyGenericRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/INoSqlReadOnlyGenericRepository.cs`,
-                },
-            ],
-        },
-        {
-            condition: generator => generator.databaseType === 'mongodb',
-            path: SERVER_SRC_DIR,
-            templates: [
-                {
-                    file: 'Project.Domain/Repositories/Interfaces/INoSqlReadOnlyGenericRepository.cs',
-                    renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/INoSqlReadOnlyGenericRepository.cs`,
+                        `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Repositories/INoSqlReadOnlyGenericRepository.cs`,
                 },
             ],
         },
@@ -415,22 +395,11 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.Domain/Repositories/Interfaces/IUnitOfWork.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Repositories/IUnitOfWork.cs`,
+                    file: 'Project.Crosscutting/Repositories/IUnitOfWork.cs',
+                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Repositories/IUnitOfWork.cs`,
                 },
             ],
-        },
-        {
-            condition: generator => generator.databaseType === 'mongodb',
-            path: SERVER_SRC_DIR,
-            templates: [
-                {
-                    file: 'Project.Infrastructure/Data/Repositories/MongoFluentRepository.cs',
-                    renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/MongoFluentRepository.cs`,
-                },
-            ],
-        },
+        },       
         {
             path: SERVER_SRC_DIR,
             templates: [
@@ -456,9 +425,9 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.Infrastructure/Data/Repositories/ReadOnlyGenericRepository.cs',
+                    file: 'Project.Infrastructure/Data/Repositories/GenericReadOnlyRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/ReadOnlyGenericRepository.cs`,
+                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/GenericReadOnlyRepository.cs`,
                 },
             ],
         },
@@ -467,9 +436,9 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.Infrastructure/Data/Repositories/MongoReadOnlyGenericRepository.cs',
+                    file: 'Project.Infrastructure/Data/Repositories/MongoGenericReadOnlyRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/MongoReadOnlyGenericRepository.cs`,
+                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/MongoGenericReadOnlyRepository.cs`,
                 },
             ],
         },
@@ -477,9 +446,9 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.Infrastructure/Data/Repositories/ReadOnlyGenericRepository.cs',
+                    file: 'Project.Infrastructure/Data/Repositories/GenericReadOnlyRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/ReadOnlyGenericRepository.cs`,
+                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/GenericReadOnlyRepository.cs`,
                 },
             ],
         },
@@ -1071,7 +1040,7 @@ const serverFiles = {
                 },
             ],
         },
-    ],
+    ],    
     serverAuthConfig: [
         {
             condition: generator => generator.authenticationType === 'jwt' && generator.applicationType !== 'microservice',

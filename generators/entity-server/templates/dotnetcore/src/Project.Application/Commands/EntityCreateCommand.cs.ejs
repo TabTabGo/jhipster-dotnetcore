@@ -19,16 +19,16 @@
 <%
 let hasDto = viewModel === 'mapstruct';
 %>
-using <%= namespace %>.Domain;
+using <%= namespace %>.Entities;
 using MediatR;
 <%_ if (hasDto) { _%>
 using <%= namespace %>.ViewModel;
 <%_ } _%>
 
-namespace <%= namespace %>.Application.Commands
+namespace <%= namespace %>.Application.Commands;
+
+public class <%= pascalizedEntityClass %>CreateCommand : IRequest<<%= pascalizedEntityClass %>>
 {
-    public class <%= pascalizedEntityClass %>CreateCommand : IRequest<<%= pascalizedEntityClass %>>
-    {
-        public <%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %> <%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %> { get; set; }
-    }
+    public <%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %> <%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %> { get; set; }
 }
+

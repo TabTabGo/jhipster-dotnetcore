@@ -19,10 +19,9 @@ The main difference with the other SQL databases is that your IDs are handled as
 Also, some classes are replaced in order to support MongoDB :
 
 ```
-BaseEntity => MongoBaseEntity
+Entity => MongoEntity
 GenericRepository => MongoGenericRepository
-ReadOnlyGenericRepository => MongoReadOnlyGenericRepository
-FluentRepository => NoSqlFluentRepository
+GenericReadRepository => MongoGenericReadOnlyRepository
 ```
 
 ## WIP
