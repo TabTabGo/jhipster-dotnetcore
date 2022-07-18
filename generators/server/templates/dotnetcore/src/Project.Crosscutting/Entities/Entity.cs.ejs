@@ -20,9 +20,9 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 
-namespace <%= namespace %>Crosscutting.Entities;
+namespace <%= namespace %>.Crosscutting.Entities;
 
-public abstract class Entity<TKey>> : IEntity
+public abstract class Entity<TKey> : IEntity
 {
     public TKey Id { get; set; }
     

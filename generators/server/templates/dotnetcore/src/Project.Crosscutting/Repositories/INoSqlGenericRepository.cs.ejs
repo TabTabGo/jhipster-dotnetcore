@@ -19,7 +19,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace <%= namespace %><%= PROJECT_CROSSCUTTING_SUFFIX  %>.Repositories;
+namespace <%= namespace %>.Crosscutting.Repositories;
 
 public interface INoSqlGenericRepository<TEntity, TKey> : INoSqlGenericReadOnlyRepository<TEntity, TKey> where TEntity : MongoEntity<TKey>
 {
