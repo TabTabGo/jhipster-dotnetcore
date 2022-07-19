@@ -22,17 +22,7 @@ using Newtonsoft.Json;
 
 namespace <%= namespace %>.Crosscutting.Entities;
 
-public abstract class Entity<TKey> : IEntity
+public abstract class Entity<TKey> : TabTabGo.Core.Entities.Entity
 {
-    public TKey Id { get; set; }
-    
-    [JsonExtensionData]
-    public IDictionary<string, object>? Properties { get; set; } = new Dictionary<string, object>();
-
-    public bool IsEnabled { get; set; } = true;
-    public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.UtcNow;
-    public DateTimeOffset UpdatedDate { get; set; } = DateTimeOffset.UtcNow;
-    public string? CreatedBy { get; set; } = "sys";
-    public string? UpdatedBy { get; set; } = "sys";
+    public override TKey Id { get; set; }
 }
-

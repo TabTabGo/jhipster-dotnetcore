@@ -183,15 +183,15 @@ module.exports = class extends ClientGenerator {
                         this.warning(`Failed to create ${this.solutionName} .Net Core solution: ${err}`);
                     }
                     await dotnet.slnAdd(`${this.solutionName}.sln`, [
-                        `${constants.CLIENT_SRC_DIR}${this.mainClientDir}/${this.pascalizedBaseName}.Client.csproj`,
-                        `${constants.CLIENT_SRC_DIR}${this.sharedClientDir}/${this.pascalizedBaseName}.Client.Shared.csproj`,
-                        `${constants.CLIENT_TEST_DIR}${this.clientTestProject}/${this.pascalizedBaseName}.Client.Test.csproj`,
+                        `${constants.CLIENT_SRC_DIR}${this.mainClientDir}/${this.namespace}.Client.csproj`,
+                        `${constants.CLIENT_SRC_DIR}${this.sharedClientDir}/${this.namespace}.Client.Shared.csproj`,
+                        `${constants.CLIENT_TEST_DIR}${this.clientTestProject}/${this.namespace}.Client.Test.csproj`,
                     ]);
                     this.log(chalk.green.bold('Client application generated successfully.\n'));
                     this.log(
                         chalk.green(
                             `Run your blazor application:\n${chalk.yellow.bold(
-                                `dotnet run --verbosity normal --project ./${constants.CLIENT_SRC_DIR}${this.mainClientDir}/${this.pascalizedBaseName}.Client.csproj`
+                                `dotnet run --verbosity normal --project ./${constants.CLIENT_SRC_DIR}${this.mainClientDir}/${this.namespace}.Client.csproj`
                             )}`
                         )
                     );
@@ -204,17 +204,17 @@ module.exports = class extends ClientGenerator {
                         this.warning(`Failed to create ${this.solutionName} .Net Core solution: ${err}`);
                     }
                     await dotnet.slnAdd(`${this.solutionName}.sln`, [
-                        `${constants.CLIENT_SRC_DIR}${this.mainClientDir}/${this.pascalizedBaseName}.Client.Xamarin.Core.csproj`,
-                        `${constants.CLIENT_SRC_DIR}${this.sharedClientDir}/${this.pascalizedBaseName}.Client.Xamarin.Shared.csproj`,
+                        `${constants.CLIENT_SRC_DIR}${this.mainClientDir}/${this.namespace}.Client.Xamarin.Core.csproj`,
+                        `${constants.CLIENT_SRC_DIR}${this.sharedClientDir}/${this.namespace}.Client.Xamarin.Shared.csproj`,
                     ]);
                     await dotnet.newSlnAddProj(this.solutionName, [
                         {
-                            path: `${constants.CLIENT_SRC_DIR}${this.androidClientDir}/${this.pascalizedBaseName}.Client.Xamarin.Android.csproj`,
-                            name: `${this.pascalizedBaseName}.Client.Xamarin.Android`,
+                            path: `${constants.CLIENT_SRC_DIR}${this.androidClientDir}/${this.namespace}.Client.Xamarin.Android.csproj`,
+                            name: `${this.namespace}.Client.Xamarin.Android`,
                         },
                         {
-                            path: `${constants.CLIENT_SRC_DIR}${this.iOSClientDir}/${this.pascalizedBaseName}.Client.Xamarin.iOS.csproj`,
-                            name: `${this.pascalizedBaseName}.Client.Xamarin.iOS`,
+                            path: `${constants.CLIENT_SRC_DIR}${this.iOSClientDir}/${this.namespace}.Client.Xamarin.iOS.csproj`,
+                            name: `${this.namespace}.Client.Xamarin.iOS`,
                         },
                     ]);
                     this.log(chalk.green.bold('Client application generated successfully.\n'));

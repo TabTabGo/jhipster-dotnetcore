@@ -757,7 +757,7 @@ const files = {
             templates: [
                 {
                     file: 'Project.Client/Project.Client.csproj',
-                    renameTo: generator => `${generator.mainClientDir}/${generator.pascalizedBaseName}.Client.csproj`,
+                    renameTo: generator => `${generator.mainClientDir}/${generator.namespace}.Client.csproj`,
                 },
             ],
         },
@@ -871,7 +871,7 @@ const files = {
             templates: [
                 {
                     file: 'Project.Client.Test/Project.Client.Test.csproj',
-                    renameTo: generator => `${generator.clientTestProject}/${generator.pascalizedBaseName}.Client.Test.csproj`,
+                    renameTo: generator => `${generator.clientTestProject}/${generator.namespace}.Client.Test.csproj`,
                 },
             ],
         },
@@ -909,7 +909,7 @@ const files = {
             templates: [
                 {
                     file: 'Project.Client.Shared/Project.Client.Shared.csproj',
-                    renameTo: generator => `${generator.sharedClientDir}/${generator.pascalizedBaseName}.Client.Shared.csproj`,
+                    renameTo: generator => `${generator.sharedClientDir}/${generator.namespace}.Client.Shared.csproj`,
                 },
             ],
         },

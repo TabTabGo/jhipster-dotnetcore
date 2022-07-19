@@ -1,8 +1,8 @@
 <Project>
   <PropertyGroup>
-		<AspNetCorePackageVersion>6.0.2</AspNetCorePackageVersion>
-		<EntityFrameworkPackageVersion>5.0.8</EntityFrameworkPackageVersion>
-		<JHipsterNetPackageVersion>1.0.7</JHipsterNetPackageVersion>
+		<AspNetCorePackageVersion>6.0.7</AspNetCorePackageVersion>
+		<EntityFrameworkPackageVersion>6.0.7</EntityFrameworkPackageVersion>
+		<TabTabCorePackageVersion>6.0.1</TabTabCorePackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,9 +25,7 @@
 	<PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.10.0" />
 	<%_ } _%>
 
-	<PackageReference Update="JHipsterNet.Core" Version="$(JHipsterNetPackageVersion)" />
-	<PackageReference Update="JHipsterNet.Web" Version="$(JHipsterNetPackageVersion)" />
-	<PackageReference Update="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+	<PackageReference Update="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
 	<%_ if (cqrsEnabled) { _%>
 	<PackageReference Update="MediatR" Version="9.0.0" />
 	<PackageReference Update="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
@@ -42,10 +40,10 @@
 	<PackageReference Update="Serilog.Enrichers.Process" Version="2.0.1" />
 	<PackageReference Update="Serilog.Enrichers.Thread" Version="3.1.0" />
 	<PackageReference Update="Serilog.Sinks.SyslogMessages" Version="2.0.5" />
-	<PackageReference Update="Swashbuckle.AspNetCore" Version="6.1.4" />
+	<PackageReference Update="Swashbuckle.AspNetCore" Version="6.3.1" />
 	<PackageReference Update="LanguageExt.Core" Version="3.4.15" />
 	<%_ if (authenticationType === 'jwt') { _%>
-	<PackageReference Update="System.IdentityModel.Tokens.Jwt" Version="6.12.0" />
+	<PackageReference Update="System.IdentityModel.Tokens.Jwt" Version="6.21.0" />
 	<PackageReference Update="Microsoft.AspNetCore.Authentication.JwtBearer" Version="$(AspNetCorePackageVersion)" />
 	<PackageReference Update="BCrypt.Net-Next" Version="4.0.2" />
 	<%_ } else { _%>
@@ -67,7 +65,7 @@
 	<PackageReference Update="Newtonsoft.Json" Version="13.0.1" />
 	<PackageReference Update="System.ComponentModel.Annotations" Version="5.0.0" />
 	<PackageReference Update="System.Text.Json" Version="$(AspNetCorePackageVersion)" />
-	<PackageReference Update="Serilog" Version="2.10.0" />
+	<PackageReference Update="Serilog" Version="2.11.0" />
 
 	<%_ switch(databaseType) {
 		case 'sqllite': _%>
@@ -123,17 +121,22 @@
 		<%_ break;
 	} _%>
 	<PackageReference Update="coverlet.msbuild" Version="3.1.0"/>
-	<PackageReference Update="FakeItEasy" Version="7.1.0" />
+	<PackageReference Update="FakeItEasy" Version="7.3.1" />
 	<PackageReference Update="Microsoft.AspNetCore.Mvc.Testing" Version="$(AspNetCorePackageVersion)" />
 	<PackageReference Update="Microsoft.Data.Sqlite.Core" Version="$(EntityFrameworkPackageVersion)" />
 	<PackageReference Update="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EntityFrameworkPackageVersion)" />
-	<PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.10.0" />
+	<PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.2.0" />
 	<PackageReference Update="Moq" Version="4.16.1" />
-	<PackageReference Update="xunit" Version="2.4.1" />
+	<PackageReference Update="xunit" Version="2.4.5" />
 	<PackageReference Update="xunit.runner.visualstudio" Version="2.4.3"/>
 	<PackageReference Update="xunit.runner.console" Version="2.4.1"/>
-	<PackageReference Update="FluentAssertions" Version="5.10.3" />
-	<PackageReference Update="FluentAssertions.AspNetCore.Mvc" Version="3.2.0" />
-	<PackageReference Update="FluentAssertions.Json" Version="5.5.0" />
+	<PackageReference Update="FluentAssertions" Version="6.7.0" />
+	<PackageReference Update="FluentAssertions.AspNetCore.Mvc" Version="4.2.0" />
+	<PackageReference Update="FluentAssertions.Json" Version="6.1.0" />
+
+	<PackageReference Update="TabTabGo.Core" Version="$(TabTabCorePackageVersion)" />
+	<PackageReference Update="TabTabGo.Core.Api" Version="$(TabTabCorePackageVersion)" />
+	<PackageReference Update="TabTabGo.Core.Services" Version="$(TabTabCorePackageVersion)" />
+	<PackageReference Update="TabTabGo.Core.Infrastracture" Version="$(TabTabCorePackageVersion)" />
   </ItemGroup>
 </Project>

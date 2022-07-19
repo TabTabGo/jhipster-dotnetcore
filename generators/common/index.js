@@ -38,6 +38,9 @@ module.exports = class extends CommonGenerator {
         if (this.configOptions.baseName) {
             this.baseName = this.configOptions.baseName;
         }
+        if (this.configOptions.namespace) {
+            this.namespace = this.configOptions.namespace;
+        }
     }
 
     get initializing() {
@@ -45,8 +48,8 @@ module.exports = class extends CommonGenerator {
             ...super._initializing(),
             configureGlobal() {
                 this.kebabCasedBaseName = _.kebabCase(this.baseName);
-                this.pascalizedBaseName = toPascalCase(this.baseName);
-                this.mainProjectDir = this.pascalizedBaseName;
+                this.pascalizedBaseName = toPascalCase(this.baseName);                
+                this.mainProjectDir = this.namespace;
                 this.mainClientDir = `${this.mainProjectDir}/ClientApp`;
                 this.jhipsterDotnetVersion = packagejs.version;
                 this.options.outputPathCustomizer = [

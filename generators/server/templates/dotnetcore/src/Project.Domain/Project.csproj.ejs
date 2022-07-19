@@ -25,14 +25,13 @@
         <PackageReference Include="Microsoft.AspNetCore.Identity"  />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore"  />
         <PackageReference Include="Newtonsoft.Json"  />
-        <PackageReference Include="JHipsterNet.Core"  />
         <%_ if (databaseType == 'mongodb') { _%>
         <PackageReference Include="MongoDB.Driver" />
         <%_ } _%>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\<%= pascalizedBaseName %>.Crosscutting\<%= pascalizedBaseName %>.Crosscutting.csproj" />
+        <ProjectReference Include="..\<%= namespace %>.Crosscutting\<%= namespace %>.Crosscutting.csproj" />
     </ItemGroup>
 
 </Project>

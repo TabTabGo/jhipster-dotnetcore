@@ -16,6 +16,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
+
 using System;
 using System.Linq.Expressions;
 using System.Threading;
@@ -24,17 +25,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace <%= namespace %>.Crosscutting.Repositories;
 
-public interface IUnitOfWork : IDisposable
+public interface I<%= pascalBaseName %>UnitOfWork : TabTabGo.Core.Infrastructure.Data.UnitOfWork
 {
     DbSet<T> Set<T>(string name = null) where T : class;
-    void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted);
-    void Commit();
-    void Rollback();
-    int SaveChanges();
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
-    Task<int> SaveChangesInBulkAsync(CancellationToken cancellationToken = default);
-    void AddOrUpdateGraph<TEntiy>(TEntiy entity) where TEntiy : class;
     void UpdateState<TEntity>(TEntity entity, EntityState state);
-    void SetEntityStateModified<TEntiy, TProperty>(TEntiy entity, Expression<Func<TEntiy, TProperty>> propertyExpression) where TEntiy : class where TProperty : class;
-    void RemoveNavigationProperty<TEntity, TOwnerEntity>(TOwnerEntity ownerEntity, object id) where TEntity : class where TOwnerEntity : class;
 }

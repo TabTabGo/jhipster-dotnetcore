@@ -38,7 +38,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Api/Project.csproj',
-                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/${generator.pascalizedBaseName}${PROJECT_API_SUFFIX}.csproj`,
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/${generator.namespace}${PROJECT_API_SUFFIX}.csproj`,
                 },
             ],
         },
@@ -48,7 +48,7 @@ const serverFiles = {
                 {
                     file: 'Project.Test/Project.Test.csproj',
                     renameTo: generator =>
-                        `${generator.testProjectDir}/${generator.pascalizedBaseName}${constants.PROJECT_TEST_SUFFIX}.csproj`,
+                        `${generator.testProjectDir}/${generator.namespace}${constants.PROJECT_TEST_SUFFIX}.csproj`,
                 },
             ],
         },
@@ -62,7 +62,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/Project.csproj',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}.csproj`,
+                        `${generator.namespace}${PROJECT_DOMAIN_SUFFIX}/${generator.namespace}${PROJECT_DOMAIN_SUFFIX}.csproj`,
                 },
             ],
         },
@@ -73,7 +73,7 @@ const serverFiles = {
                 {
                     file: 'Project.Application/Project.csproj',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}.csproj`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/${generator.namespace}${PROJECT_APPLICATION_SUFFIX}.csproj`,
                 },
             ],
         },
@@ -83,7 +83,7 @@ const serverFiles = {
                 {
                     file: 'Project.Crosscutting/Project.csproj',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}.csproj`,
+                        `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}.csproj`,
                 },
             ],
         },
@@ -93,7 +93,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain.Services/Project.csproj',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_SERVICE_SUFFIX}/${generator.pascalizedBaseName}${PROJECT_SERVICE_SUFFIX}.csproj`,
+                        `${generator.namespace}${PROJECT_SERVICE_SUFFIX}/${generator.namespace}${PROJECT_SERVICE_SUFFIX}.csproj`,
                 },
             ],
         },
@@ -103,7 +103,7 @@ const serverFiles = {
                 {
                     file: 'Project.Infrastructure/Project.csproj',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}.csproj`,
+                        `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}.csproj`,
                 },
             ],
         },
@@ -115,7 +115,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/Global.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Global.cs`,
+                        `${generator.namespace}${PROJECT_DOMAIN_SUFFIX}/Global.cs`,
                 },
             ],
         },           
@@ -125,7 +125,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Domain/Entities/User.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Entities/User.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_DOMAIN_SUFFIX}/Entities/User.cs`,
                 },
             ],
         },
@@ -135,7 +135,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Domain/Entities/Role.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Entities/Role.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_DOMAIN_SUFFIX}/Entities/Role.cs`,
                 },
             ],
         },
@@ -145,7 +145,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Domain/Entities/UserRole.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Entities/UserRole.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_DOMAIN_SUFFIX}/Entities/UserRole.cs`,
                 },
             ],
         },
@@ -156,7 +156,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Crosscutting/Constants/Constants.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Constants/Constants.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Constants/Constants.cs`,
                 },
             ],
         },
@@ -166,7 +166,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Crosscutting/Constants/JwtConstants.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Constants/JwtConstants.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Constants/JwtConstants.cs`,
                 },
             ],
         },
@@ -175,7 +175,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Crosscutting/Constants/RolesConstants.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Constants/RolesConstants.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Constants/RolesConstants.cs`,
                 },
             ],
         },
@@ -184,7 +184,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Crosscutting/Constants/ErrorConstants.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Constants/ErrorConstants.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Constants/ErrorConstants.cs`,
                 },
             ],
         },
@@ -193,7 +193,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Crosscutting/Entities/Entity.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Entites/Entity.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Entites/Entity.cs`,
                 },
             ],
         },
@@ -204,20 +204,10 @@ const serverFiles = {
                 {
                     file: 'Project.Crosscutting/ViewModels/EntityViewModel.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/EntityViewModel.cs`,
+                        `${generator.namespace}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/EntityViewModel.cs`,
                 },
             ],
-        },
-        {            
-            path: SERVER_SRC_DIR,
-            templates: [
-                {
-                    file: 'Project.Crosscutting/Services/IGenericReadOnlyService.cs',
-                    renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/Services/IGenericReadOnlyService.cs`,
-                },
-            ],
-        },
+        },       
         {
             condition: generator => generator.applicationType !== 'microservice',
             path: SERVER_SRC_DIR,
@@ -225,7 +215,7 @@ const serverFiles = {
                 {
                     file: 'Project.Api/Security/UsernameNotFoundException.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Exceptions/UsernameNotFoundException.cs`,
+                        `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Exceptions/UsernameNotFoundException.cs`,
                 },
             ],
         },
@@ -236,7 +226,7 @@ const serverFiles = {
                 {
                     file: 'Project.Api/Security/UserNotActivatedException.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Exceptions/UserNotActivatedException.cs`,
+                        `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Exceptions/UserNotActivatedException.cs`,
                 },
             ],
         },
@@ -248,7 +238,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Domain/ViewModels/ManagedUserViewModel.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/ManagedUserViewModel.cs`,
+                    renameTo: generator => `${generator.namespace}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/ManagedUserViewModel.cs`,
                 },
             ],
         },
@@ -259,7 +249,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/ViewModels/PasswordChangeViewModel.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/Authentication/PasswordChangeViewModel.cs`,
+                        `${generator.namespace}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/Authentication/PasswordChangeViewModel.cs`,
                 },
             ],
         },
@@ -269,7 +259,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Domain/ViewModels/UserViewModel.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/UserViewModel.cs`,
+                    renameTo: generator => `${generator.namespace}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/UserViewModel.cs`,
                 },
             ],
         },
@@ -279,7 +269,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/ViewModels/ProfileInfoViewModel.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/ProfileInfo/ProfileInfoViewModel.cs`,
+                        `${generator.namespace}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/ProfileInfo/ProfileInfoViewModel.cs`,
                 },
             ],
         },
@@ -290,7 +280,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/ViewModels/KeyAndPasswordViewModel.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/Authentication/KeyAndPasswordViewModel.cs`,
+                        `${generator.namespace}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/Authentication/KeyAndPasswordViewModel.cs`,
                 },
             ],
         },
@@ -301,7 +291,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/ViewModels/LoginViewModel.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/Authentication/LoginViewModel.cs`,
+                        `${generator.namespace}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/Authentication/LoginViewModel.cs`,
                 },
             ],
         },
@@ -311,7 +301,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/ViewModels/SwaggerResourceViewModel.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/SwaggerResourceViewModel.cs`,
+                        `${generator.namespace}${constants.PROJECT_DOMAIN_SUFFIX}/ViewModels/SwaggerResourceViewModel.cs`,
                 },
             ],
         },
@@ -323,7 +313,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/Services/Interfaces/ServicesInterfacesAssemblyHelper.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Services/ServicesInterfacesAssemblyHelper.cs`,
+                        `${generator.namespace}${PROJECT_DOMAIN_SUFFIX}/Services/ServicesInterfacesAssemblyHelper.cs`,
                 },
             ],
         },
@@ -332,7 +322,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Domain.Services/ServicesClassesAssemblyHelper.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_SERVICE_SUFFIX}/ServicesClassesAssemblyHelper.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_SERVICE_SUFFIX}/ServicesClassesAssemblyHelper.cs`,
                 },
             ],
         },
@@ -342,7 +332,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain.Services/GenericReadOnlyService.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_SERVICE_SUFFIX}/GenericReadOnlyService.cs`,
+                        `${generator.namespace}${PROJECT_SERVICE_SUFFIX}/GenericReadOnlyService.cs`,
                 },
             ],
         },
@@ -352,7 +342,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain.Services/GenericService.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_SERVICE_SUFFIX}/GenericService.cs`,
+                        `${generator.namespace}${PROJECT_SERVICE_SUFFIX}/GenericService.cs`,
                 },
             ],
         },
@@ -365,7 +355,7 @@ const serverFiles = {
                 {
                     file: 'Project.Crosscutting/Repositories/INoSqlGenericRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Repositories/INoSqlGenericRepository.cs`,
+                        `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Repositories/INoSqlGenericRepository.cs`,
                 },
             ],
         },
@@ -376,7 +366,7 @@ const serverFiles = {
                 {
                     file: 'Project.Crosscutting/Repositories/INoSqlReadOnlyGenericRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Repositories/INoSqlReadOnlyGenericRepository.cs`,
+                        `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Repositories/INoSqlReadOnlyGenericRepository.cs`,
                 },
             ],
         },
@@ -387,7 +377,7 @@ const serverFiles = {
                 {
                     file: 'Project.Crosscutting/Repositories/INoSqlReadOnlyGenericRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Repositories/INoSqlReadOnlyGenericRepository.cs`,
+                        `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Repositories/INoSqlReadOnlyGenericRepository.cs`,
                 },
             ],
         },
@@ -396,7 +386,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Crosscutting/Repositories/IUnitOfWork.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Repositories/IUnitOfWork.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Repositories/IUnitOfWork.cs`,
                 },
             ],
         },       
@@ -406,7 +396,7 @@ const serverFiles = {
                 {
                     file: 'Project.Infrastructure/Data/Repositories/GenericRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/GenericRepository.cs`,
+                        `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/GenericRepository.cs`,
                 },
             ],
         },
@@ -417,7 +407,7 @@ const serverFiles = {
                 {
                     file: 'Project.Infrastructure/Data/Repositories/MongoGenericRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/MongoGenericRepository.cs`,
+                        `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/MongoGenericRepository.cs`,
                 },
             ],
         },
@@ -427,7 +417,7 @@ const serverFiles = {
                 {
                     file: 'Project.Infrastructure/Data/Repositories/GenericReadOnlyRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/GenericReadOnlyRepository.cs`,
+                        `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/GenericReadOnlyRepository.cs`,
                 },
             ],
         },
@@ -438,7 +428,7 @@ const serverFiles = {
                 {
                     file: 'Project.Infrastructure/Data/Repositories/MongoGenericReadOnlyRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/MongoGenericReadOnlyRepository.cs`,
+                        `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/MongoGenericReadOnlyRepository.cs`,
                 },
             ],
         },
@@ -448,7 +438,7 @@ const serverFiles = {
                 {
                     file: 'Project.Infrastructure/Data/Repositories/GenericReadOnlyRepository.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/GenericReadOnlyRepository.cs`,
+                        `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/GenericReadOnlyRepository.cs`,
                 },
             ],
         },
@@ -458,7 +448,7 @@ const serverFiles = {
                 {
                     file: 'Project.Infrastructure/Data/Repositories/UnitOfWork.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/UnitOfWork.cs`,
+                        `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/UnitOfWork.cs`,
                 },
             ],
         },
@@ -470,12 +460,12 @@ const serverFiles = {
                 {
                     file: 'Project.Infrastructure/Data/Extensions/DbSetExtensions.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Extensions/DbSetExtensions.cs`,
+                        `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Extensions/DbSetExtensions.cs`,
                 },
                 {
                     file: 'Project.Infrastructure/Data/Extensions/PropertyAccessorCache.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Extensions/PropertyAccessorCache.cs`,
+                        `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Extensions/PropertyAccessorCache.cs`,
                 },
             ],
         },
@@ -488,7 +478,7 @@ const serverFiles = {
                 {
                     file: 'Project.Infrastructure/Data/Extensions/NoSqlPagination.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Extensions/NoSqlPagination.cs`,
+                        `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Extensions/NoSqlPagination.cs`,
                 },
             ],
         },
@@ -526,22 +516,22 @@ const serverFiles = {
                 {
                     file: 'Project.Infrastructure/Configuration/SecuritySettings.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_INFRASTRUCTURE_SUFFIX}/Configuration/SecuritySettings.cs`,
+                        `${generator.namespace}${constants.PROJECT_INFRASTRUCTURE_SUFFIX}/Configuration/SecuritySettings.cs`,
                 },
                 {
                     file: 'Project.Infrastructure/Configuration/IMongoDatabaseConfig.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_INFRASTRUCTURE_SUFFIX}/Configuration/IMongoDatabaseConfig.cs`,
+                        `${generator.namespace}${constants.PROJECT_INFRASTRUCTURE_SUFFIX}/Configuration/IMongoDatabaseConfig.cs`,
                 },
                 {
                     file: 'Project.Infrastructure/Configuration/MongoDatabaseConfig.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_INFRASTRUCTURE_SUFFIX}/Configuration/MongoDatabaseConfig.cs`,
+                        `${generator.namespace}${constants.PROJECT_INFRASTRUCTURE_SUFFIX}/Configuration/MongoDatabaseConfig.cs`,
                 },
                 {
                     file: 'Project.Infrastructure/Global.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${constants.PROJECT_INFRASTRUCTURE_SUFFIX}/Global.cs`,
+                        `${generator.namespace}${constants.PROJECT_INFRASTRUCTURE_SUFFIX}/Global.cs`,
                 },
             ],
         },
@@ -681,7 +671,7 @@ const serverFiles = {
                 {
                     file: 'Project.Infrastructure/Data/ApplicationDatabaseContext.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/ApplicationDatabaseContext.cs`,
+                        `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/ApplicationDatabaseContext.cs`,
                 },
             ],
         },
@@ -691,11 +681,11 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Infrastructure/Data/MongoDatabaseContext.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/MongoDatabaseContext.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/MongoDatabaseContext.cs`,
                 },
                 {
                     file: 'Project.Infrastructure/Data/IMongoDatabaseContext.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/IMongoDatabaseContext.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/IMongoDatabaseContext.cs`,
                 },
             ],
         },
@@ -706,7 +696,7 @@ const serverFiles = {
                 {
                     file: 'Project.Domain/Services/Interfaces/IAuthenticationService.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Services/IAuthenticationService.cs`,
+                        `${generator.namespace}${PROJECT_DOMAIN_SUFFIX}/Services/IAuthenticationService.cs`,
                 },
             ],
         },
@@ -716,7 +706,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Domain.Services/AuthenticationService.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_SERVICE_SUFFIX}/AuthenticationService.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_SERVICE_SUFFIX}/AuthenticationService.cs`,
                 },
             ],
         },
@@ -726,7 +716,25 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Domain/Services/Interfaces/IMailService.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Services/IMailService.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_DOMAIN_SUFFIX}/Services/IMailService.cs`,
+                },
+            ],
+        },
+        {
+            path: SERVER_SRC_DIR,
+            templates: [
+                {
+                    file: 'Project.Domain/Services/Interfaces/IGenericReadOnlyService.cs',
+                    renameTo: generator => `${generator.namespace}${PROJECT_DOMAIN_SUFFIX}/Services/IGenericReadOnlyService.cs`,
+                },
+            ],
+        },
+        {
+            path: SERVER_SRC_DIR,
+            templates: [
+                {
+                    file: 'Project.Domain/Services/Interfaces/IGenericService.cs',
+                    renameTo: generator => `${generator.namespace}${PROJECT_DOMAIN_SUFFIX}/Services/IGenericService.cs`,
                 },
             ],
         },
@@ -736,7 +744,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Domain.Services/MailService.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_SERVICE_SUFFIX}/MailService.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_SERVICE_SUFFIX}/MailService.cs`,
                 },
             ],
         },
@@ -746,7 +754,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Domain/Services/Interfaces/IUserService.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_DOMAIN_SUFFIX}/Services/IUserService.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_DOMAIN_SUFFIX}/Services/IUserService.cs`,
                 },
             ],
         },
@@ -756,7 +764,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Domain.Services/UserService.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_SERVICE_SUFFIX}/UserService.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_SERVICE_SUFFIX}/UserService.cs`,
                 },
             ],
         },
@@ -766,7 +774,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Crosscutting/Utilities/RandomUtil.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Utilities/RandomUtil.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Utilities/RandomUtil.cs`,
                 },
             ],
         },
@@ -796,7 +804,7 @@ const serverFiles = {
                 {
                     file: 'Project.Application/ApplicationClassesAssemblyHelper.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/ApplicationClassesAssemblyHelper.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/ApplicationClassesAssemblyHelper.cs`,
                 },
             ],
         },
@@ -808,82 +816,82 @@ const serverFiles = {
                 {
                     file: 'Project.Application/Commands/Account/AccountActivateCommand.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountActivateCommand.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountActivateCommand.cs`,
                 },
                 {
                     file: 'Project.Application/Commands/Account/AccountActivateCommandHandler.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountActivateCommandHandler.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountActivateCommandHandler.cs`,
                 },
                 {
                     file: 'Project.Application/Commands/Account/AccountChangePasswordCommand.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountChangePasswordCommand.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountChangePasswordCommand.cs`,
                 },
                 {
                     file: 'Project.Application/Commands/Account/AccountChangePasswordCommandHandler.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountChangePasswordCommandHandler.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountChangePasswordCommandHandler.cs`,
                 },
                 {
                     file: 'Project.Application/Commands/Account/AccountCreateCommand.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountCreateCommand.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountCreateCommand.cs`,
                 },
                 {
                     file: 'Project.Application/Commands/Account/AccountCreateCommandHandler.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountCreateCommandHandler.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountCreateCommandHandler.cs`,
                 },
                 {
                     file: 'Project.Application/Commands/Account/AccountResetPasswordCommand.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountResetPasswordCommand.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountResetPasswordCommand.cs`,
                 },
                 {
                     file: 'Project.Application/Commands/Account/AccountResetPasswordCommandHandler.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountResetPasswordCommandHandler.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountResetPasswordCommandHandler.cs`,
                 },
                 {
                     file: 'Project.Application/Commands/Account/AccountResetPasswordFinishCommand.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountResetPasswordFinishCommand.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountResetPasswordFinishCommand.cs`,
                 },
                 {
                     file: 'Project.Application/Commands/Account/AccountResetPasswordFinishCommandHandler.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountResetPasswordFinishCommandHandler.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountResetPasswordFinishCommandHandler.cs`,
                 },
                 {
                     file: 'Project.Application/Commands/Account/AccountSaveCommand.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountSaveCommand.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountSaveCommand.cs`,
                 },
                 {
                     file: 'Project.Application/Commands/Account/AccountSaveCommandHandler.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountSaveCommandHandler.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Commands/Account/AccountSaveCommandHandler.cs`,
                 },
                 {
                     file: 'Project.Application/Queries/Account/AccountGetAuthenticatedQuery.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Queries/Account/AccountGetAuthenticatedQuery.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Queries/Account/AccountGetAuthenticatedQuery.cs`,
                 },
                 {
                     file: 'Project.Application/Queries/Account/AccountGetAuthenticatedQueryHandler.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Queries/Account/AccountGetAuthenticatedQueryHandler.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Queries/Account/AccountGetAuthenticatedQueryHandler.cs`,
                 },
                 {
                     file: 'Project.Application/Queries/Account/AccountGetQuery.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Queries/Account/AccountGetQuery.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Queries/Account/AccountGetQuery.cs`,
                 },
                 {
                     file: 'Project.Application/Queries/Account/AccountGetQueryHandler.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Queries/Account/AccountGetQueryHandler.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Queries/Account/AccountGetQueryHandler.cs`,
                 },
             ],
         },
@@ -924,70 +932,70 @@ const serverFiles = {
                 {
                     file: 'Project.Application/Commands/User/UserCreateCommand.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Commands/User/UserCreateCommand.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Commands/User/UserCreateCommand.cs`,
                 },
                 {
                     file: 'Project.Application/Commands/User/UserCreateCommandHandler.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Commands/User/UserCreateCommandHandler.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Commands/User/UserCreateCommandHandler.cs`,
                 },
                 {
                     file: 'Project.Application/Commands/User/UserDeleteCommand.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Commands/User/UserDeleteCommand.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Commands/User/UserDeleteCommand.cs`,
                 },
                 {
                     file: 'Project.Application/Commands/User/UserDeleteCommandHandler.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Commands/User/UserDeleteCommandHandler.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Commands/User/UserDeleteCommandHandler.cs`,
                 },
                 {
                     file: 'Project.Application/Commands/User/UserUpdateCommand.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Commands/User/UserUpdateCommand.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Commands/User/UserUpdateCommand.cs`,
                 },
                 {
                     file: 'Project.Application/Commands/User/UserUpdateCommandHandler.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Commands/User/UserUpdateCommandHandler.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Commands/User/UserUpdateCommandHandler.cs`,
                 },
                 {
                     file: 'Project.Application/Queries/User/UserGetAllQuery.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Queries/User/UserGetAllQuery.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Queries/User/UserGetAllQuery.cs`,
                 },
                 {
                     file: 'Project.Application/Queries/User/UserGetAllQueryHandler.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Queries/User/UserGetAllQueryHandler.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Queries/User/UserGetAllQueryHandler.cs`,
                 },
                 {
                     file: 'Project.Application/Queries/User/UserGetQuery.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Queries/User/UserGetQuery.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Queries/User/UserGetQuery.cs`,
                 },
                 {
                     file: 'Project.Application/Queries/User/UserGetQueryHandler.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Queries/User/UserGetQueryHandler.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Queries/User/UserGetQueryHandler.cs`,
                 },
                 {
                     file: 'Project.Application/Queries/User/UserGetAuthoritiesQuery.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Queries/User/UserGetAuthoritiesQuery.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Queries/User/UserGetAuthoritiesQuery.cs`,
                 },
                 {
                     file: 'Project.Application/Queries/User/UserGetAuthoritiesQueryHandler.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Queries/User/UserGetAuthoritiesQueryHandler.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Queries/User/UserGetAuthoritiesQueryHandler.cs`,
                 },
                 {
                     file: 'Project.Application/Commands/UserJwt/UserJwtAuthorizeCommandHandler.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Commands/UserJwt/UserJwtAuthorizeCommandHandler.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Commands/UserJwt/UserJwtAuthorizeCommandHandler.cs`,
                 },
                 {
                     file: 'Project.Application/Commands/UserJwt/UserJwtAuthorizeCommand.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_APPLICATION_SUFFIX}/Commands/UserJwt/UserJwtAuthorizeCommand.cs`,
+                        `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Commands/UserJwt/UserJwtAuthorizeCommand.cs`,
                 },
             ],
         },
@@ -1144,7 +1152,7 @@ const serverFiles = {
                 {
                     file: 'Project.Api/Web/Rest/Utilities/HeaderUtil.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Web/Rest/Utilities/HeaderUtil.cs`,
+                        `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/Web/Rest/Utilities/HeaderUtil.cs`,
                 },
             ],
         },
@@ -1154,7 +1162,7 @@ const serverFiles = {
                 {
                     file: 'Project.Api/Web/Rest/Utilities/PaginationUtil.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_INFRASTRUCTURE_SUFFIX}/Web/Rest/Utilities/PaginationUtil.cs`,
+                        `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/Web/Rest/Utilities/PaginationUtil.cs`,
                 },
             ],
         },
@@ -1163,7 +1171,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Crosscutting/Exceptions/BaseException.cs',
-                    renameTo: generator => `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Exceptions/BaseException.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Exceptions/BaseException.cs`,
                 },
             ],
         },
@@ -1173,7 +1181,7 @@ const serverFiles = {
                 {
                     file: 'Project.Crosscutting/Exceptions/BadRequestAlertException.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Exceptions/BadRequestAlertException.cs`,
+                        `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Exceptions/BadRequestAlertException.cs`,
                 },
             ],
         },
@@ -1184,7 +1192,7 @@ const serverFiles = {
                 {
                     file: 'Project.Crosscutting/Exceptions/EmailAlreadyUsedException.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Exceptions/EmailAlreadyUsedException.cs`,
+                        `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Exceptions/EmailAlreadyUsedException.cs`,
                 },
             ],
         },
@@ -1195,7 +1203,7 @@ const serverFiles = {
                 {
                     file: 'Project.Crosscutting/Exceptions/EmailNotFoundException.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Exceptions/EmailNotFoundException.cs`,
+                        `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Exceptions/EmailNotFoundException.cs`,
                 },
             ],
         },
@@ -1214,7 +1222,7 @@ const serverFiles = {
                 {
                     file: 'Project.Crosscutting/Exceptions/InternalServerErrorException.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Exceptions/InternalServerErrorException.cs`,
+                        `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Exceptions/InternalServerErrorException.cs`,
                 },
             ],
         },
@@ -1225,7 +1233,7 @@ const serverFiles = {
                 {
                     file: 'Project.Crosscutting/Exceptions/InvalidPasswordException.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Exceptions/InvalidPasswordException.cs`,
+                        `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Exceptions/InvalidPasswordException.cs`,
                 },
             ],
         },
@@ -1236,7 +1244,7 @@ const serverFiles = {
                 {
                     file: 'Project.Crosscutting/Exceptions/LoginAlreadyUsedException.cs',
                     renameTo: generator =>
-                        `${generator.pascalizedBaseName}${PROJECT_CROSSCUTTING_SUFFIX}/Exceptions/LoginAlreadyUsedException.cs`,
+                        `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Exceptions/LoginAlreadyUsedException.cs`,
                 },
             ],
         },

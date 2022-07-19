@@ -25,6 +25,7 @@ const customizeDotnetPaths = require('../utils').customizeDotnetPaths;
 const writeFiles = require('./files').writeFiles;
 const prompts = require('./prompts');
 const packagejs = require('../../package.json');
+const toPascalCase = require('to-pascal-case');
 
 module.exports = class extends ServerGenerator {
     constructor(args, opts) {
@@ -36,7 +37,7 @@ module.exports = class extends ServerGenerator {
         });
 
         if (this.configOptions.baseName) {
-            this.baseName = this.configOptions.baseName;
+            this.baseName = this.configOptions.baseName;            
         }
     }
 
@@ -49,6 +50,7 @@ module.exports = class extends ServerGenerator {
                 this.SERVER_SRC_DIR = constants.SERVER_SRC_DIR;
                 this.SERVER_TEST_DIR = constants.SERVER_TEST_DIR;
                 this.namespace = this.jhipsterConfig.namespace;
+                this.pascalBaseName = toPascalCase(this.baseName);
                 this.databaseType = this.jhipsterConfig.databaseType;
                 this.authenticationType = this.jhipsterConfig.authenticationType;
                 this.serverPort = this.jhipsterConfig.serverPort;
@@ -119,16 +121,16 @@ module.exports = class extends ServerGenerator {
             async end() {
                 this.log(chalk.green.bold(`\nCreating ${this.solutionName} .Net Core solution if it does not already exist.\n`));
                 const slns = [
-                    `${constants.SERVER_SRC_DIR}${this.mainProjectDir}/${this.pascalizedBaseName}.csproj`,
-                    `${constants.SERVER_TEST_DIR}${this.testProjectDir}/${this.pascalizedBaseName}${constants.PROJECT_TEST_SUFFIX}.csproj`,
-                    `${constants.SERVER_SRC_DIR}${this.pascalizedBaseName}${constants.PROJECT_CROSSCUTTING_SUFFIX}/${this.pascalizedBaseName}${constants.PROJECT_CROSSCUTTING_SUFFIX}.csproj`,
-                    `${constants.SERVER_SRC_DIR}${this.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}/${this.pascalizedBaseName}${constants.PROJECT_DOMAIN_SUFFIX}.csproj`,                    
-                    `${constants.SERVER_SRC_DIR}${this.pascalizedBaseName}${constants.PROJECT_SERVICE_SUFFIX}/${this.pascalizedBaseName}${constants.PROJECT_SERVICE_SUFFIX}.csproj`,
-                    `${constants.SERVER_SRC_DIR}${this.pascalizedBaseName}${constants.PROJECT_INFRASTRUCTURE_SUFFIX}/${this.pascalizedBaseName}${constants.PROJECT_INFRASTRUCTURE_SUFFIX}.csproj`,
+                    `${constants.SERVER_SRC_DIR}${this.mainProjectDir}/${this.namespace}.csproj`,
+                    `${constants.SERVER_TEST_DIR}${this.testProjectDir}/${this.namespace}${constants.PROJECT_TEST_SUFFIX}.csproj`,
+                    `${constants.SERVER_SRC_DIR}${this.namespace}${constants.PROJECT_CROSSCUTTING_SUFFIX}/${this.namespace}${constants.PROJECT_CROSSCUTTING_SUFFIX}.csproj`,
+                    `${constants.SERVER_SRC_DIR}${this.namespace}${constants.PROJECT_DOMAIN_SUFFIX}/${this.namespace}${constants.PROJECT_DOMAIN_SUFFIX}.csproj`,                    
+                    `${constants.SERVER_SRC_DIR}${this.namespace}${constants.PROJECT_SERVICE_SUFFIX}/${this.namespace}${constants.PROJECT_SERVICE_SUFFIX}.csproj`,
+                    `${constants.SERVER_SRC_DIR}${this.namespace}${constants.PROJECT_INFRASTRUCTURE_SUFFIX}/${this.namespace}${constants.PROJECT_INFRASTRUCTURE_SUFFIX}.csproj`,
                 ];
                 if (this.cqrsEnabled) {
                     slns.push(
-                        `${constants.SERVER_SRC_DIR}${this.pascalizedBaseName}${constants.PROJECT_APPLICATION_SUFFIX}/${this.pascalizedBaseName}${constants.PROJECT_APPLICATION_SUFFIX}.csproj`
+                        `${constants.SERVER_SRC_DIR}${this.namespace}${constants.PROJECT_APPLICATION_SUFFIX}/${this.namespace}${constants.PROJECT_APPLICATION_SUFFIX}.csproj`
                     );
                 }
                 await dotnet
@@ -142,7 +144,7 @@ module.exports = class extends ServerGenerator {
                         this.log(
                             chalk.green(
                                 `Run your .Net Core application:\n${chalk.yellow.bold(
-                                    `dotnet run --verbosity normal --project ./${constants.SERVER_SRC_DIR}${this.mainProjectDir}/${this.pascalizedBaseName}.csproj`
+                                    `dotnet run --verbosity normal --project ./${constants.SERVER_SRC_DIR}${this.mainProjectDir}/${this.namespace}.csproj`
                                 )}`
                             )
                         );

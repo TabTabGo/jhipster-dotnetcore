@@ -358,7 +358,7 @@ const files = {
             templates: [
                 {
                     file: 'Project.Client.Xamarin.Core/Project.Client.Xamarin.Core.csproj',
-                    renameTo: generator => `${generator.mainClientDir}/${generator.pascalizedBaseName}.Client.Xamarin.Core.csproj`,
+                    renameTo: generator => `${generator.mainClientDir}/${generator.namespace}.Client.Xamarin.Core.csproj`,
                 },
             ],
         },
@@ -378,7 +378,7 @@ const files = {
             templates: [
                 {
                     file: 'Project.Client.Xamarin.Shared/Project.Client.Xamarin.Shared.csproj',
-                    renameTo: generator => `${generator.sharedClientDir}/${generator.pascalizedBaseName}.Client.Xamarin.Shared.csproj`,
+                    renameTo: generator => `${generator.sharedClientDir}/${generator.namespace}.Client.Xamarin.Shared.csproj`,
                 },
             ],
         },
@@ -389,7 +389,7 @@ const files = {
             templates: [
                 {
                     file: 'Project.Client.Xamarin.Android/Project.Client.Xamarin.Android.csproj',
-                    renameTo: generator => `${generator.androidClientDir}/${generator.pascalizedBaseName}.Client.Xamarin.Android.csproj`,
+                    renameTo: generator => `${generator.androidClientDir}/${generator.namespace}.Client.Xamarin.Android.csproj`,
                 },
             ],
         },
@@ -417,7 +417,7 @@ const files = {
                 {
                     file: 'Project.Client.Xamarin.Android/Project.Client.Xamarin.Android.csproj.user',
                     renameTo: generator =>
-                        `${generator.androidClientDir}/${generator.pascalizedBaseName}.Client.Xamarin.Android.csproj.user`,
+                        `${generator.androidClientDir}/${generator.namespace}.Client.Xamarin.Android.csproj.user`,
                 },
             ],
         },
@@ -637,7 +637,7 @@ const files = {
             templates: [
                 {
                     file: 'Project.Client.Xamarin.iOS/Project.Client.Xamarin.iOS.csproj',
-                    renameTo: generator => `${generator.iOSClientDir}/${generator.pascalizedBaseName}.Client.Xamarin.iOS.csproj`,
+                    renameTo: generator => `${generator.iOSClientDir}/${generator.namespace}.Client.Xamarin.iOS.csproj`,
                 },
             ],
         },
@@ -646,7 +646,7 @@ const files = {
             templates: [
                 {
                     file: 'Project.Client.Xamarin.iOS/Project.Client.Xamarin.iOS.csproj.user',
-                    renameTo: generator => `${generator.iOSClientDir}/${generator.pascalizedBaseName}.Client.Xamarin.iOS.csproj.user`,
+                    renameTo: generator => `${generator.iOSClientDir}/${generator.namespace}.Client.Xamarin.iOS.csproj.user`,
                 },
             ],
         },

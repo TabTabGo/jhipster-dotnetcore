@@ -18,7 +18,7 @@
 -%>
 namespace <%= namespace %>.Services.Interfaces;
 
-public interface I<%= pascalizedEntityClass %>Service : IBaseService<<%= pascalizedEntityClass %>, <%= primaryKeyType %>>
+public interface I<%= pascalizedEntityClass %>Service : IGenericService<<%= pascalizedEntityClass %>, <%= primaryKeyType %>>
 {
     
 }

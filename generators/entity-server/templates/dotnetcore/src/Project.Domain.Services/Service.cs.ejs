@@ -23,10 +23,10 @@ _%>
 
 namespace <%= namespace %>.Services;
 
-public class <%= serviceClassName %> :  BaseService<<%= pascalizedEntityClass %>, <%= primaryKeyType %>>, <%= serviceInterface %>
+public class <%= serviceClassName %> :  GenericService<<%= pascalizedEntityClass %>, <%= primaryKeyType %>>, <%= serviceInterface %>
 {    
-    public AssetHistoryService(IEPMiUnitOfWork repositoryProvider, ILogger<AssetHistoryService> logger) : base(
-        repositoryProvider, logger)
+    public AssetHistoryService(IUnitOfWork unitOfWork, IGenericRepository<%= pascalizedEntityClass %> repositorie, <%= primaryKeyType %>>, ILogger<AssetHistoryService> logger) : 
+        base(unitOfWork, repositorie, logger)
     {
     }
 }

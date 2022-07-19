@@ -15,22 +15,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.1</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <RootNamespace><%= namespace %>.Services</RootNamespace>
         <OutputType>Library</OutputType>
         <LangVersion>10.0</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="JHipsterNet.Core"  />
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection"  />
         <PackageReference Include="LanguageExt.Core"  />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\<%= pascalizedBaseName %>.Infrastructure\<%= pascalizedBaseName %>.Infrastructure.csproj" />
-        <ProjectReference Include="..\<%= pascalizedBaseName %>.Domain\<%= pascalizedBaseName %>.Domain.csproj" />
-        <ProjectReference Include="..\<%= pascalizedBaseName %>.Crosscutting\<%= pascalizedBaseName %>.Crosscutting.csproj" />
+        <ProjectReference Include="..\<%= namespace %>.Infrastructure\<%= namespace %>.Infrastructure.csproj" />
+        <ProjectReference Include="..\<%= namespace %>\<%= namespace %>.csproj" />
+        <ProjectReference Include="..\<%= namespace %>.Crosscutting\<%= namespace %>.Crosscutting.csproj" />
     </ItemGroup>
 
 </Project>

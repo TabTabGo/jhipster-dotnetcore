@@ -89,14 +89,14 @@ function customizeDotnetPaths() {
     this.pascalizedBaseName = toPascalCase(this.baseName);
     this.lowercaseBaseName = this.baseName.toLowerCase();
     this.humanizedBaseName = _.startCase(this.baseName);
-    this.solutionName = this.pascalizedBaseName;
-    this.mainProjectDir = this.pascalizedBaseName;
+    this.solutionName = this.namespace;
+    this.mainProjectDir = this.namespace;
     this.mainClientDir = `${this.mainProjectDir}${PROJECT_API_SUFFIX}/ClientApp`;
     this.mainClientAppDir = `${this.mainProjectDir}${PROJECT_API_SUFFIX}/ClientApp/src`;
     this.relativeMainClientDir = 'ClientApp';
     this.relativeMainAppDir = `${this.relativeMainClientDir}/src`;
     this.relativeMainTestDir = `${this.relativeMainClientDir}/test`;
-    this.testProjectDir = `${this.pascalizedBaseName}${constants.PROJECT_TEST_SUFFIX}`;
+    this.testProjectDir = `${this.namespace}${constants.PROJECT_TEST_SUFFIX}`;
     this.clientTestProject = `${this.mainClientDir}/test/`;
     this.kebabCasedBaseName = _.kebabCase(this.baseName);
     this.jhipsterDotnetVersion = packagejs.version;
@@ -104,16 +104,16 @@ function customizeDotnetPaths() {
     this.backendName = '.Net';
 
     if (this.clientFramework === BLAZOR) {
-        this.mainClientDir = `client/${this.pascalizedBaseName}.Client`;
-        this.sharedClientDir = `client/${this.pascalizedBaseName}.Client.Shared`;
-        this.clientTestProject = `${this.pascalizedBaseName}.Client${constants.PROJECT_TEST_SUFFIX}`;
+        this.mainClientDir = `client/${this.namespace}.Client`;
+        this.sharedClientDir = `client/${this.namespace}.Client.Shared`;
+        this.clientTestProject = `${this.namespace}.Client${constants.PROJECT_TEST_SUFFIX}`;
     }
     if (this.clientFramework === XAMARIN) {
-        this.mainClientDir = `client/${this.pascalizedBaseName}.Client.Xamarin.Core`;
-        this.sharedClientDir = `client/${this.pascalizedBaseName}.Client.Xamarin.Shared`;
-        this.androidClientDir = `client/${this.pascalizedBaseName}.Client.Xamarin.Android`;
-        this.iOSClientDir = `client/${this.pascalizedBaseName}.Client.Xamarin.iOS`;
-        this.clientTestProject = `${this.pascalizedBaseName}.Client.Xamarin${constants.PROJECT_TEST_SUFFIX}`;
+        this.mainClientDir = `client/${this.namespace}.Client.Xamarin.Core`;
+        this.sharedClientDir = `client/${this.namespace}.Client.Xamarin.Shared`;
+        this.androidClientDir = `client/${this.namespace}.Client.Xamarin.Android`;
+        this.iOSClientDir = `client/${this.namespace}.Client.Xamarin.iOS`;
+        this.clientTestProject = `${this.namespace}.Client.Xamarin${constants.PROJECT_TEST_SUFFIX}`;
     }
 
     this.options.outputPathCustomizer = [

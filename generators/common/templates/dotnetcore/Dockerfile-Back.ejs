@@ -27,12 +27,12 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
 COPY src/*/*.csproj ./src/
 COPY Directory.Build.targets Directory.Build.targets
 RUN for file in $(ls src/*.csproj); do mkdir -p ${file%.*} && mv $file ${file%.*}; done
-RUN dotnet restore "src/<%= mainProjectDir %>/<%= pascalizedBaseName %>.csproj"
+RUN dotnet restore "src/<%= mainProjectDir %>/<%= namespace %>.csproj"
 
 # Copy everything else and build app
 COPY . ./
 WORKDIR src/<%= mainProjectDir %>
-RUN dotnet publish "<%= pascalizedBaseName %>.csproj" -c Release -o /app/out
+RUN dotnet publish "<%= namespace %>.csproj" -c Release -o /app/out
 
 # Final stage/image
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-focal AS runtime

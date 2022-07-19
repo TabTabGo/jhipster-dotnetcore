@@ -66,8 +66,8 @@ module.exports = class extends EntityGenerator {
                 const context = this.context;
                 context.primaryKeyType = context.databaseType === 'mongodb' ? 'string' : 'long';
                 context.pascalizedBaseName = toPascalCase(context.baseName);
-                context.mainProjectDir = context.pascalizedBaseName;
-                context.testProjectDir = `${context.pascalizedBaseName}${constants.PROJECT_TEST_SUFFIX}`;
+                context.mainProjectDir = context.namespace;
+                context.testProjectDir = `${context.namespace}${constants.PROJECT_TEST_SUFFIX}`;
                 context.pascalizedEntityClass = toPascalCase(context.entityClass);
                 context.pascalizedEntityClassPlural = toPascalCase(context.entityClassPlural);
                 context.snakeCasedEntityClass = _.snakeCase(context.entityClass);

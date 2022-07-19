@@ -71,17 +71,17 @@
 
         <ItemGroup>
             <ProjectReference
-                Include="..\<%= pascalizedBaseName %>.Infrastructure\<%= pascalizedBaseName %>.Infrastructure.csproj" />
+                Include="..\<%= namespace %>.Infrastructure\<%= namespace %>.Infrastructure.csproj" />
             <ProjectReference
-                Include="..\<%= pascalizedBaseName %>.Domain.Services\<%= pascalizedBaseName %>.Domain.Services.csproj" />
+                Include="..\<%= namespace %>.Services\<%= namespace %>.Services.csproj" />
             <ProjectReference
-                Include="..\<%= pascalizedBaseName %>.Crosscutting\<%= pascalizedBaseName %>.Crosscutting.csproj" />
+                Include="..\<%= namespace %>.Crosscutting\<%= namespace %>.Crosscutting.csproj" />
             <%_ if (cqrsEnabled) { _%>
                 <ProjectReference
-                    Include="..\<%= pascalizedBaseName %>.Application\<%= pascalizedBaseName %>.Application.csproj" />
+                    Include="..\<%= namespace %>.Application\<%= namespace %>.Application.csproj" />
                 <%_ } _%>                    
                     <ProjectReference
-                        Include="..\<%= pascalizedBaseName %>\<%= pascalizedBaseName %>.csproj" />
+                        Include="..\<%= namespace %>\<%= namespace %>.csproj" />
         </ItemGroup>
         <%_ if(!skipClient && clientFramework !=="Blazor" && clientFramework !=="Xamarin" ) { _%>
             <!-- https://stackoverflow.com/questions/46720148/exclude-wwwroot-dist-from-build-asp-net-dotnet-core-2-0 -->

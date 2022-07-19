@@ -3,7 +3,7 @@ const _ = require('lodash');
 const EntityServerGenerator = require('generator-jhipster/generators/entity-server');
 const writeFiles = require('./files').writeFiles;
 const GatewayNeedle = require('../server/needle-api/needle-server-gateway');
-
+const toPascalCase = require('to-pascal-case');
 module.exports = class extends EntityServerGenerator {
     constructor(args, opts) {
         super(args, { fromBlueprint: true, ...opts }); // fromBlueprint variable is important
