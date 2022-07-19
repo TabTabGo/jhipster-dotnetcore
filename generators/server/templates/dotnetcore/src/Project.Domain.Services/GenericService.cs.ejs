@@ -2,7 +2,7 @@ using <%= namespace %>.Crosscutting.Services;
 using TabTabGo.Core.Services;
 namespace <%= namespace %>.Services;
 
-public class GenericService<TEntity,TKey> : BaseService<TEntity,TKey>, IGenericService<TEntity,TKey>  where TEntity : Entity<TKey></TKey>
+public class GenericService<TEntity,TKey> : BaseService<TEntity,TKey>, IGenericService<TEntity,TKey>  where TEntity : Entity<TKey>
 {    
 
     public BaseService(IUnitOfWork unitOfWork, IGenericRepository<TEntity, TKey> repository,  ILogger<BaseService<TEntity, TKey>> logger) : base(unitOfWork, repository, logger)

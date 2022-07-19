@@ -39,8 +39,7 @@ try
         var sp = services.BuildServiceProvider();
         var securitySettings = sp.GetService<IOptions<SecuritySettings>>().Value;
         <%_ } _%>
-
-    builder
+    
     builder.Services
     <%_ if (authenticationType === 'jwt') { _%>
         .AddSecurityModule()

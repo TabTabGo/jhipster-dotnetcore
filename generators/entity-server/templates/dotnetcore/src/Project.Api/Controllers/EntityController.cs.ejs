@@ -110,7 +110,7 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
     /// <returns>Paging list of <%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass  %></returns>
     [HttpGet]
     [Authorize]
-    [SwaggerResponse(200, "Paging list of <%= entityClass %>", typeof(PagingList<<%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %>>>)))]        
+    [SwaggerResponse(200, "Paging list of <%= entityClass %>", typeof(PagingList<<%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %>>))]        
     [SwaggerResponse(401, "User do not have permission to access")]
     [SwaggerOperation(Tags = new[] { "<%= pascalizedEntityClass %>" }, OperationId = "SearchOn<%= pascalizedEntityClassPlural %>")]
     public virtual async Task<IActionResult> Get<%= pascalizedEntityClassPlural %>(ODataQueryOptions<<%= pascalizedEntityClass %>> query, CancellationToken cancellationToken = default)
@@ -317,7 +317,7 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
     [SwaggerResponse(400, "Invalid update patch request <%= pascalizedEntityClass %>")]
     [SwaggerResponse(401, "User do not have permission to access")]
     [SwaggerOperation(Tags = new[] { "<%= pascalizedEntityClass %>" }, OperationId = "Update<%= pascalizedEntityClass %>Changes")]             
-    public virtual async Task<IActionResult> Patch([FromRoute] <%= primaryKeyType %> id, [FromBody] JsonPatchDocument<TEntity> changes, CancellationToken cancellationToken = default(CancellationToken))
+    public virtual async Task<IActionResult> Patch<%= pascalizedEntityClass %>([FromRoute] <%= primaryKeyType %> id, [FromBody] JsonPatchDocument<TEntity> changes, CancellationToken cancellationToken = default(CancellationToken))
     {
         _logger.LogDebug($"REST request to patch <%= pascalizedEntityClass %> : {changes}");
         
@@ -381,7 +381,7 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
     [SwaggerResponse(400, "Invalid update patch request <%= pascalizedEntityClass %>")]
     [SwaggerResponse(401, "User do not have permission to access")]
     [SwaggerOperation(Tags = new[] { "<%= pascalizedEntityClass %>" }, OperationId = "Update<%= pascalizedEntityClass %>ChangesByJson")]        
-    public virtual async Task<IActionResult> PatchJson([FromRoute] <%= primaryKeyType %> id, [FromBody] JObject changes, CancellationToken cancellationToken = default(CancellationToken))
+    public virtual async Task<IActionResult> Patch<%= pascalizedEntityClass %>ByJson([FromRoute] <%= primaryKeyType %> id, [FromBody] JObject changes, CancellationToken cancellationToken = default(CancellationToken))
     {
         _logger.LogDebug($"REST request to patch <%= pascalizedEntityClass %> : {changes}");
         
@@ -416,7 +416,7 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
         var <%= asDto(camelCasedEntityClass) %> = _mapper.Map<<%= asDto(pascalizedEntityClass) %>>(<%= camelCasedEntityClass %>);
         <%_ } _%>
 
-        changes.Populate(<%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %>;)
+        changes.Populate(<%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %>);
         var updated<%= pascalizedEntityClass %> = await _<%= camelCasedEntityClass %>Service.UpdateChanges(id, <%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %>, cancellationToken);
 
         <%_ if (hasDto) { _%>
