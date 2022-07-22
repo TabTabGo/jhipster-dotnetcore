@@ -2,7 +2,7 @@
   <PropertyGroup>
 		<AspNetCorePackageVersion>6.0.7</AspNetCorePackageVersion>
 		<EntityFrameworkPackageVersion>6.0.7</EntityFrameworkPackageVersion>
-		<TabTabCorePackageVersion>6.0.2</TabTabCorePackageVersion>
+		<TabTabCorePackageVersion>6.0.3</TabTabCorePackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -137,6 +137,6 @@
 	<PackageReference Update="TabTabGo.Core" Version="$(TabTabCorePackageVersion)" />
 	<PackageReference Update="TabTabGo.Core.Api" Version="$(TabTabCorePackageVersion)" />
 	<PackageReference Update="TabTabGo.Core.Services" Version="$(TabTabCorePackageVersion)" />
-	<PackageReference Update="TabTabGo.Core.Infrastracture" Version="$(TabTabCorePackageVersion)" />
+	<PackageReference Update="TabTabGo.Core.Infrastructure" Version="$(TabTabCorePackageVersion)" />
   </ItemGroup>
 </Project>

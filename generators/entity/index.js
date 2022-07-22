@@ -112,6 +112,7 @@ module.exports = class extends EntityGenerator {
                         'Boolean',
                         'byte[]',
                         'ByteBuffer',
+                        'TextBlock'
                     ].includes(fieldType);
 
                     if (field.fieldIsEnum === true) {

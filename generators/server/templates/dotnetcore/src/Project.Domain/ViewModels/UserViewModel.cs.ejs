@@ -53,7 +53,5 @@ public class UserViewModel
 
     public DateTime? LastModifiedDate { get; set; }
 
-    [JsonProperty(PropertyName = "authorities")]
-    [JsonPropertyName("authorities")]
     public ISet<string> Roles { get; set; }
 }

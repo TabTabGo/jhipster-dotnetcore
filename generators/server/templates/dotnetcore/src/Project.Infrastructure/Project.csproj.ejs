@@ -62,12 +62,12 @@
         <PackageReference Include="Oracle.ManagedDataAccess.Core"  />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools"  />
             <%_ break;
-         } _%>
+         } _%>        
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\<%= pascalizedBaseName %>\<%= pascalizedBaseName %>.csproj" />        
-        <ProjectReference Include="..\<%= pascalizedBaseName %>.Crosscutting\<%= pascalizedBaseName %>.Crosscutting.csproj" />
+        <ProjectReference Include="..\<%= namespace %>\<%= namespace %>.csproj" />
+        <ProjectReference Include="..\<%= namespace %>.Crosscutting\<%= namespace %>.Crosscutting.csproj" />
     </ItemGroup>
 
 </Project>

@@ -16,15 +16,15 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-namespace <%= namespace %>.Repositories.Interfaces
+namespace <%= namespace %>.Repositories;
+
+<%_ if (databaseType == 'mongodb') { %>
+public interface I<%= pascalizedEntityClass %>ReadOnlyRepository : INoSqlGenericReadOnlyRepository<<%= pascalizedEntityClass %>, <%= primaryKeyType %>>
 {
-    <%_ if (databaseType == 'mongodb') { %>
-    public interface I<%= pascalizedEntityClass %>ReadOnlyRepository : INoSqlGenericReadOnlyRepository<<%= pascalizedEntityClass %>, <%= primaryKeyType %>>
-    {
-    }
-    <%_ } else { %>
-    public interface I<%= pascalizedEntityClass %>ReadOnlyRepository : IGenericReadRepository<<%= pascalizedEntityClass %>>
-    {
-    }
-    <%_ } %>
 }
+<%_ } else { %>
+public interface I<%= pascalizedEntityClass %>ReadOnlyRepository : IGenericReadRepository<<%= pascalizedEntityClass %>, <%= primaryKeyType %>>
+{
+}
+<%_ } %>
+

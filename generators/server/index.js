@@ -121,12 +121,13 @@ module.exports = class extends ServerGenerator {
             async end() {
                 this.log(chalk.green.bold(`\nCreating ${this.solutionName} .Net Core solution if it does not already exist.\n`));
                 const slns = [
-                    `${constants.SERVER_SRC_DIR}${this.mainProjectDir}/${this.namespace}.csproj`,
+                    `${constants.SERVER_SRC_DIR}${this.namespace}/${this.namespace}.csproj`,
                     `${constants.SERVER_TEST_DIR}${this.testProjectDir}/${this.namespace}${constants.PROJECT_TEST_SUFFIX}.csproj`,
                     `${constants.SERVER_SRC_DIR}${this.namespace}${constants.PROJECT_CROSSCUTTING_SUFFIX}/${this.namespace}${constants.PROJECT_CROSSCUTTING_SUFFIX}.csproj`,
                     `${constants.SERVER_SRC_DIR}${this.namespace}${constants.PROJECT_DOMAIN_SUFFIX}/${this.namespace}${constants.PROJECT_DOMAIN_SUFFIX}.csproj`,                    
                     `${constants.SERVER_SRC_DIR}${this.namespace}${constants.PROJECT_SERVICE_SUFFIX}/${this.namespace}${constants.PROJECT_SERVICE_SUFFIX}.csproj`,
                     `${constants.SERVER_SRC_DIR}${this.namespace}${constants.PROJECT_INFRASTRUCTURE_SUFFIX}/${this.namespace}${constants.PROJECT_INFRASTRUCTURE_SUFFIX}.csproj`,
+                    `${constants.SERVER_SRC_DIR}${this.namespace}${constants.PROJECT_API_SUFFIX}/${this.namespace}${constants.PROJECT_API_SUFFIX}.csproj`,
                 ];
                 if (this.cqrsEnabled) {
                     slns.push(

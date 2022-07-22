@@ -14,9 +14,12 @@ internal static class <%= entityClassName %>ataMapper
         builder.BasicEntityBuilder<<%= entityClassName %>,<%= primaryKeyType %>>();
         <%_ fields.forEach(field => {           
             if (entity.name == entityClass && field.fieldIsEnum){ _%>
-        builder.Property(e => e.<%= field.fieldNamePascalized %>)
+        builder.Property(p => p.<%= field.fieldNamePascalized %>)
         .HasConversion<string>();
         <%_ }
+        if (entity.name == entityClass && field.fieldType == 'TextBlock'){ _%>
+            builder.Property(p => p.Changes).HasConversion(c => c?.ToString(), c => c != null ? JObject.Parse(a) : null);
+        <%_ }        
         });
         _%>
         // TODO add other properties mapping

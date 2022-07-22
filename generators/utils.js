@@ -189,12 +189,12 @@ function equivalentCSharpType(javaType) {
             cSharpType = 'bool?';
             break;
         case 'TextBlob':
-            cSharpType = 'JToken';
+            cSharpType = 'JObject?';
         case 'enum':
             cSharpType = 'LOOK_FOR_AN_EQUIVALENT';
             break;
         case 'byte[]':
-            cSharpType = 'LOOK_FOR_AN_EQUIVALENT';
+            cSharpType = 'byte[]';
             break;
         default:
             cSharpType = 'UNKNOWN_TYPE';

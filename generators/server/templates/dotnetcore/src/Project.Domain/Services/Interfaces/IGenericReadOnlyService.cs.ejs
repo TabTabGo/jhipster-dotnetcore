@@ -1,4 +1,4 @@
-namespace <%= namespace %>.Crosscutting.Services;
+namespace <%= namespace %>.Services;
 
 public interface IGenericReadOnlyService<TEntity,TKey> : IBaseReadService<TEntity, TKey> where TEntity : Entity<TKey>
 {

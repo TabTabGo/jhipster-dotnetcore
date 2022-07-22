@@ -193,7 +193,7 @@ const serverFiles = {
             templates: [
                 {
                     file: 'Project.Crosscutting/Entities/Entity.cs',
-                    renameTo: generator => `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Entites/Entity.cs`,
+                    renameTo: generator => `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Entities/Entity.cs`,
                 },
             ],
         },

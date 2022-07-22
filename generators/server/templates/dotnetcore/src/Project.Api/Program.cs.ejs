@@ -50,7 +50,7 @@ try
         .AddAppSettingsModule(builder.Configuration)
         .AddSecurityModule(builder.Configuration)
         .AddAutoMapperModule()
-        .AddSwaggerModule();
+        .AddSwaggerModule()
         .AddProblemDetailsModule(builder.Environment)
         .AddWebModule()
         <%_ if (serviceDiscoveryType === 'consul'  && applicationType !== 'gateway') { _%>
