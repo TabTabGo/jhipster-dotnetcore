@@ -9,7 +9,7 @@ public static class EntityTypeBuilder
 
     {        
         entityTypeBuilder.Property(p => p.Id).ValueGeneratedOnAdd();        
-        entityTypeBuilder.Key(p => p.Id);   
+        entityTypeBuilder.HasKey(p => p.Id);   
         entityTypeBuilder.EntityBuilder<TEntity>();        
         return entityTypeBuilder;
     }

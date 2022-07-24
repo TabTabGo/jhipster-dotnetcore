@@ -1,5 +1,3 @@
-using <%= namespace %>.Crosscutting.Services;
-using TabTabGo.Core.Services;
 namespace <%= namespace %>.Services;
 
 public class GenericReadOnlyService<TEntity,TKey> : BaseReadService<TEntity,TKey>, IGenericReadOnlyService<TEntity,TKey> where TEntity : Entity<TKey> , IEntity

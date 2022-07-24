@@ -346,6 +346,16 @@ const serverFiles = {
                 },
             ],
         },
+        {
+            path: SERVER_SRC_DIR,
+            templates: [
+                {
+                    file: 'Project.Domain.Services/Global.cs',
+                    renameTo: generator =>
+                        `${generator.namespace}${PROJECT_SERVICE_SUFFIX}/Global.cs`,
+                },
+            ],
+        },
     ],
     repository: [               
         {
