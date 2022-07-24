@@ -1,5 +1,5 @@
 
-
+using TabTabGo.Data.EF;
 namespace <%= namespace %>.Infrastructure.Data.Extensions;
 
 public static class EntityTypeBuilder
@@ -10,13 +10,7 @@ public static class EntityTypeBuilder
     {        
         entityTypeBuilder.Property(p => p.Id).ValueGeneratedOnAdd();        
         entityTypeBuilder.Key(p => p.Id);   
-        entityTypeBuilder.Property(p => p.CreatedBy).HasMaxLength(50);
-        entityTypeBuilder.Property(p => p.UpdatedBy).HasMaxLength(50);
-        entityTypeBuilder.Property(p => p.ExtraProperties).HasConversion(e => e.Serialize(),
-            e => e.Deserialize<IDictionary<string, object>>(),
-            new ValueComparer<IDictionary<string, object>>(
-                (x, y) => x != null && y != null ? x.SequenceEqual(y) : x == null && y == null,
-                x => x.GetHashCode()));
+        entityTypeBuilder.EntityBuilder<TEntity>();        
         return entityTypeBuilder;
     }
 }

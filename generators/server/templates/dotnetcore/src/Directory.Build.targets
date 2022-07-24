@@ -2,7 +2,7 @@
   <PropertyGroup>
 		<AspNetCorePackageVersion>6.0.7</AspNetCorePackageVersion>
 		<EntityFrameworkPackageVersion>6.0.7</EntityFrameworkPackageVersion>
-		<TabTabCorePackageVersion>6.0.3</TabTabCorePackageVersion>
+		<TabTabCorePackageVersion>6.0.4</TabTabCorePackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
