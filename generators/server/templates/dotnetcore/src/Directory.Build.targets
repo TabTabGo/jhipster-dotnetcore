@@ -138,5 +138,6 @@
 	<PackageReference Update="TabTabGo.Core.Api" Version="$(TabTabCorePackageVersion)" />
 	<PackageReference Update="TabTabGo.Core.Services" Version="$(TabTabCorePackageVersion)" />
 	<PackageReference Update="TabTabGo.Core.Infrastructure" Version="$(TabTabCorePackageVersion)" />
+	<PackageReference Update="TabTabGo.Data.EF" Version="$(TabTabCorePackageVersion)" />	
   </ItemGroup>
 </Project>

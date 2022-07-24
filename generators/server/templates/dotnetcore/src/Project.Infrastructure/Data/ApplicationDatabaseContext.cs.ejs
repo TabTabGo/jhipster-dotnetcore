@@ -12,17 +12,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-using <%= namespace %>.Entities;
-
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-
+using <%= namespace %>.Infrastructure.Data.Mappers;
 namespace <%= namespace %>.Infrastructure.Data
 {
     <%_ if (authenticationType === 'jwt' && applicationType !== 'microservice') { _%>
@@ -111,7 +101,7 @@ namespace <%= namespace %>.Infrastructure.Data
                     Entry((IEntity)entityEntry.Entity).Property(p => p.CreatedDate).IsModified = false;
                     Entry((IEntity)entityEntry.Entity).Property(p => p.CreatedBy).IsModified = false;
                 }
-              ((IEntity)entityEntry.Entity).UpdatedDate = DateTime.Now;
+                ((IEntity)entityEntry.Entity).UpdatedDate = DateTime.Now;
                 ((IEntity)entityEntry.Entity).UpdatedBy = modifiedOrCreatedBy;
             }
             return await base.SaveChangesAsync(cancellationToken);

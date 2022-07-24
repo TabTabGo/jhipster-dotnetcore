@@ -1,0 +1,9 @@
+namespace <%= namespace %>.Infrastructure.Data.Repositories;
+
+public class GenericReadOnlyRepository<TEntity,Teky> : TabTabGo.Data.EF.Repositories.GenericReadRepository<TEntity,Teky> , IGenericReadOnlyRepository<TEntity,Teky> where TEntity : class
+{
+    public GenericReadOnlyRepository(DbContext context) : base(context)
+    {
+
+    }
+}

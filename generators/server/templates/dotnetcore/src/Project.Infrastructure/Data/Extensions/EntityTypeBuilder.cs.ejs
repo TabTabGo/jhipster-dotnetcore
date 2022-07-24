@@ -1,11 +1,11 @@
 
-using TabTabGo.Data.EF;
+using TabTabGo.Data.EF.Extensions;
 namespace <%= namespace %>.Infrastructure.Data.Extensions;
 
 public static class EntityTypeBuilder
 {
     public static EntityTypeBuilder<TEntity> BasicEntityBuilder<TEntity,TKey>(
-        this EntityTypeBuilder<TEntity> entityTypeBuilder) where TEntity : Entity<TKey>
+        this EntityTypeBuilder<TEntity> entityTypeBuilder) where TEntity : Crosscutting.Entities.Entity<TKey>
 
     {        
         entityTypeBuilder.Property(p => p.Id).ValueGeneratedOnAdd();        

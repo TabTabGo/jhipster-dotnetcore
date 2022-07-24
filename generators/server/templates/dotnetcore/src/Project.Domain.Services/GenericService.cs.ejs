@@ -5,9 +5,11 @@ namespace <%= namespace %>.Services;
 public class GenericService<TEntity,TKey> : BaseService<TEntity,TKey>, IGenericService<TEntity,TKey>  where TEntity : Entity<TKey>
 {    
 
-    public BaseService(IUnitOfWork unitOfWork, IGenericRepository<TEntity, TKey> repository,  ILogger<BaseService<TEntity, TKey>> logger) : base(unitOfWork, repository, logger)
+    public GenericService(Crosscutting.Repositories.IUnitOfWork unitOfWork, IGenericRepository<TEntity, TKey> repository,  ILogger<GenericService<TEntity, TKey>> logger) : base(unitOfWork, repository, logger)
     {
 
     }
 
+    protected override TKey GetKey(TEntity entity) => entity.Id;
+    protected override Expression<Func<TEntity, bool>> GetKeyPredicate(TKey id) => e => e.Id.Equals(id);
 }

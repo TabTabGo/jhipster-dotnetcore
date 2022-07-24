@@ -1,0 +1,7 @@
+
+namespace <%= namespace %>.Repositories;
+
+public interface IGenericReadOnlyRepository<TEntity, TKey> :  IGenericReadRepository<TEntity, TKey> where TEntity : class
+{
+    
+}

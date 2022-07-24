@@ -1,0 +1,9 @@
+namespace <%= namespace %>.Infrastructure.Data.Repositories;
+
+public class GenericRepository<TEntity,Teky> : TabTabGo.Data.EF.Repositories.GenericRepository<TEntity,Teky>, Lms.Repositories.IGenericRepository<TEntity, Teky> where TEntity : class
+{
+    public GenericRepository(DbContext context) : base(context)
+    {
+
+    }
+}

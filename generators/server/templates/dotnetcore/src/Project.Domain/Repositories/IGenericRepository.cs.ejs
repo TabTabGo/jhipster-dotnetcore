@@ -1,0 +1,7 @@
+
+namespace <%= namespace %>.Repositories;
+
+public interface IGenericRepository<TEntity, TKey> : IGenericReadOnlyRepository<TEntity, TKey>, TabTabGo.Core.Infrastructure.Data.IGenericRepository<TEntity, TKey> where TEntity : class
+{
+    
+}

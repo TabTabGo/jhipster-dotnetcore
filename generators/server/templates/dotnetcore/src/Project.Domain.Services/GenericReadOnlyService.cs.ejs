@@ -7,4 +7,7 @@ public class GenericReadOnlyService<TEntity,TKey> : BaseReadService<TEntity,TKey
     public GenericReadOnlyService(IGenericReadRepository<TEntity,TKey> repository, ILogger<GenericReadOnlyService<TEntity,TKey>> logger) : base(repository, logger)
     {
     }
+    
+    protected override TKey GetKey(TEntity entity) => entity.Id;
+    protected override Expression<Func<TEntity, bool>> GetKeyPredicate(TKey id) => e => e.Id.Equals(id);
 }

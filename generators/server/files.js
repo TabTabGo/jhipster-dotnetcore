@@ -349,13 +349,24 @@ const serverFiles = {
     ],
     repository: [               
         {
-            condition: generator => generator.databaseType === 'mongodb',
+            condition: generator => generator.databaseType !== 'mongodb',
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.Crosscutting/Repositories/INoSqlGenericRepository.cs',
+                    file: 'Project.Domain/Repositories/IGenericRepository.cs',
                     renameTo: generator =>
-                        `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Repositories/INoSqlGenericRepository.cs`,
+                        `${generator.namespace}${PROJECT_DOMAIN_SUFFIX}/Repositories/IGenericRepository.cs`,
+                },
+            ],
+        },
+        {
+            condition: generator => generator.databaseType !== 'mongodb',
+            path: SERVER_SRC_DIR,
+            templates: [
+                {
+                    file: 'Project.Domain/Repositories/IGenericReadOnlyRepository.cs',
+                    renameTo: generator =>
+                        `${generator.namespace}${PROJECT_DOMAIN_SUFFIX}/Repositories/IGenericReadOnlyRepository.cs`,
                 },
             ],
         },
@@ -364,9 +375,9 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.Crosscutting/Repositories/INoSqlReadOnlyGenericRepository.cs',
+                    file: 'Project.Domain/Repositories/INoSqlGenericRepository.cs',
                     renameTo: generator =>
-                        `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Repositories/INoSqlReadOnlyGenericRepository.cs`,
+                        `${generator.namespace}${PROJECT_DOMAIN_SUFFIX}/Repositories/INoSqlGenericRepository.cs`,
                 },
             ],
         },
@@ -375,9 +386,9 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.Crosscutting/Repositories/INoSqlReadOnlyGenericRepository.cs',
+                    file: 'Project.Domain/Repositories/INoSqlGenericReadOnlyRepository.cs',
                     renameTo: generator =>
-                        `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Repositories/INoSqlReadOnlyGenericRepository.cs`,
+                        `${generator.namespace}${PROJECT_DOMAIN_SUFFIX}/Repositories/INoSqlGenericReadOnlyRepository.cs`,
                 },
             ],
         },
@@ -385,11 +396,21 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.Crosscutting/Repositories/IUnitOfWork.cs',
-                    renameTo: generator => `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Repositories/IUnitOfWork.cs`,
+                    file: 'Project.Crosscutting/Data/IUnitOfWork.cs',
+                    renameTo: generator => `${generator.namespace}${PROJECT_CROSSCUTTING_SUFFIX}/Data/IUnitOfWork.cs`,
                 },
             ],
         },       
+        {
+            path: SERVER_SRC_DIR,
+            templates: [
+                {
+                    file: 'Project.Infrastructure/Data/Repositories/GenericReadOnlyRepository.cs',
+                    renameTo: generator =>
+                        `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/GenericReadOnlyRepository.cs`,
+                },
+            ],
+        },
         {
             path: SERVER_SRC_DIR,
             templates: [
@@ -446,9 +467,9 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.Infrastructure/Data/Repositories/UnitOfWork.cs',
+                    file: 'Project.Infrastructure/Data/UnitOfWork.cs',
                     renameTo: generator =>
-                        `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Repositories/UnitOfWork.cs`,
+                        `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/UnitOfWork.cs`,
                 },
             ],
         },
@@ -467,8 +488,13 @@ const serverFiles = {
                     renameTo: generator =>
                         `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Extensions/PropertyAccessorCache.cs`,
                 },
+                {
+                    file: 'Project.Infrastructure/Data/Extensions/EntityTypeBuilder.cs',
+                    renameTo: generator =>
+                        `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/Data/Extensions/EntityTypeBuilder.cs`,
+                },
             ],
-        },
+        }
     ],
     mongoExtension: [
         {
@@ -1152,20 +1178,10 @@ const serverFiles = {
                 {
                     file: 'Project.Api/Web/Rest/Utilities/HeaderUtil.cs',
                     renameTo: generator =>
-                        `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/Web/Rest/Utilities/HeaderUtil.cs`,
+                        `${generator.namespace}${PROJECT_API_SUFFIX}/Web/Rest/Utilities/HeaderUtil.cs`,
                 },
             ],
-        },
-        {
-            path: SERVER_SRC_DIR,
-            templates: [
-                {
-                    file: 'Project.Api/Web/Rest/Utilities/PaginationUtil.cs',
-                    renameTo: generator =>
-                        `${generator.namespace}${PROJECT_INFRASTRUCTURE_SUFFIX}/Web/Rest/Utilities/PaginationUtil.cs`,
-                },
-            ],
-        },
+        },        
         {
             path: SERVER_SRC_DIR,
             templates: [

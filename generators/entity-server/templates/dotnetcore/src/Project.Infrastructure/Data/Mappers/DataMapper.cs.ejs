@@ -4,11 +4,11 @@ const entityTableName = snakeCasedEntityClass;
 const entityClassName = pascalizedEntityClass;
 const entityVariableName = camelCasedEntityClass; _%>
 
-namespace <%= namespace %>.Infrastructure.DataMappers;
+namespace <%= namespace %>.Infrastructure.Data.Mappers;
 
 internal static class <%= entityClassName %>ataMapper
 {
-    public static void DataMapperBuilder(EntityTypeBuilder<<%= entityClassName %>> builder)
+    public static void DataMapperBuilder(this EntityTypeBuilder<<%= entityClassName %>> builder)
     {
         builder.ToTable("<%= entityTableName %>");
         builder.BasicEntityBuilder<<%= entityClassName %>,<%= primaryKeyType %>>();

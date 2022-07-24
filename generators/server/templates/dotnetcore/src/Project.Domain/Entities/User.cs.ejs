@@ -69,7 +69,7 @@ public class User : IdentityUser, IEntity
     public DateTimeOffset UpdatedDate { get; set; }
     public bool IsEnabled { get; set; }
     [JsonExtensionData]
-    public IDictionary<string, object>? Properties { get; set; } = new Dictionary<string, object>();
+    public IDictionary<string, object>? ExtraProperties { get; set; } = new Dictionary<string, object>();
         
     public override bool Equals(object obj)
     {
