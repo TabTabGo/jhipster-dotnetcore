@@ -13,18 +13,7 @@
  limitations under the License.
 -%>
 global using System;
-global using <%= namespace %>.Api.Configuration;
-global using <%= namespace %>.Configuration;
-global using <%= namespace %>.Infrastructure.Configuration;
-global using <%= namespace %>.Services;
-<%_ if (serviceDiscoveryType === 'consul' && applicationType !== 'gateway') { _%>
-    global using <%= namespace %>.Configuration.Consul;
-<%_ } _%>
-<%_ if ( applicationType === 'gateway') { _%>
-    global using Ocelot.DependencyInjection;
-    global using Ocelot.Middleware;
-    global using Ocelot.Provider.Consul;
-<%_ } _%>
+
 global using Microsoft.AspNetCore.Builder;
 global using Microsoft.Extensions.Hosting;
 global using Microsoft.AspNetCore.Mvc;
@@ -36,3 +25,64 @@ global using Newtonsoft.Json;
 using MediatR;
 using <%= namespace %>.Application;
 <%_ } _%>
+global using System;
+global using System.Linq;
+global using System.Threading;
+global using System.Collections.Generic;
+global using System.Threading.Tasks;
+
+global using Microsoft.Extensions.Hosting;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Options;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.Extensions.Logging;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.AspNetCore.Builder;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.OData.Query;
+global using Swashbuckle.AspNetCore.Annotations;
+global using Microsoft.AspNetCore.JsonPatch;
+global using Microsoft.AspNetCore.JsonPatch.Operations;
+global using Newtonsoft.Json;
+global using Newtonsoft.Json.Linq;
+
+global using AutoMapper;
+global using Swashbuckle;
+<%_ if (serviceDiscoveryType === 'consul' && applicationType !== 'gateway') { _%>
+global using <%= namespace %>.Configuration.Consul;
+<%_ } _%>
+<%_ if ( applicationType === 'gateway') { _%>
+global using Ocelot.DependencyInjection;
+global using Ocelot.Middleware;
+global using Ocelot.Provider.Consul;
+<%_ } _%>
+    
+global using TabTabGo.Core.Models;
+global using TabTabGo.Core.ViewModels;
+global using TabTabGo.Core.Enums;
+global using TabTabGo.Core.Extensions;
+global using <%= namespace %>.Api.Configuration;
+global using <%= namespace %>.Infrastructure.Configuration;
+
+<%_ if (cqrsEnabled) { _%>
+global using <%= namespace %>.Application.Queries;
+global using <%= namespace %>.Application.Commands;
+        <%_ } else { _%>
+global using <%= namespace %>.Services;
+<%_ } _%>
+
+global using <%= namespace %>.Entities;
+global using <%= namespace %>.Repositories;
+global using <%= namespace %>.ViewModels;
+
+global using <%= namespace %>.Web.Extensions;
+global using <%= namespace %>.Web.Filters;
+global using <%= namespace %>.Web.Rest.Problems;
+global using <%= namespace %>.Web.Rest.Utilities;
+
+global using <%= namespace %>.Crosscutting.Constants;
+global using <%= namespace %>.Crosscutting.Exceptions;
+
+
+

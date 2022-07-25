@@ -7,26 +7,21 @@
     under the License. -%>
 <Project Sdk="Microsoft.NET.Sdk.Web">
     <PropertyGroup>
-        <AssemblyName>
-            <%= dasherizedBaseName %>
-        </AssemblyName>
+        <AssemblyName><%= namespace %>.Api</AssemblyName>
         <Version>0.0.1</Version>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>latest</LangVersion>
         <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-        <RootNamespace>
-            <%= namespace %>
-        </RootNamespace>
+        <RootNamespace><%= namespace %>.Api</RootNamespace>
         <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
         <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
         <IsPackable>false</IsPackable>
         <%_ if(!skipClient && clientFramework !=="Blazor" && clientFramework !=="Xamarin" ) { %>
-            <SpaRoot>ClientApp\</SpaRoot>
-            <%_ } _%>
-                <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
-
-                <!-- Set this to true if you enable server-side prerendering -->
-                <BuildServerSideRenderer>false</BuildServerSideRenderer>
+        <SpaRoot>ClientApp\</SpaRoot>
+        <%_ } _%>
+        <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+        <!-- Set this to true if you enable server-side prerendering -->
+        <BuildServerSideRenderer>false</BuildServerSideRenderer>
     </PropertyGroup>
 
     <ItemGroup>
@@ -48,6 +43,7 @@
         <PackageReference Include="Serilog.Enrichers.Thread" />
         <PackageReference Include="Serilog.Sinks.SyslogMessages" />
         <PackageReference Include="Swashbuckle.AspNetCore" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" />
         <PackageReference Include="LanguageExt.Core" />
         <%_ if (authenticationType==='jwt' ) { _%>
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" />

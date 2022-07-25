@@ -18,7 +18,7 @@
 -%>
 namespace <%= namespace %>.Infrastructure.Data;
 
-public class UnitOfWork : TabTabGo.Data.EF.UnitOfWork , IUnitOfWork
+public class UnitOfWork : TabTabGo.Data.EF.UnitOfWork , Crosscutting.Data.IUnitOfWork
 {
     public UnitOfWork(DbContext context, ILogger<UnitOfWork> logger) : base(context, logger)
     {

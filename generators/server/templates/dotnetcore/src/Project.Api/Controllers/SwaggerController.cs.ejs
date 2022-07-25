@@ -12,32 +12,26 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using <%= namespace %>.ViewModels;
+namespace <%= namespace %>.Controllers;
 
-namespace <%= namespace %>.Controllers
+[Route("")]
+[ApiController]
+public class SwaggerController : ControllerBase
 {
-    [Route("")]
-    [ApiController]
-    public class SwaggerController : ControllerBase
+    private readonly ILogger<SwaggerController> _log;
+
+    public SwaggerController(ILogger<SwaggerController> log)
     {
-        private readonly ILogger<SwaggerController> _log;
+        _log = log;
+    }
 
-        public SwaggerController(ILogger<SwaggerController> log)
-        {
-            _log = log;
-        }
-
-        [HttpGet("swagger-resources")]
-        public ActionResult<IEnumerable<SwaggerResourceViewModel>> GetSwaggerResources()
-        {
-            _log.LogDebug("REST request to get Swagger Resources");
-            SwaggerResourceViewModel sr1 = new SwaggerResourceViewModel() { Name = "<%=pascalizedBaseName%>", Location = "/v2/api-docs" };
-            List<SwaggerResourceViewModel> swaggerResources = new List<SwaggerResourceViewModel>();
-            swaggerResources.Add(sr1);
-            return Ok(swaggerResources);
-        }
+    [HttpGet("swagger-resources")]
+    public ActionResult<IEnumerable<SwaggerResourceViewModel>> GetSwaggerResources()
+    {
+        _log.LogDebug("REST request to get Swagger Resources");
+        SwaggerResourceViewModel sr1 = new SwaggerResourceViewModel() { Name = "<%=pascalizedBaseName%>", Location = "/v2/api-docs" };
+        List<SwaggerResourceViewModel> swaggerResources = new List<SwaggerResourceViewModel>();
+        swaggerResources.Add(sr1);
+        return Ok(swaggerResources);
     }
 }

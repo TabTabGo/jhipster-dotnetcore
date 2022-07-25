@@ -73,7 +73,7 @@ try
         .UseApplicationSecurity(app.Configuration.GetSection("Security").Get<SecuritySettings>())
         .UseApplicationProblemDetails()
         .UseApplicationSwagger()
-        .UseApplicationWeb(app.Environment);
+        .UseApplicationWeb(app.Environment)
     <%_ if (serviceDiscoveryType === 'consul' && applicationType !== 'gateway') { _%>
             .UseConsul(Configuration)
     <%_ } _%>

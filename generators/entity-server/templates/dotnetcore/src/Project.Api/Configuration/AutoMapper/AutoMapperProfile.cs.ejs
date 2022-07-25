@@ -22,35 +22,35 @@ const entityClassName = pascalizedEntityClass;
 using AutoMapper;
 using System.Linq;
 using <%= namespace %>.Entities;
-using <%= namespace %>.ViewModel;
+using <%= namespace %>.ViewModels;
 
 
-namespace <%= namespace %>.Configuration.AutoMapper
+namespace <%= namespace %>.Api.Configuration.AutoMapper;
+
+
+public class AutoMapperProfile : Profile
 {
-
-    public class AutoMapperProfile : Profile
+    public AutoMapperProfile()
     {
-        public AutoMapperProfile()
-        {
-            <%_ if (authenticationType === 'jwt' && applicationType !== 'microservice') { _%>
-            CreateMap<User, UserViewModel>()
-                .ForMember(userViewModel => userViewModel.Roles, opt => opt.MapFrom(user => user.UserRoles.Select(iur => iur.Role.Name).ToHashSet()))
-            .ReverseMap()
-                .ForPath(user => user.UserRoles, opt => opt.MapFrom(userViewModel => userViewModel.Roles.Select(role => new UserRole { Role = new Role { Name = role }, UserId = userViewModel.Id }).ToHashSet()));
-            <%_ } _%>
+        <%_ if (authenticationType === 'jwt' && applicationType !== 'microservice') { _%>
+        CreateMap<User, UserViewModel>()
+            .ForMember(userViewModel => userViewModel.Roles, opt => opt.MapFrom(user => user.UserRoles.Select(iur => iur.Role.Name).ToHashSet()))
+        .ReverseMap()
+            .ForPath(user => user.UserRoles, opt => opt.MapFrom(userViewModel => userViewModel.Roles.Select(role => new UserRole { Role = new Role { Name = role }, UserId = userViewModel.Id }).ToHashSet()));
+        <%_ } _%>
 
-            <%_ if(entities.length !== 0) {
-                entities.forEach(entity => {
-                    if(entity.definition.viewModel === 'mapstruct') { _%>
-            CreateMap<<%= entity.name %>, <%= asDto(entity.name) %>>().ReverseMap();
-            <%_
-                    }
-                });
-            }
-            else {
-                if(viewModel === 'mapstruct') { _%>
-            CreateMap<<%= entityClassName %>, <%= asDto(entityClassName) %>>().ReverseMap();
-            <%_ }} _%>
+        <%_ if(entities.length !== 0) {
+            entities.forEach(entity => {
+                if(entity.definition.viewModel === 'mapstruct') { _%>
+        CreateMap<<%= entity.name %>, <%= asDto(entity.name) %>>().ReverseMap();
+        <%_
+                }
+            });
         }
+        else {
+            if(viewModel === 'mapstruct') { _%>
+        CreateMap<<%= entityClassName %>, <%= asDto(entityClassName) %>>().ReverseMap();
+        <%_ }} _%>
     }
 }
+

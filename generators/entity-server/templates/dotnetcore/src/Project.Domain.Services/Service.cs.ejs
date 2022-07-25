@@ -20,13 +20,13 @@
 const serviceClassName = entityClass + 'Service';
 const serviceInterface = 'I' + serviceClassName;
 _%>
-using <%= namespace %>.Crosscutting.Repositories;
+using <%= namespace %>.Crosscutting.Data;
 using <%= namespace %>.Entities;
 namespace <%= namespace %>.Services;
 
 public class <%= serviceClassName %> :  GenericService<<%= pascalizedEntityClass %>, <%= primaryKeyType %>>, <%= serviceInterface %>
 {    
-    public <%= serviceClassName %>(Crosscutting.Repositories.IUnitOfWork unitOfWork, I<%= pascalizedEntityClass %>Repository repository, ILogger<<%= serviceClassName %>> logger) : 
+    public <%= serviceClassName %>(Crosscutting.Data.IUnitOfWork unitOfWork, I<%= pascalizedEntityClass %>Repository repository, ILogger<<%= serviceClassName %>> logger) : 
         base(unitOfWork, repository, logger)
     {
     }

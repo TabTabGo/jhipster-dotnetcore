@@ -40,7 +40,7 @@ using <%= namespace %>.Crosscutting.Enums;
 <%_ } _%>
 using <%= namespace %>.Crosscutting.Exceptions;
 <%_ if (hasDto) { _%>
-using <%= namespace %>.ViewModel;
+using <%= namespace %>.ViewModels;
 <%_ } _%>
 using <%= namespace %>.Web.Extensions;
 using <%= namespace %>.Web.Filters;
@@ -53,8 +53,8 @@ using <%= namespace %>.Application.Commands;
 using AutoMapper;
 using System.Linq;
 <%_ } _%>
-using <%= namespace %>.Repositories.Interfaces;
-using <%= namespace %>.Services.Interfaces;
+using <%= namespace %>.Repositories;
+using <%= namespace %>.Services;
 <%_ } _%>
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -110,7 +110,7 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
     /// <returns>Paging list of <%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass  %></returns>
     [HttpGet]
     [Authorize]
-    [SwaggerResponse(200, "Paging list of <%= entityClass %>", typeof(PagingList<<%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %>>))]        
+    [SwaggerResponse(200, "Paging list of <%= entityClass %>", typeof(PageList<<%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %>>))]        
     [SwaggerResponse(401, "User do not have permission to access")]
     [SwaggerOperation(Tags = new[] { "<%= pascalizedEntityClass %>" }, OperationId = "SearchOn<%= pascalizedEntityClassPlural %>")]
     public virtual async Task<IActionResult> Get<%= pascalizedEntityClassPlural %>(ODataQueryOptions<<%= pascalizedEntityClass %>> query, CancellationToken cancellationToken = default)
@@ -317,17 +317,15 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
     [SwaggerResponse(400, "Invalid update patch request <%= pascalizedEntityClass %>")]
     [SwaggerResponse(401, "User do not have permission to access")]
     [SwaggerOperation(Tags = new[] { "<%= pascalizedEntityClass %>" }, OperationId = "Update<%= pascalizedEntityClass %>Changes")]             
-    public virtual async Task<IActionResult> Patch<%= pascalizedEntityClass %>([FromRoute] <%= primaryKeyType %> id, [FromBody] JsonPatchDocument<TEntity> changes, CancellationToken cancellationToken = default(CancellationToken))
+    public virtual async Task<IActionResult> Patch<%= pascalizedEntityClass %>([FromRoute] <%= primaryKeyType %> id, [FromBody] JsonPatchDocument<<%= /*hasDto ? asDto(pascalizedEntityClass) :*/  pascalizedEntityClass %>> changes, CancellationToken cancellationToken = default(CancellationToken))
     {
         _logger.LogDebug($"REST request to patch <%= pascalizedEntityClass %> : {changes}");
         
         <%_ if (primaryKeyType == 'string') { _%>
-        if (<%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %>.Id == null) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
+        if (id == null) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
         <%_ } else { _%>
-        if (<%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %>.Id == 0) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
+        if (id == 0) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
         <%_ } _%>
-
-        if (id != <%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %>.Id) throw new BadRequestAlertException("Invalid Id", EntityName, "idinvalid");
 
         if (!ModelState.IsValid)
         {
@@ -343,11 +341,11 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
         }
 
         var  <%= camelCasedEntityClass %> = await _<%= camelCasedEntityClass %>Service.Get(id,cancellationToken: cancellationToken);
-        <%_ if (hasDto) { _%>
+        <%_ if (false /*hasDto*/) { _%>
         var <%= asDto(camelCasedEntityClass) %> = _mapper.Map<<%= asDto(pascalizedEntityClass) %>>(<%= camelCasedEntityClass %>);
         <%_ } _%>
 
-        changes.ApplyTo(<%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %> , error =>
+        changes.ApplyTo(<%= /*hasDto ? asDto(camelCasedEntityClass) :*/ camelCasedEntityClass %> , error =>
         {
             if (error.Operation.OperationType != OperationType.Test && error.Operation.OperationType != OperationType.Invalid)
             {
@@ -355,10 +353,14 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
             }
         });
 
-        var updated<%= pascalizedEntityClass %> = await _<%= camelCasedEntityClass %>Service.UpdateChanges(id, <%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %>, cancellationToken);
+        <%_ if (false /*hasDto*/) { _%>
+        var updated<%= pascalizedEntityClass %> = _mapper.Map<<%= pascalizedEntityClass %>>(<%= asDto(camelCasedEntityClass) %>);
+        <%_ } _%>
+
+        var saved<%= pascalizedEntityClass %> = await _<%= camelCasedEntityClass %>Service.UpdateChanges(id, <%= /* hasDto ? asDto(camelCasedEntityClass) :*/ camelCasedEntityClass %>, cancellationToken);
         
         <%_ if (hasDto) { _%>
-        var updated<%= pascalizedEntityClass %>ViewModel =  _mapper.Map<<%= asDto(pascalizedEntityClass) %>>(updated<%= pascalizedEntityClass %>);
+        var updated<%= pascalizedEntityClass %>ViewModel =  _mapper.Map<<%= asDto(pascalizedEntityClass) %>>(saved<%= pascalizedEntityClass %>);
         return Ok(updated<%= pascalizedEntityClass %>ViewModel).WithHeaders(HeaderUtil.CreateEntityCreationAlert(EntityName, id.ToString()));             
         <%_ } else { _%>
         return Ok(updated<%= pascalizedEntityClass %>).WithHeaders(HeaderUtil.CreateEntityUpdateAlert(EntityName, id.ToString()));           
@@ -386,12 +388,11 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
         _logger.LogDebug($"REST request to patch <%= pascalizedEntityClass %> : {changes}");
         
         <%_ if (primaryKeyType == 'string') { _%>
-        if (<%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %>.Id == null) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
+        if (id == null) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
         <%_ } else { _%>
-        if (<%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %>.Id == 0) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
+        if (id == 0) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
         <%_ } _%>
-
-        if (id != <%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %>.Id) throw new BadRequestAlertException("Invalid Id", EntityName, "idinvalid");
+        
 
         if (!ModelState.IsValid)
         {
@@ -410,18 +411,17 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
         <%_ if (hasDto) { _%>
         var <%= asDto(camelCasedEntityClass) %> = _mapper.Map<<%= asDto(pascalizedEntityClass) %>>(<%= camelCasedEntityClass %>);
         <%_ } _%>
+       
+        changes.Populate(<%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %>);
 
-        var  <%= camelCasedEntityClass %> = await _<%= camelCasedEntityClass %>Service.Get(id,cancellationToken: cancellationToken);
         <%_ if (hasDto) { _%>
-        var <%= asDto(camelCasedEntityClass) %> = _mapper.Map<<%= asDto(pascalizedEntityClass) %>>(<%= camelCasedEntityClass %>);
+        var updated<%= pascalizedEntityClass %> = _mapper.Map<<%= pascalizedEntityClass %>>(<%= asDto(camelCasedEntityClass) %>);
         <%_ } _%>
 
-        changes.Populate(<%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %>);
-        var updated<%= pascalizedEntityClass %> = await _<%= camelCasedEntityClass %>Service.UpdateChanges(id, <%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %>, cancellationToken);
+        await _<%= camelCasedEntityClass %>Service.UpdateChanges(id, <%= hasDto ? "updated"+pascalizedEntityClass : camelCasedEntityClass %>, cancellationToken);
 
-        <%_ if (hasDto) { _%>
-        var updated<%= pascalizedEntityClass %>ViewModel =  _mapper.Map<<%= asDto(pascalizedEntityClass) %>>(updated<%= pascalizedEntityClass %>);
-        return Ok(updated<%= pascalizedEntityClass %>ViewModel).WithHeaders(HeaderUtil.CreateEntityCreationAlert(EntityName, id.ToString()));             
+        <%_ if (hasDto) { _%>        
+        return Ok(<%= camelCasedEntityClass %>).WithHeaders(HeaderUtil.CreateEntityCreationAlert(EntityName, id.ToString()));             
         <%_ } else { _%>
         return Ok(updated<%= pascalizedEntityClass %>).WithHeaders(HeaderUtil.CreateEntityUpdateAlert(EntityName, id.ToString()));           
         <%_ }_%>
@@ -435,7 +435,7 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
     /// <returns></returns>
     [HttpDelete("{id}")]        
     [Authorize]        
-    [SwaggerResponse(200, "Delete <%= pascalizedEntityClass %>", typeof(GeneralResponseViewModel))]
+    [SwaggerResponse(200, "Delete <%= pascalizedEntityClass %>", typeof(GenericResponseViewModel))]
     [SwaggerResponse(404, "<%= pascalizedEntityClass %> not found for passed Id")]
     [SwaggerResponse(412, "Can't delete <%= pascalizedEntityClass %>")]
     [SwaggerResponse(401, "User do not have permission to access")]
@@ -483,20 +483,20 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
     /// <returns></returns>
     [HttpDelete]     
     [Authorize]        
-    [SwaggerResponse(200, "Delete <%= pascalizedEntityClassPlural %>", typeof(GeneralResponseViewModel))]
+    [SwaggerResponse(200, "Delete <%= pascalizedEntityClassPlural %>", typeof(GenericResponseViewModel))]
     [SwaggerResponse(412, "Can't delete <%= pascalizedEntityClassPlural %>")]
     [SwaggerResponse(401, "User do not have permission to access")]
     [SwaggerOperation(Tags = new[] { "<%= pascalizedEntityClass %>" }, OperationId = "Delete<%= pascalizedEntityClassPlural %>")]     
     public virtual async Task<IActionResult> Delete([FromBody] IEnumerable<<%= primaryKeyType %>> ids, CancellationToken cancellationToken = default)
     {
         _logger.LogDebug($"REST request to delete list of <%= pascalizedEntityClass %> : {ids}");
-        if (!await _currentService.CanDelete(ids, cancellationToken)) 
+        if (!await _<%= camelCasedEntityClass %>Service.CanDelete(ids, cancellationToken)) 
             return StatusCode(412, new {
                 Message = $"<%= pascalizedEntityClassPlural %> can't be deleted",
                 Code = "<%= pascalizedEntityClassPlural %>_Cannot_Delete"
             });
         
-        var deletedInstance = await _currentService.Delete(ids, cancellationToken);
+        var deletedInstance = await _<%= camelCasedEntityClass %>Service.Delete(ids, cancellationToken);
         return Ok(new {
                 Message = $"<%= pascalizedEntityClassPlural %> deleted successfully",
                 Code = "<%= pascalizedEntityClassPlural %>_Deleted"

@@ -22,7 +22,7 @@ using <%= namespace %>.Entities;
 using <%= namespace %>.Security;
 using <%= namespace %>.Security.Jwt;
 using <%= namespace %>.Services;
-using <%= namespace %>.Services.Interfaces;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -34,7 +34,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 <%_ if (applicationType !== 'microservice') { _%>
 using AuthenticationService = <%= namespace %>.Services.AuthenticationService;
-using IAuthenticationService = <%= namespace %>.Services.Interfaces.IAuthenticationService;
+using IAuthenticationService = <%= namespace %>.Services.IAuthenticationService;
 <%_ } _%>
 <%_ } else { _%>
 using Microsoft.AspNetCore.Authentication;
@@ -47,7 +47,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 <%_ } _%>
 
-namespace <%= namespace %>.Configuration
+namespace <%= namespace %>.Api.Configuration
 {
     public static class SecurityStartup
     {
