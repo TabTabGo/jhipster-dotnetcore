@@ -1,0 +1,8 @@
+namespace <%= namespace %>.Api.Mappers;
+
+public class <%= pascalizedEntityClass %>Mapper : GenericServiceMapper<<%= pascalizedEntityClass %>>
+{
+    public <%= pascalizedEntityClass %>Mapper(ILogger<<%= pascalizedEntityClass %>Mapper> logger, IMapper mapper) : base(logger, mapper)
+    {
+    }
+}

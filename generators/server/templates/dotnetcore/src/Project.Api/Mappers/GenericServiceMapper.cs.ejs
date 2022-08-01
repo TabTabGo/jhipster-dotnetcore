@@ -1,0 +1,87 @@
+using TabTabGo.Core.Entities;
+
+namespace <%= namespace %>.Api.Mappers;
+
+/// <summary>
+/// Generic mapper using auto mapper
+/// </summary>
+/// <typeparam name="TEntity"></typeparam>
+public class GenericServiceMapper<TEntity> : IMapperService<TEntity> where TEntity : class, IEntity
+{
+    private readonly ILogger<TEntity> _logger;
+    private readonly IMapper _mapper;
+    public GenericServiceMapper(ILogger<TEntity> logger, IMapper mapper)
+    {
+        _logger = logger;
+        _mapper = mapper;
+    }
+
+    /// <summary>
+    /// Map a entity to model 
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <param name="destination"></param>
+    /// <param name="postMapAction"></param>
+    /// <typeparam name="TDestination"></typeparam>
+    public void Map<TDestination>(TEntity entity, TDestination destination,
+        Action<TEntity, TDestination> postMapAction = null) where TDestination : class
+    {
+        _mapper.Map(entity, destination, options =>
+        {
+            if(postMapAction!= null) options.AfterMap(postMapAction);
+        });   
+    }
+
+    /// <summary>
+    /// Maps the source to the destination.
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="entity"></param>
+    /// <param name="postMapAction"></param>
+    /// <typeparam name="TSource"></typeparam>
+    public void Map<TSource>(TSource source, TEntity entity, Action<TSource, TEntity> postMapAction = null) where TSource : class => _mapper.Map(source, entity, options =>
+    {
+        if(postMapAction!= null) options.AfterMap(postMapAction);
+    });
+
+    /// <summary>
+    /// Maps the source to the destination.
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <param name="postMapAction"></param>
+    /// <typeparam name="TDestination"></typeparam>
+    /// <returns></returns>
+    public TDestination Map<TDestination>(TEntity entity, Action<TEntity, TDestination> postMapAction = null) where TDestination : class 
+    {
+        var destination = _mapper.Map<TDestination>(entity);
+        if(postMapAction != null) postMapAction(entity, destination);
+        return destination;
+    }
+
+    /// <summary>
+    /// Map a list of entities to a list of destination types
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="postMapAction"></param>
+    /// <typeparam name="TSource"></typeparam>
+    /// <returns></returns>
+    public TEntity Map<TSource>(TSource source, Action<TSource, TEntity> postMapAction = null) where TSource : class
+    {
+        var entity = _mapper.Map<TEntity>(source);
+        if(postMapAction != null) postMapAction(source, entity);
+        return entity;
+    }
+
+    /// <summary>
+    /// Maps the specified source to the destination type.
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="postMapAction"></param>
+    /// <typeparam name="TDestination"></typeparam>
+    /// <returns></returns>
+    public PageList<TDestination> MapPaging<TDestination>(PageList<TEntity> source,
+        Action<TEntity, TDestination> postMapAction = null) where TDestination : class
+        => new (source.Items.Select(i => Map(i, postMapAction)).ToList(), source.TotalItems,
+            source.PageSize, source.PageNumber);
+
+}

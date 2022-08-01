@@ -1,0 +1,10 @@
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace <%= namespace %>.Services;
+
+public interface IValidateService<TEntity> where TEntity : class , IEntity
+{
+    Task<bool> ValidateAsync<T>(T objToValidate, out IDictionary<string, IList<string>> errors, CancellationToken cancellationToken = default) where T : class;
+    bool Validate<T>(T objToValidate, out IDictionary<string, IList<string>> errors) where T : class;
+}

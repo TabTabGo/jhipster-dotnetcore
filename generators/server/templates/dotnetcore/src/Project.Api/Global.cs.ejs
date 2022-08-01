@@ -63,12 +63,13 @@ global using TabTabGo.Core.ViewModels;
 global using TabTabGo.Core.Enums;
 global using TabTabGo.Core.Extensions;
 global using <%= namespace %>.Api.Configuration;
+global using <%= namespace %>..Api.Mappers;
 global using <%= namespace %>.Infrastructure.Configuration;
 
 <%_ if (cqrsEnabled) { _%>
 global using <%= namespace %>.Application.Queries;
 global using <%= namespace %>.Application.Commands;
-        <%_ } else { _%>
+<%_ } else { _%>
 global using <%= namespace %>.Services;
 <%_ } _%>
 

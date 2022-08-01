@@ -311,6 +311,26 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
+                    file: 'Project.Domain/Services/Interfaces/IMapperService.cs.cs',
+                    renameTo: generator =>
+                        `${generator.namespace}${PROJECT_DOMAIN_SUFFIX}/Services/IMapperService.cs.cs`,
+                },
+            ],
+        },
+        {
+            path: SERVER_SRC_DIR,
+            templates: [
+                {
+                    file: 'Project.Domain/Services/Interfaces/IValidateService.cs',
+                    renameTo: generator =>
+                        `${generator.namespace}${PROJECT_DOMAIN_SUFFIX}/Services/IValidateService.cs`,
+                },
+            ],
+        },
+        {
+            path: SERVER_SRC_DIR,
+            templates: [
+                {
                     file: 'Project.Domain/Services/Interfaces/ServicesInterfacesAssemblyHelper.cs',
                     renameTo: generator =>
                         `${generator.namespace}${PROJECT_DOMAIN_SUFFIX}/Services/ServicesInterfacesAssemblyHelper.cs`,
@@ -1475,6 +1495,17 @@ const serverFiles = {
             path: TERRAFORM_DIR,
             templates: ['main.tf', 'variables.tf', 'outputs.tf'],
         },
+    ],
+    serverMapper: [
+        {
+            path: SERVER_SRC_DIR,
+            templates: [
+                {
+                    file: 'Project.Api/Mappers/GenericServiceMapper.cs',
+                    renameTo: generator => `${generator.namespace}${PROJECT_APPLICATION_SUFFIX}/Mappers/GenericServiceMapper.cs`,
+                },
+            ],
+        }
     ],
 };
 

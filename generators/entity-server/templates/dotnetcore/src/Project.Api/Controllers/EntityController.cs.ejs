@@ -23,44 +23,6 @@ let hasService = service === 'serviceImpl';
 <%_ if (cqrsEnabled) { _%>
 using MediatR;
 <%_ } _%>
-using System.Threading;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using <%= namespace %>.Entities;
-<%_
-let hasEnumField = false;
-fields.forEach(field => {
-        if (field.fieldIsEnum) {
-            hasEnumField = true;
-        }
-    });
-if (hasEnumField) { _%>
-using <%= namespace %>.Crosscutting.Enums;
-<%_ } _%>
-using <%= namespace %>.Crosscutting.Exceptions;
-<%_ if (hasDto) { _%>
-using <%= namespace %>.ViewModels;
-<%_ } _%>
-using <%= namespace %>.Web.Extensions;
-using <%= namespace %>.Web.Filters;
-using <%= namespace %>.Web.Rest.Utilities;
-<%_ if (cqrsEnabled) { _%>
-using <%= namespace %>.Application.Queries;
-using <%= namespace %>.Application.Commands;
-<%_ } else { _%>
-<%_ if (hasDto) { _%>
-using AutoMapper;
-using System.Linq;
-<%_ } _%>
-using <%= namespace %>.Repositories;
-using <%= namespace %>.Services;
-<%_ } _%>
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
-
 namespace <%= namespace %>.Controllers;
 
 [Authorize]
@@ -70,30 +32,34 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
 {
     private const string EntityName = "<%= camelCasedEntityClass %>";
     private readonly ILogger<<%= pascalizedEntityClassPlural %>Controller> _logger;
+    private readonly IValidateService<<%= pascalizedEntityClass %>> _validateService;
     <%_ if (cqrsEnabled) { _%>
     private readonly IMediator _mediator;
     <%_ } else { _%>
     <%_ if (hasDto) { _%>
-    private readonly IMapper _mapper;
+    private readonly <%= pascalizedEntityClass%>Mapper _mapper;
     <%_ } _%>
-    private readonly I<%= pascalizedEntityClass %>Service _<%= camelCasedEntityClass %>Service;
+    private readonly I<%= pascalizedEntityClass %>Service _<%= camelCasedEntityClass %>Service;    
     <%_ } _%>
 
     <%_ if (cqrsEnabled) { _%>
-    public <%= pascalizedEntityClassPlural %>Controller(ILogger<<%= pascalizedEntityClassPlural %>Controller> log, IMediator mediator)
+    public <%= pascalizedEntityClassPlural %>Controller(ILogger<<%= pascalizedEntityClassPlural %>Controller> log, IMediator mediator, IValidateService<<%= pascalizedEntityClass %>> validateService)
     {
         _logger = log;
         _mediator = mediator;
+        _validateService = validateService;
         _logger.LogInformation($"Created base controller for <%= pascalizedEntityClassPlural %>");
     }
     <%_ } else { _%>
     public <%= pascalizedEntityClassPlural %>Controller(ILogger<<%= pascalizedEntityClassPlural %>Controller> log,
+     IValidateService<<%= pascalizedEntityClass %>> validateService,
     <%_ if (hasDto) { _%>
-    IMapper mapper,
+    <%= pascalizedEntityClass%>Mapper mapper,
     <%_ } _%>
     I<%= pascalizedEntityClass %>Service <%= camelCasedEntityClass %>Service)
     {
         _logger = log;
+        _validateService = validateService;
         <%_ if (hasDto) { _%>
         _mapper = mapper;
         <%_ } _%>           
@@ -111,7 +77,8 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
     [HttpGet]
     [Authorize]
     [SwaggerResponse(200, "Paging list of <%= entityClass %>", typeof(PageList<<%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %>>))]        
-    [SwaggerResponse(401, "User do not have permission to access")]
+    [SwaggerResponse(401, "User not authorized")]
+    [SwaggerResponse(403, "User do not have permission to access")]
     [SwaggerOperation(Tags = new[] { "<%= pascalizedEntityClass %>" }, OperationId = "SearchOn<%= pascalizedEntityClassPlural %>")]
     public virtual async Task<IActionResult> Get<%= pascalizedEntityClassPlural %>(ODataQueryOptions<<%= pascalizedEntityClass %>> query, CancellationToken cancellationToken = default)
     {
@@ -124,9 +91,9 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
         return Ok(result.Content).WithHeaders(result.GeneratePaginationHttpHeaders());
         <%_ } _%>
         <%_ } else { _%>
-        var result = await  _<%= camelCasedEntityClass %>Service.Get(query, cancellationToken: cancellationToken);
+        var result = await  _<%= camelCasedEntityClass %>Service.GetPageList(query, cancellationToken: cancellationToken);
         <%_ if (hasDto) { _%>
-        return Ok(_mapper.Map<<%= asDto(pascalizedEntityClass) %>>(result)).WithHeaders();
+        return Ok(_mapper.MapPaging<<%= asDto(pascalizedEntityClass) %>>(result)).WithHeaders();
         <%_ } else { _%>
         return OK(result).WithHeaders();
         <%_ } _%>
@@ -143,7 +110,8 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
     [Authorize]
     [SwaggerResponse(200, "Get <%= pascalizedEntityClass %> by Id", typeof(<%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %>))]
     [SwaggerResponse(404, "<%= pascalizedEntityClass %> not found for passed Id")]
-    [SwaggerResponse(401, "User do not have permission to access")]
+    [SwaggerResponse(401, "User not authorized")]
+    [SwaggerResponse(403, "User do not have permission to access")]
     [SwaggerOperation(Tags = new[] { "<%= pascalizedEntityClass %>" }, OperationId = "Get<%= pascalizedEntityClass %>ById")]        
     public virtual async Task<IActionResult> Get<%= pascalizedEntityClass %>([FromRoute] <%= primaryKeyType %> id, [FromQuery] DateTimeOffset? lastUpdatedDate = null, [FromQuery] string expand = null, CancellationToken cancellationToken = default)
     {           
@@ -161,7 +129,7 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
         return ActionResultUtil.WrapOrNotFound(result);
         <%_ } else { _%>
 
-        var detail = await _<%= camelCasedEntityClass %>Service.Get(id, lastUpdatedDate, expand != null ? expand.Split(',') : null, cancellationToken: cancellationToken);
+        var detail = await _<%= camelCasedEntityClass %>Service.GetByKey(id, lastUpdatedDate, expand != null ? expand.Split(',') : null, cancellationToken: cancellationToken);
         <%_ if (hasDto) { _%>
         var <%= asDto(camelCasedEntityClass) %> = _mapper.Map<<%= asDto(pascalizedEntityClass) %>>(detail);
         return Ok(<%= asDto(camelCasedEntityClass) %>).WithHeaders();             
@@ -179,8 +147,9 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
     /// <returns>Exported Document</returns>
     [HttpPost("Export/{exportType}")]
     [Authorize]
-    [SwaggerResponse(200, "Export <%= pascalizedEntityClass %> list", typeof(<%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %>))]        
-    [SwaggerResponse(401, "User do not have permission to access")]
+    [SwaggerResponse(200, "Export <%= pascalizedEntityClass %> list", typeof(<%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %>))]            
+    [SwaggerResponse(401, "User not authorized")]
+    [SwaggerResponse(403, "User do not have permission to access")]
     [SwaggerOperation(Tags = new[] { "<%= pascalizedEntityClass %>" }, OperationId = "Eport<%= pascalizedEntityClassPlural %>")]        
     public async virtual Task<IActionResult> Export<%= pascalizedEntityClassPlural %>([FromRoute] ExportType exportType, ODataQueryOptions<<%= pascalizedEntityClass %>> query, [FromBody] ExportConfiguration export = null, CancellationToken cancellationToken = default)
     {
@@ -221,6 +190,14 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
             return BadRequest(ModelState);
         }
 
+        if (_validateService != null && !(await _validateService.ValidateAsync(<%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %> , out var errors, cancellationToken)))
+        {
+            return BadRequest(new
+            {
+                Message = "Invalid update request", Code = "Invalid_Update_Request", Errors = errors,
+            });
+        }
+
         <%_ if (primaryKeyType == 'string') { _%>
         if (<%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %>.Id != null)
         <%_ } else { _%>
@@ -231,7 +208,7 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
         <% if (hasDto) { _%> var <% } %><%= camelCasedEntityClass %> = await _mediator.Send(new <%= pascalizedEntityClass %>CreateCommand { <%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %> = <%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %> });
         <%_ } else { %>
         <%_ if (hasDto) { _%>
-        var <%= camelCasedEntityClass %> = _mapper.Map<<%= pascalizedEntityClass %>>(<%= asDto(camelCasedEntityClass) %>);
+        var <%= camelCasedEntityClass %> = _mapper.Map<<%= asDto(pascalizedEntityClass) %>>(<%= asDto(camelCasedEntityClass) %>);
         <%_ } _%>
         await _<%= camelCasedEntityClass %>Service.Create(<%= camelCasedEntityClass %>, cancellationToken);          
         <%_ } _%>
@@ -257,7 +234,8 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
     [SwaggerResponse(200, "Update <%= pascalizedEntityClass %>", typeof(<%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %>))]
     [SwaggerResponse(404, "<%= pascalizedEntityClass %> not found for passed Id")]
     [SwaggerResponse(400, "Invalid update request <%= pascalizedEntityClass %>")]
-    [SwaggerResponse(401, "User do not have permission to access")]
+    [SwaggerResponse(401, "User not authorized")]
+    [SwaggerResponse(403, "User do not have permission to access")]
     [SwaggerOperation(Tags = new[] { "<%= pascalizedEntityClass %>" }, OperationId = "Update<%= pascalizedEntityClass %>")]              
     public virtual async Task<IActionResult> Update<%= pascalizedEntityClass %>([FromRoute] <%= primaryKeyType %> id, [FromBody] <%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %> <%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %>, CancellationToken cancellationToken = default)
     {
@@ -276,6 +254,14 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
             return BadRequest(ModelState);
         }
 
+        if (_validateService != null && !(await _validateService.ValidateAsync(<%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %> , out var errors, cancellationToken)))
+        {
+            return BadRequest(new
+            {
+                Message = "Invalid update request", Code = "Invalid_Update_Request", Errors = errors,
+            });
+        }
+
         if (!await _<%= camelCasedEntityClass %>Service.Exists(id, cancellationToken))
         {
             return NotFound(new {
@@ -288,7 +274,7 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
         <% if (hasDto) { _%> var <% } %><%= camelCasedEntityClass %> = await _mediator.Send(new <%= pascalizedEntityClass %>UpdateCommand { <%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %> = <%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %> });
         <%_ } else { _%>
         <%_ if (hasDto) { _%>
-        var <%= camelCasedEntityClass %> = _mapper.Map<<%= pascalizedEntityClass %>>(<%= asDto(camelCasedEntityClass) %>);
+        var <%= camelCasedEntityClass %> = _mapper.Map<<%= asDto(pascalizedEntityClass) %>>(<%= asDto(camelCasedEntityClass) %>);
         <%_ } _%>
         await _<%= camelCasedEntityClass %>Service.Update(id, <%= camelCasedEntityClass %>, cancellationToken);
         <%_ } _%>
@@ -315,7 +301,8 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
     [SwaggerResponse(200, "Partially update changes using patch for <%= pascalizedEntityClass %>", typeof(<%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %>))]
     [SwaggerResponse(404, "<%= pascalizedEntityClass %> not found for passed Id")]
     [SwaggerResponse(400, "Invalid update patch request <%= pascalizedEntityClass %>")]
-    [SwaggerResponse(401, "User do not have permission to access")]
+    [SwaggerResponse(401, "User not authorized")]
+    [SwaggerResponse(403, "User do not have permission to access")]
     [SwaggerOperation(Tags = new[] { "<%= pascalizedEntityClass %>" }, OperationId = "Update<%= pascalizedEntityClass %>Changes")]             
     public virtual async Task<IActionResult> Patch<%= pascalizedEntityClass %>([FromRoute] <%= primaryKeyType %> id, [FromBody] JsonPatchDocument<<%= /*hasDto ? asDto(pascalizedEntityClass) :*/  pascalizedEntityClass %>> changes, CancellationToken cancellationToken = default(CancellationToken))
     {
@@ -340,7 +327,7 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
             });
         }
 
-        var  <%= camelCasedEntityClass %> = await _<%= camelCasedEntityClass %>Service.Get(id,cancellationToken: cancellationToken);
+        var  <%= camelCasedEntityClass %> = await _<%= camelCasedEntityClass %>Service.GetByKey(id,cancellationToken: cancellationToken);
         <%_ if (false /*hasDto*/) { _%>
         var <%= asDto(camelCasedEntityClass) %> = _mapper.Map<<%= asDto(pascalizedEntityClass) %>>(<%= camelCasedEntityClass %>);
         <%_ } _%>
@@ -352,9 +339,17 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
                 _<%= camelCasedEntityClass %>Service.HandleJsonOperator<<%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %>>(error.Operation, error.AffectedObject);
             }
         });
+        
+        if (_validateService != null && !(await _validateService.ValidateAsync(<%= /*hasDto ? asDto(camelCasedEntityClass) :*/ camelCasedEntityClass%> , out var errors, cancellationToken)))
+        {
+            return BadRequest(new
+            {
+                Message = "Invalid patch request", Code = "Invalid_Patch_Request", Errors = errors,
+            });
+        }
 
         <%_ if (false /*hasDto*/) { _%>
-        var updated<%= pascalizedEntityClass %> = _mapper.Map<<%= pascalizedEntityClass %>>(<%= asDto(camelCasedEntityClass) %>);
+        var updated<%= pascalizedEntityClass %> = _mapper.Map<<%= asDto(pascalizedEntityClass) %>>(<%= asDto(camelCasedEntityClass) %>);
         <%_ } _%>
 
         var saved<%= pascalizedEntityClass %> = await _<%= camelCasedEntityClass %>Service.UpdateChanges(id, <%= /* hasDto ? asDto(camelCasedEntityClass) :*/ camelCasedEntityClass %>, cancellationToken);
@@ -381,7 +376,8 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
     [SwaggerResponse(200, "Partially update changes using json object for <%= pascalizedEntityClass %>", typeof(<%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %>))]
     [SwaggerResponse(404, "<%= pascalizedEntityClass %> not found for passed Id")]
     [SwaggerResponse(400, "Invalid update patch request <%= pascalizedEntityClass %>")]
-    [SwaggerResponse(401, "User do not have permission to access")]
+    [SwaggerResponse(401, "User not authorized")]
+    [SwaggerResponse(403, "User do not have permission to access")]
     [SwaggerOperation(Tags = new[] { "<%= pascalizedEntityClass %>" }, OperationId = "Update<%= pascalizedEntityClass %>ChangesByJson")]        
     public virtual async Task<IActionResult> Patch<%= pascalizedEntityClass %>ByJson([FromRoute] <%= primaryKeyType %> id, [FromBody] JObject changes, CancellationToken cancellationToken = default(CancellationToken))
     {
@@ -407,15 +403,23 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
             });
             }
 
-        var  <%= camelCasedEntityClass %> = await _<%= camelCasedEntityClass %>Service.Get(id,cancellationToken: cancellationToken);
+        var  <%= camelCasedEntityClass %> = await _<%= camelCasedEntityClass %>Service.GetByKey(id,cancellationToken: cancellationToken);
         <%_ if (hasDto) { _%>
         var <%= asDto(camelCasedEntityClass) %> = _mapper.Map<<%= asDto(pascalizedEntityClass) %>>(<%= camelCasedEntityClass %>);
         <%_ } _%>
        
         changes.Populate(<%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %>);
 
+        if (_validateService != null && !(await _validateService.ValidateAsync(<%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass%> , out var errors, cancellationToken)))
+        {
+            return BadRequest(new
+            {
+                Message = "Invalid patch request", Code = "Invalid_Patch_Request", Errors = errors,
+            });
+        }
+
         <%_ if (hasDto) { _%>
-        var updated<%= pascalizedEntityClass %> = _mapper.Map<<%= pascalizedEntityClass %>>(<%= asDto(camelCasedEntityClass) %>);
+        var updated<%= pascalizedEntityClass %> = _mapper.Map<<%= asDto(pascalizedEntityClass) %>>(<%= asDto(camelCasedEntityClass) %>);
         <%_ } _%>
 
         await _<%= camelCasedEntityClass %>Service.UpdateChanges(id, <%= hasDto ? "updated"+pascalizedEntityClass : camelCasedEntityClass %>, cancellationToken);
@@ -438,7 +442,8 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
     [SwaggerResponse(200, "Delete <%= pascalizedEntityClass %>", typeof(GenericResponseViewModel))]
     [SwaggerResponse(404, "<%= pascalizedEntityClass %> not found for passed Id")]
     [SwaggerResponse(412, "Can't delete <%= pascalizedEntityClass %>")]
-    [SwaggerResponse(401, "User do not have permission to access")]
+    [SwaggerResponse(401, "User not authorized")]
+    [SwaggerResponse(403, "User do not have permission to access")]
     [SwaggerOperation(Tags = new[] { "<%= pascalizedEntityClass %>" }, OperationId = "Delete<%= pascalizedEntityClass %>")]                
     public virtual async Task<IActionResult> Delete<%= pascalizedEntityClass %>([FromRoute] <%= primaryKeyType %> id, CancellationToken cancellationToken = default)
     {
@@ -485,7 +490,8 @@ public class <%= pascalizedEntityClassPlural %>Controller : ControllerBase
     [Authorize]        
     [SwaggerResponse(200, "Delete <%= pascalizedEntityClassPlural %>", typeof(GenericResponseViewModel))]
     [SwaggerResponse(412, "Can't delete <%= pascalizedEntityClassPlural %>")]
-    [SwaggerResponse(401, "User do not have permission to access")]
+    [SwaggerResponse(401, "User not authorized")]
+    [SwaggerResponse(403, "User do not have permission to access")]
     [SwaggerOperation(Tags = new[] { "<%= pascalizedEntityClass %>" }, OperationId = "Delete<%= pascalizedEntityClassPlural %>")]     
     public virtual async Task<IActionResult> Delete([FromBody] IEnumerable<<%= primaryKeyType %>> ids, CancellationToken cancellationToken = default)
     {

@@ -47,6 +47,10 @@ const serverFiles = {
                     renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Controllers/${generator.pascalizedEntityClassPlural}Controller.cs`,
                 },
                 {
+                    file: 'Project.Api/Mappers/EntityMapper.cs',
+                    renameTo: generator => `${generator.mainProjectDir}${PROJECT_API_SUFFIX}/Mappers/${generator.pascalizedEntityClass}Mapper.cs`,
+                },
+                {
                     file: 'Project.Domain/Repositories/Interfaces/IEntityRepository.cs',
                     renameTo: generator =>
                         `${generator.namespace}${constants.PROJECT_DOMAIN_SUFFIX}/Repositories/I${generator.asEntity(

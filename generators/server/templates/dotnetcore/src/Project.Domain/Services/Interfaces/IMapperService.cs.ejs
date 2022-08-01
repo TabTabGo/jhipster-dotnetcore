@@ -1,0 +1,55 @@
+using TabTabGo.Core.Models;
+namespace <%= namespace %>.Services;
+
+public interface IMapperService<TEntity> where TEntity : class , IEntity
+{
+    /// <summary>
+    /// Populate destination object with entity values
+    /// </summary>
+    /// <param name="entity">Source object from database</param>
+    /// <param name="destination">Destination object to populate values from source</param>
+    /// <param name="postMapAction">post action after mapping</param>
+    /// <typeparam name="TDestination">return populates destination object</typeparam>
+    void Map<TDestination>(TEntity entity, TDestination destination, Action<TEntity, TDestination> postMapAction = null)
+        where TDestination : class;
+    
+    /// <summary>
+    /// Populate entity object with values from source object
+    /// </summary>
+    /// <param name="source">Source object to populate entity</param>
+    /// <param name="entity">Destination entity</param>
+    /// <param name="postMapAction">post action after mapping</param>
+    /// <typeparam name="TSource"> View model class</typeparam>
+    void Map<TSource>(TSource source, TEntity entity, Action<TSource, TEntity> postMapAction = null)
+        where TSource : class;
+
+    /// <summary>
+    /// Map Entity to distance object
+    /// </summary>
+    /// <param name="entity">Entity object</param>
+    /// <param name="postMapAction">post mapping action</param>
+    /// <typeparam name="TDestination">Custom destination type</typeparam>
+    /// <returns>Mapped object</returns>
+    TDestination Map<TDestination>(TEntity entity, Action<TEntity, TDestination> postMapAction = null)
+        where TDestination : class;
+    
+    /// <summary>
+    /// Map destination object to entity object
+    /// </summary>
+    /// <param name="source">Source object</param>
+    /// <param name="postMapAction">post mapping action</param>
+    /// <typeparam name="TSource">Source object type</typeparam>
+    /// <returns>Mapped Entity</returns>
+    TEntity Map<TSource>(TSource source, Action<TSource, TEntity> postMapAction = null)
+        where TSource : class;
+
+    /// <summary>
+    /// Map Page list Entity to destination page object object
+    /// </summary>
+    /// <param name="source">Paging List with source</param>
+    /// <param name="postMapAction">post map options</param>
+    /// <typeparam name="TDestination">Destination Type</typeparam>
+    /// <returns>PageList of Destination type</returns>
+    PageList<TDestination> MapPaging<TDestination>(PageList<TEntity> source,
+        Action<TEntity, TDestination> postMapAction = null) where TDestination : class;
+}

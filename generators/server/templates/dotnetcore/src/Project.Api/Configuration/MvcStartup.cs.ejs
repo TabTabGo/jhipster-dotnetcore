@@ -12,13 +12,6 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-using JHipsterNet.Web.Pagination.Binders;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 <%_ if ( applicationType === 'gateway') { _%>
 using Ocelot.Middleware;
 <%_ } _%>
@@ -36,7 +29,7 @@ namespace <%= namespace %>.Api.Configuration
             //https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-2.2
             services.AddHealthChecks();
 
-            services.AddControllers(options => { options.ModelBinderProviders.Insert(0, new PageableBinderProvider()); })
+            services.AddControllers()
             .AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
