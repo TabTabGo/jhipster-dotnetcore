@@ -6,7 +6,7 @@ const entityVariableName = camelCasedEntityClass; _%>
 
 namespace <%= namespace %>.Infrastructure.Data.Mappers;
 
-internal static class <%= entityClassName %>ataMapper
+internal static class <%= entityClassName %>DataMapper
 {
     public static void DataMapperBuilder(this EntityTypeBuilder<<%= entityClassName %>> builder)
     {
@@ -24,26 +24,26 @@ internal static class <%= entityClassName %>ataMapper
         _%>
         // TODO add other properties mapping
         <%_
-        if(entity.name.toUpperCase() !== entityClass.toUpperCase()) {
+        if(entity.name.toUpperCase() == entityClass.toUpperCase()) {
             entity.relationships.forEach(relationship => {
+                let relationshipNamePascalized = toPascalCase(relationship.relationshipName);
+                let relationshipNamePascalizedPlural = pluralize(relationshipNamePascalized);
+                let relationshipFieldNamePascalizedPlural = relationship.relationshipFieldNamePascalizedPlural;
+                let otherEntityRelationshipNamePascalized = toPascalCase(relationship.otherEntityRelationshipName);
+                let otherEntityRelationshipNamePascalizedPlural = pluralize(otherEntityRelationshipNamePascalized);
+                let joinEntityClassNamePascalized = otherEntityRelationshipNamePascalized + relationshipNamePascalized;
+                let joinEntityClassNamePascalizedPlural = pluralize(joinEntityClassNamePascalized);
+                let entityClassNamePascalized = entity.name;
+                let entityClassNamePascalizedPlural = pluralize(entity.name);
+                let otherEntityClassNamePascalized = toPascalCase(relationship.otherEntityName);
+                let otherEntityClassNamePascalizedPlural = pluralize(otherEntityClassNamePascalized);
+                let ownerRelationshipFieldName = entityClassNamePascalized;
+                let nonOwnerRelationshipFieldName = otherEntityClassNamePascalized;
                 if (relationship.relationshipType === 'many-to-many') {
                     // executed when importing entities by jdl (jhipster import-jdl fileName.jdl)
                     if (relationship.ownerSide) {
-                        let relationshipNamePascalized = toPascalCase(relationship.relationshipName);
-                        let relationshipNamePascalizedPlural = pluralize(relationshipNamePascalized);
-                        let relationshipFieldNamePascalizedPlural = relationship.relationshipFieldNamePascalizedPlural;
-                        let otherEntityRelationshipNamePascalized = toPascalCase(relationship.otherEntityRelationshipName);
-                        let otherEntityRelationshipNamePascalizedPlural = pluralize(otherEntityRelationshipNamePascalized);
-                        let joinEntityClassNamePascalized = otherEntityRelationshipNamePascalized + relationshipNamePascalized;
-                        let joinEntityClassNamePascalizedPlural = pluralize(joinEntityClassNamePascalized);
-                        let entityClassNamePascalized = entity.name;
-                        let entityClassNamePascalizedPlural = pluralize(entity.name);
-                        let otherEntityClassNamePascalized = toPascalCase(relationship.otherEntityName);
-                        let otherEntityClassNamePascalizedPlural = pluralize(otherEntityClassNamePascalized);
-                        let ownerRelationshipFieldName = entityClassNamePascalized;
-                        let nonOwnerRelationshipFieldName = otherEntityClassNamePascalized; _%>
-        builder.Entity<<%= ownerRelationshipFieldName %>>()
-            .HasMany(x => x.<%= relationshipNamePascalizedPlural %>)
+             _%>
+        builder.HasMany(x => x.<%= relationshipNamePascalizedPlural %>)
             .WithMany(x => x.<%= otherEntityRelationshipNamePascalizedPlural %>)
             .UsingEntity<Dictionary<string, object>>(
                 "<%= joinEntityClassNamePascalizedPlural %>",
@@ -51,12 +51,43 @@ internal static class <%= entityClassName %>ataMapper
                 x => x.HasOne<<%= ownerRelationshipFieldName %>>().WithMany());
 
                         <%_ }
-                    }
-                });
-            }_%>
-        <%_ 
-        
-        _%>
+                } else if (relationship.relationshipType === 'one-to-many') {
+                    // executed when importing entities by jdl (jhipster import-jdl fileName.jdl)
+                    if (relationship.ownerSide) {
+            _%>
+        builder.HasOne(x => x.<%= relationshipNamePascalized %>)
+            .WithMany(x => x.<%= otherEntityRelationshipNamePascalizedPlural %>)
+            .HasForeignKey(x => x.<%= relationship.relationshipNamePascalized %>Id)
+            .OnDelete(DeleteBehavior.NoAction);                                                
+                <%_ } else { _%>                                        
+        builder.HasMany(x => x.<%= relationshipNamePascalizedPlural %>)
+            .WithOne(x => x.<%= otherEntityRelationshipNamePascalized %>)
+            .HasForeignKey(x => x.<%= relationship.otherEntityRelationshipNamePascalized %>Id)
+            .OnDelete(DeleteBehavior.NoAction);
+                <%_ }
+
+                } else if (relationship.relationshipType === 'many-to-one') {
+                    // executed when importing entities by jdl (jhipster import-jdl fileName.jdl)
+                    if (relationship.ownerSide) {
+            _%>
+        builder.HasOne(x => x.<%= otherEntityClassNamePascalized %>)
+            .WithMany(x => x.<%= otherEntityRelationshipNamePascalizedPlural %>)
+            .HasForeignKey(x => x.<%= relationship.relationshipNamePascalized %>Id)
+            .OnDelete(DeleteBehavior.NoAction);
+                <%_ }
+                } else if (relationship.relationshipType === 'one-to-one') {
+                    // executed when importing entities by jdl (jhipster import-jdl fileName.jdl)
+                    if (relationship.ownerSide) {
+            _%>
+        builder.HasOne(x => x.<%= relationshipNamePascalized %>)
+            .WithOne(x => x.<%= otherEntityRelationshipNamePascalized %>)
+            .HasForeignKey<<%= entityClassNamePascalized %>>(x => x.<%= relationship.relationshipNamePascalized %>Id)
+            .OnDelete(DeleteBehavior.NoAction);
+            <%_ }                
+            }
+        })
+    }_%>
+       
     }
 }
 
