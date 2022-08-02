@@ -23,7 +23,7 @@ let hasService = service === 'serviceImpl';
 <%_ if (cqrsEnabled) { _%>
 using MediatR;
 <%_ } _%>
-namespace <%= namespace %>.Controllers;
+namespace <%= namespace %>.Api.Controllers;
 
 [Authorize]
 [Route("api/<%= kebabCasedEntityClassPlural %>")]
