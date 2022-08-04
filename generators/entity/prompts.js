@@ -340,7 +340,7 @@ function askForVIEW_MODEL() {
     const context = this.context;
     // don't prompt if data is imported from a file or server is skipped or if no service layer
     if (context.useConfigurationFile || context.skipServer || this.entityConfig.service === 'no') {
-        context.viewModel = context.viewModel || 'mapstruct';
+        context.viewModel = context.dto || 'mapstruct';
         return;
     }
     const done = this.async();
@@ -359,11 +359,11 @@ function askForVIEW_MODEL() {
                     name: 'Yes, generate a VIEW_MODEL with AutoMapper',
                 },
             ],
-            default: 1,
+            default: 0,
         },
     ];
     this.prompt(prompts).then(props => {
-        this.entityConfig.viewModel = props.viewModel;
+        this.entityConfig.viewModel = props.dto;
         done();
     });
 }

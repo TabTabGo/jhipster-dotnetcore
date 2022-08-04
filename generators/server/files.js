@@ -311,7 +311,7 @@ const serverFiles = {
             path: SERVER_SRC_DIR,
             templates: [
                 {
-                    file: 'Project.Domain/Services/Interfaces/IMapperService.cs.cs',
+                    file: 'Project.Domain/Services/Interfaces/IMapperService.cs',
                     renameTo: generator =>
                         `${generator.namespace}${PROJECT_DOMAIN_SUFFIX}/Services/IMapperService.cs.cs`,
                 },

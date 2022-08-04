@@ -1,0 +1,334 @@
+
+using <%= namespace %>.Crosscutting.Entities;
+using TabTabGo.Core.Entities;
+
+namespace <%= namespace %>.Api.Controllers;
+
+/// <summary>
+/// base class to handle all the common stuff for the controllers
+/// </summary>
+/// <typeparam name="TEntity"></typeparam>
+/// <typeparam name="TEntityService"></typeparam>
+/// <typeparam name="TKey"></typeparam>
+[ApiController]
+public class EntityControllerBase<TEntity, TEntityService, TKey> : ControllerBase 
+    where TKey : IEquatable<TKey>
+    where TEntity : Entity<TKey> 
+    where TEntityService : IGenericService<TEntity, TKey>
+{
+    // TODO create name in camelCase, separate by -
+    
+    private const string EntityName = nameof(TEntity);
+    protected readonly ILogger _logger;
+    protected readonly IValidateService<TEntity> _validateService;
+    //private readonly GenericServiceMapper<TEntity> _mapper;
+    protected readonly TEntityService _currentService;    
+
+    public EntityControllerBase(ILogger log,
+     IValidateService<TEntity> validateService,
+     //GenericServiceMapper<TEntity> mapper,
+     TEntityService entityService)
+    {
+        _logger = log;
+        _validateService = validateService;
+      //  _mapper = mapper;
+        _currentService = entityService;         
+        _logger.LogInformation($"Created base controller for {nameof(TEntity)}");   
+    }
+
+    /// <summary>
+    /// Get entities based on the given filter.
+    /// </summary>
+    /// <param name="query">OData query</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public virtual async Task<IActionResult> GetEntities(ODataQueryOptions<TEntity> query, CancellationToken cancellationToken = default)
+    {
+        _logger.LogDebug($"REST request to search {nameof(TEntity)}");
+        var result = await  _currentService.GetPageList(query, cancellationToken: cancellationToken);
+        return Ok(result).WithHeaders();
+        //return Ok(_mapper.MapPaging<TResult>(result)).WithHeaders();
+    }
+
+    /// <summary>
+    ///  Get Entity by id 
+    /// </summary>
+    /// <param name="id">Entity Identification</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Entity</returns>
+    public virtual async Task<IActionResult> GetEntity([FromRoute] TKey id, [FromQuery] DateTimeOffset? lastUpdatedDate = null, [FromQuery] string expand = null, CancellationToken cancellationToken = default)
+    {           
+        _logger.LogDebug("REST request to get {EntityName} : {Id}", nameof(TEntity), id);
+        if (!await _currentService.Exists(id, cancellationToken))
+        {
+            return NotFound(new {
+                Message = $"{nameof(TEntity)} not found for passed {id}",
+                Code = $"{nameof(TEntity)}_Not_Found".ToUpper()
+            });
+        }
+
+
+        var detail = await _currentService.GetByKey(id, lastUpdatedDate,  expand?.Split(',') , cancellationToken: cancellationToken);
+    //  var entityViewModel = _mapper.Map<Entity>(detail);
+        return Ok(detail).WithHeaders();             
+    }
+
+    /// <summary>
+    ///  Export list of Entity
+    /// </summary>
+    /// <param name="exportType">Export type</param>
+    /// <param name="query"></param>
+    /// <param name="export"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Exported Document</returns>
+    public async virtual Task<IActionResult> ExportEntities([FromRoute] ExportType exportType, ODataQueryOptions<TEntity> query, [FromBody] ExportConfiguration export = null, CancellationToken cancellationToken = default)
+    {
+        _logger.LogDebug("REST request to export ${EntityName} to type {ExportType}", nameof(TEntity), exportType);
+        export ??= new ExportConfiguration();
+        if (string.IsNullOrEmpty(export.FileName))
+        {
+            
+            var preffix = nameof(EntityName);
+            // add- if name have Upper case letter
+            
+            export.FileName = $"{preffix}_{DateTime.UtcNow:yyyyMMdd}.{exportType.FileExtenstion()}";
+        }
+
+        export.FileType = exportType;
+        var stream = await _currentService.ExportFile<object>(export, query, cancellationToken: cancellationToken);
+
+        return File(stream, "application/octet-stream", export.FileName);
+    }
+
+    /// <summary>
+    /// Create Entity 
+    /// </summary>
+    /// <param name="entityRequest">new Entity to be created</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Created Entity</returns>
+    public virtual async Task<IActionResult> CreateAEntity([FromBody] TEntity entityRequest, CancellationToken cancellationToken = default)
+    {
+        _logger.LogDebug($"REST request to save ${EntityName} : {entityRequest}");
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        if (_validateService != null && !(await _validateService.ValidateAsync(entityRequest , out var errors, cancellationToken)))
+        {
+            return BadRequest(new
+            {
+                Message = $"Invalid update request",
+                Code = $"{EntityName}_Invalid_Update_Request".ToUpper(),
+                Errors = errors,
+            });
+        }
+
+        if (!entityRequest.Id.Equals(0))
+            throw new BadRequestAlertException($"A new {EntityName} cannot already have an ID", EntityName, "idexists");
+
+        //var entity = _mapper.Map<Entity>(entityViewModel);
+        await _currentService.Create(entityRequest, cancellationToken);          
+        //var createdEntity =  _mapper.Map<Entity>(entity);
+        return Created(EntityName, entityRequest).WithHeaders(HeaderUtil.CreateEntityCreationAlert(EntityName, entityRequest.Id.ToString()));             
+        
+    }
+    
+    /// <summary>
+    /// Update Entity complete object's properties
+    /// </summary>
+    /// <param name="id">Entity identifier</param>
+    /// <param name="entityEequest"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Updated Entity</returns>
+    public virtual async Task<IActionResult> UpdateEntity([FromRoute] TKey id, [FromBody] TEntity entityEequest, CancellationToken cancellationToken = default)
+    {
+        _logger.LogDebug($"REST request to update Entity : {entityEequest}");
+        
+        if (entityEequest.Id.Equals(0)) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
+
+        if (!id.Equals(entityEequest.Id)) throw new BadRequestAlertException("Invalid Id", EntityName, "idinvalid");
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        if (_validateService != null && !(await _validateService.ValidateAsync(entityEequest , out var errors, cancellationToken)))
+        {
+            return BadRequest(new
+            {
+                Message = "Invalid update request", Code = $"{EntityName}_Invalid_Update_Request", Errors = errors,
+            });
+        }
+
+        if (!await _currentService.Exists(id, cancellationToken))
+        {
+            return NotFound(new {
+                Message = $"{EntityName} not found for passed {id}",
+                Code = $"{EntityName}_Not_Found".ToUpper()
+            });
+        }
+
+        //var entity = _mapper.Map<Entity>(entityViewModel);
+        await _currentService.Update(id, entityEequest, cancellationToken);
+
+        //var updatedEntity =  _mapper.Map<Entity>(entity);
+        return Ok(entityEequest).WithHeaders(HeaderUtil.CreateEntityCreationAlert(EntityName, entityEequest.Id.ToString()));             
+        
+    }
+
+    /// <summary>
+    /// Partially update Entity using patch document
+    /// </summary>
+    /// <param name="id">Entity identifier</param>
+    /// <param name=""></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Updated Entity</returns>
+    public virtual async Task<IActionResult> PatchEntity([FromRoute] TKey id, [FromBody] JsonPatchDocument<TEntity> changes, CancellationToken cancellationToken = default(CancellationToken))
+    {
+        _logger.LogDebug($"REST request to patch ${EntityName} : {changes}");
+        
+        if (id.Equals(0)) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        if (!await _currentService.Exists(id, cancellationToken))
+        {
+            return NotFound(new {
+                Message = $"{EntityName} not found for passed {id}",
+                Code = $"{EntityName}_Not_Found".ToUpper()
+            });
+        }
+
+        var  entity = await _currentService.GetByKey(id,cancellationToken: cancellationToken);
+
+        changes.ApplyTo(entity , error =>
+        {
+            if (error.Operation.OperationType != OperationType.Test && error.Operation.OperationType != OperationType.Invalid)
+            {
+                _currentService.HandleJsonOperator<Entity>(error.Operation, error.AffectedObject);
+            }
+        });
+        
+        if (_validateService != null && !(await _validateService.ValidateAsync(entity , out var errors, cancellationToken)))
+        {
+            return BadRequest(new
+            {
+                Message = "Invalid patch request", Code = "Invalid_Patch_Request", Errors = errors,
+            });
+        }
+
+
+        var savedEntity = await _currentService.UpdateChanges(id, entity, cancellationToken);
+        
+        //var updatedEntity =  _mapper.Map<Entity>(savedEntity);
+        return Ok(savedEntity).WithHeaders(HeaderUtil.CreateEntityCreationAlert(EntityName, id.ToString()));             
+    }
+
+
+    /// <summary>
+    /// Partially update Entity using json document
+    /// </summary>
+    /// <param name="id">Entity identifier</param>
+    /// <param name=""></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Updated Entity</returns>
+    public virtual async Task<IActionResult> PatchEntityByJson([FromRoute] TKey id, [FromBody] JObject changes, CancellationToken cancellationToken = default(CancellationToken))
+    {
+        _logger.LogDebug($"REST request to patch ${EntityName} : {changes}");
+        
+        // TODO check if id is null or empty
+        if (id.Equals(0)) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
+        
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        if (!await _currentService.Exists(id, cancellationToken))
+        {
+            return NotFound(new {
+                    Message = $"{EntityName} not found for passed {id}",
+                Code = $"{EntityName}_Not_Found".ToUpper()
+            });
+        }
+
+        var  entity = await _currentService.GetByKey(id,cancellationToken: cancellationToken);
+        //var entityViewModel = _mapper.Map<Entity>(entity);
+       
+        changes.Populate(entity);
+
+        if (_validateService != null && !(await _validateService.ValidateAsync(entity , out var errors, cancellationToken)))
+        {
+            return BadRequest(new
+            {
+                Message = "Invalid patch request", Code = $"{EntityName}_Invalid_Patch_Request".ToUpper(), Errors = errors,
+            });
+        }
+
+        //var updatedEntity = _mapper.Map<Entity>(entityViewModel);
+
+        await _currentService.UpdateChanges(id, entity, cancellationToken);
+
+        return Ok(entity).WithHeaders(HeaderUtil.CreateEntityCreationAlert(EntityName, id.ToString()));             
+    }
+
+    /// <summary>
+    /// Delete Entities (soft Delete)
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public virtual async Task<IActionResult> DeleteEntity([FromRoute] TKey id, CancellationToken cancellationToken = default)
+    {
+        _logger.LogDebug($"REST request to delete ${EntityName} : {id}");
+
+        if (!await _currentService.Exists(id, cancellationToken))
+        {
+            return NotFound(new {
+                Message = $"{EntityName} not found for passed {id}",
+                Code = $"{EntityName}_Not_Found".ToUpper()
+            });
+        }
+        if (await _currentService.CanDelete(id, cancellationToken))
+        {
+            var deletedInstance = await _currentService.Delete(id, cancellationToken);
+            return Ok(new {
+                Message = $"{EntityName} deleted successfully",
+                Code = $"{EntityName}_Deleted".ToUpper()
+            }).WithHeaders(HeaderUtil.CreateEntityDeletionAlert(EntityName, id.ToString()));
+        }
+        return StatusCode(412 , new {
+                Message = $"{EntityName} #{id} can't be deleted",
+                Code = $"{EntityName}_Cannot_Delete".ToUpper()
+            }).WithHeaders(HeaderUtil.CreateEntityDeletionAlert(EntityName, id.ToString()));
+
+    }
+
+    /// <summary>
+    /// Delete Entity (soft Delete)
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public virtual async Task<IActionResult> DeleteEntities([FromBody] IEnumerable<TKey> ids, CancellationToken cancellationToken = default)
+    {
+        _logger.LogDebug($"REST request to delete list of {EntityName} : {ids}");
+        if (!await _currentService.CanDelete(ids, cancellationToken)) 
+            return StatusCode(412, new {
+                Message = $"{EntityName} can't be deleted",
+                Code = $"{EntityName}_Cannot_Delete".ToUpper()
+            });
+        
+        var deletedInstance = await _currentService.Delete(ids, cancellationToken);
+        return Ok(new {
+                Message = $"{EntityName} deleted successfully",
+                Code = $"{EntityName}_Deleted".ToUpper()
+            }).WithHeaders(HeaderUtil.CreateEntityDeletionAlert(EntityName, string.Join(",", ids)));
+    }
+    
+}
