@@ -112,8 +112,7 @@ module.exports = class extends ClientGenerator {
                     case XAMARIN:
                         return writeXamarinFiles.call(this);
                     case REACT:
-                        writeReactFiles.call(this);
-                        return baseWriteCommonFiles.call(this);
+                        return writeReactFiles.call(this);                        
                     case ANGULAR:
                         baseWriteAngularFiles.call(this);
                         return baseWriteCommonFiles.call(this);
