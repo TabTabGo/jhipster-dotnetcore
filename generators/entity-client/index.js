@@ -4,7 +4,10 @@ const constants = require('../generator-dotnetcore-constants');
 const customizeDotnetPaths = require('../utils').customizeDotnetPaths;
 const writeBlazorFiles = require('./files-blazor').writeFiles;
 const writeXamarinFiles = require('./files-xamarin').writeFiles;
+const writeReactFiles = require('./files-react').writeFiles;
+const baseConstants = require('generator-jhipster/generators/generator-constants');
 
+const { REACT } = baseConstants.SUPPORTED_CLIENT_FRAMEWORKS;
 const BLAZOR = constants.BLAZOR;
 const XAMARIN = constants.XAMARIN;
 
@@ -61,6 +64,15 @@ module.exports = class extends EntityClientGenerator {
                 writeFilesDotnetcore() {
                     if (this.skipClient) return;
                     return writeXamarinFiles.call(this);
+                },
+            };
+        }
+
+        if (this.clientFramework === REACT) {
+            return {
+                writeFilesDotnetcore() {
+                    if (this.skipClient) return;
+                    return writeReactFiles.call(this);
                 },
             };
         }

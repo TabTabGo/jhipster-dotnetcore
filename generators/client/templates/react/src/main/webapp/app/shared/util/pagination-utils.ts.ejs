@@ -1,0 +1,15 @@
+import {ITEMS_PER_PAGE} from "./pagination.constants";
+/**
+ * Generate query string to get paging parameters
+ * @param page 0-indexed page number
+ * @param size page size
+ * @param sort sort by field
+ * @returns 
+ */
+export const paginationQueryParameters = (page?: number, size?: number, sort?: string): string => {
+  let params = `$skip=${(page ?? 0) * (size?? ITEMS_PER_PAGE)}&$top=${(size ?? ITEMS_PER_PAGE)}`;
+  if (sort) {
+    params += `&orderby=${sort}`;
+  }
+  return params;
+}
