@@ -24,9 +24,8 @@ const entityVariableName = camelCasedEntityClass; _%>
 
 namespace <%= namespace %>.ViewModels;
 
-public class <%= asDto(entityClassName) %> : EntityViewModel
-{
-    public <%= primaryKeyType %> Id { get; set; }
+public class <%= asDto(entityClassName) %> 
+{    
 
     <%_ for (idx in fields){
         if (fields[idx].id) continue;

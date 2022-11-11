@@ -31,7 +31,7 @@ namespace <%= namespace %>.Api.Controllers
             return Redirect("/");
         }
 
-        [HttpPost("api/logout")]
+        [HttpPost("api/v{version:apiVersion}/logout")]
         public async Task<IActionResult> LogOut()
         {
             await HttpContext.SignOutAsync();

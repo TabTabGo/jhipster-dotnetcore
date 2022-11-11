@@ -49,6 +49,7 @@ try
         .AddApplicationInsightsTelemetry()
         .AddAppSettingsModule(builder.Configuration)
         .AddSecurityModule(builder.Configuration)
+        .AddApiVersioning()
         .AddAutoMapperModule()
         .AddSwaggerModule()
         .AddProblemDetailsModule(builder.Environment)

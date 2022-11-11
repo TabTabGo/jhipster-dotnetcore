@@ -15,7 +15,7 @@
 namespace <%= namespace %>.Api.Controllers;
 
 
-[Route("management")]
+[Route("v{version:apiVersion}/management")]
 [ApiController]
 public class ProfileInfoController : ControllerBase
 {

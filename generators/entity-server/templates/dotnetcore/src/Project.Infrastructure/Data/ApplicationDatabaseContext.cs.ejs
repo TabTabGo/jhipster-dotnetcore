@@ -13,7 +13,7 @@
  limitations under the License.
 -%>
 using <%= namespace %>.Infrastructure.Data.Mappers;
-
+using TabTabGo.Core.Extensions;
 namespace <%= namespace %>.Infrastructure.Data;
 
 <%_ if (authenticationType === 'jwt' && applicationType !== 'microservice') { _%>
@@ -74,12 +74,20 @@ public class ApplicationDatabaseContext : DbContext
                 .IsRequired();
         });
 
-        builder.Entity<User>()
-            .HasMany(e => e.UserRoles)
-            .WithOne()
-            .HasForeignKey(e => e.UserId)
-            .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade);
+        builder.Entity<User>(user =>
+        {
+            user.HasMany(e => e.UserRoles)
+                .WithOne()
+                .HasForeignKey(e => e.UserId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            user.Property(u => u.ExtraProperties).HasConversion(e => e.Serialize(),
+                e => e.Deserialize<IDictionary<string, object>>() ?? new Dictionary<string, object>(),
+                new ValueComparer<IDictionary<string, object>>(
+                    (x, y) => x != null && y != null ? x.SequenceEqual(y) : x == null && y == null,
+                    x => x.GetHashCode()));
+
+        });           
         <%_ } _%>
 
         <%_ entities.forEach(entity => { _%>

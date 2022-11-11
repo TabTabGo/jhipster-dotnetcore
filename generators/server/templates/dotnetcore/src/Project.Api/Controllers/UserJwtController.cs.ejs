@@ -17,7 +17,7 @@ using <%= namespace %>.Security.Jwt;
     
 namespace <%= namespace %>.Api.Controllers;
     
-[Route("api")]
+[Route("api/v{version:apiVersion}")]
 [ApiController]
 public class UserJwtController : ControllerBase
 {

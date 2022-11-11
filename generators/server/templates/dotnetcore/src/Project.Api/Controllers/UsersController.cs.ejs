@@ -19,7 +19,7 @@ using Microsoft.AspNetCore.Identity;
 namespace <%= namespace %>.Api.Controllers;
 
 [Authorize]
-[Route("api/admin/[controller]")]
+[Route("api/v{version:apiVersion}/admin/[controller]")]
 [ApiController]
 public class UsersController : ControllerBase
 {

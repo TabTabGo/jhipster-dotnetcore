@@ -30,18 +30,15 @@ namespace <%= namespace %>.Api.Controllers;
 [ApiController]
 public class <%= pascalizedEntityClassPlural %>Controller : <%= hasDto ? "ViewModel" : "Entity" %>ControllerBase<<%= pascalizedEntityClass %>, I<%= pascalizedEntityClass %>Service, <%= primaryKeyType %>>
 {    
-    <%_ if (hasDto) { _%>
-    private readonly <%= pascalizedEntityClass%>Mapper _mapper;
-    <%_ } _%>
-
+    
+    private readonly IMapper _mapper;
     
     public <%= pascalizedEntityClassPlural %>Controller(ILogger<<%= pascalizedEntityClassPlural %>Controller> logger,
-     IValidateService<<%= pascalizedEntityClass %>> validateService,
-    <%_ if (hasDto) { _%>
-    <%= pascalizedEntityClass%>Mapper mapper,
-    <%_ } _%>
+     IValidateService<<%= pascalizedEntityClass %>> validateService,    
+    IMapper mapper,     
     I<%= pascalizedEntityClass %>Service <%= camelCasedEntityClass %>Service) : base(logger, validateService,  <%_ if (hasDto) { _%> mapper, <%_ } _%> <%= camelCasedEntityClass %>Service)
     {      
+        _mapper = mapper;
     }
       
 
@@ -103,15 +100,15 @@ public class <%= pascalizedEntityClassPlural %>Controller : <%= hasDto ? "ViewMo
     [HttpPost]
     [Authorize]
     [ValidateModel]
-    [SwaggerResponse(200, "Created <%= pascalizedEntityClass %>", typeof(<%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %>))]
+    [SwaggerResponse(200, "Created <%= pascalizedEntityClass %>", typeof(<%=pascalizedEntityClass %>))]
     [SwaggerResponse(400, "Invalid create request <%= pascalizedEntityClass %>")]
     [SwaggerResponse(401, "User do not have permission to access")]
     [SwaggerOperation(Tags = new[] { "<%= pascalizedEntityClass %>" }, OperationId = "Create<%= pascalizedEntityClass %>")]        
-    public virtual Task<IActionResult> Create<%= pascalizedEntityClass %>([FromBody] <%= hasDto ? asDto(pascalizedEntityClass) : pascalizedEntityClass %> <%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %>, CancellationToken cancellationToken = default)
-    => base.CreateEntity(<%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %>, cancellationToken);
+    public virtual Task<IActionResult> Create<%= pascalizedEntityClass %>([FromBody] <%=  asDto(pascalizedEntityClass) %> <%= asDto(camelCasedEntityClass)%>, CancellationToken cancellationToken = default)
+    => base.CreateEntity(_mapper.Map<<%= pascalizedEntityClass %>>(<%= asDto(camelCasedEntityClass)%>), cancellationToken);
     
     /// <summary>
-    /// Update <%= pascalizedEntityClass %> complete object's prorpeties
+    /// Update <%= pascalizedEntityClass %> complete object's properties
     /// </summary>
     /// <param name="id"><%= pascalizedEntityClass %> identifier</param>
     /// <param name="<%= hasDto ? asDto(camelCasedEntityClass) : camelCasedEntityClass %>"></param>

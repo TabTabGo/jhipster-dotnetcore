@@ -35,22 +35,23 @@ public class AutoMapperProfile : Profile
         <%_ if (authenticationType === 'jwt' && applicationType !== 'microservice') { _%>
         CreateMap<User, UserViewModel>()
             .ForMember(userViewModel => userViewModel.Roles, opt => opt.MapFrom(user => user.UserRoles.Select(iur => iur.Role.Name).ToHashSet()))
+            .ForMember(userViewModel => userViewModel.LastModifiedDate, opt => opt.MapFrom(user => user.UpdatedDate.Date))
+            .ForMember(userViewModel => userViewModel.CreatedDate, opt => opt.MapFrom(user => user.CreatedDate.Date))
         .ReverseMap()
             .ForPath(user => user.UserRoles, opt => opt.MapFrom(userViewModel => userViewModel.Roles.Select(role => new UserRole { Role = new Role { Name = role }, UserId = userViewModel.Id }).ToHashSet()));
         <%_ } _%>
 
         <%_ if(entities.length !== 0) {
             entities.forEach(entity => {
-                if(entity.definition.viewModel === 'mapstruct') { _%>
-        CreateMap<<%= entity.name %>, <%= asDto(entity.name) %>>().ReverseMap();
-        <%_
-                }
+                 _%>
+                CreateMap<<%= entity.name %>, <%= asDto(entity.name) %>>().ReverseMap();
+                <%_                
             });
         }
         else {
-            if(viewModel === 'mapstruct') { _%>
-        CreateMap<<%= entityClassName %>, <%= asDto(entityClassName) %>>().ReverseMap();
-        <%_ }} _%>
+             _%>
+            CreateMap<<%= entityClassName %>, <%= asDto(entityClassName) %>>().ReverseMap();
+        <%_ } _%>
     }
 }
 
